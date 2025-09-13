@@ -1,0 +1,6 @@
+id,title,discription,image1,image2,image3,image4,price,category,active,productCount
+1,Apple iPhone 14,Latest iPhone model with A15 Bionic chip,https://example.com/iphone14_1.png,https://example.com/iphone14_2.png,https://example.com/iphone14_3.png,https://example.com/iphone14_4.png,79900,Smartphones,true,50
+2,MacBook Pro 14,Powerful laptop with M2 Pro chip,https://example.com/macbook_1.png,https://example.com/macbook_2.png,https://example.com/macbook_3.png,https://example.com/macbook_4.png,199900,Laptops,true,20
+3,AirPods Pro 2,Noise-cancelling wireless earbuds,https://example.com/airpods_1.png,https://example.com/airpods_2.png,https://example.com/airpods_3.png,https://example.com/airpods_4.png,24900,Accessories,true,100
+4,Samsung Galaxy S23,Flagship Android phone with Snapdragon 8 Gen 2,https://example.com/galaxyS23_1.png,https://example.com/galaxyS23_2.png,https://example.com/galaxyS23_3.png,https://example.com/galaxyS23_4.png,69900,Smartphones,true,40
+5,Sony WH-1000XM5,Premium noise-cancelling headphones,https://example.com/sonyxm5_1.png,https://example.com/sonyxm5_2.png,https://example.com/sonyxm5_3.png,https://example.com/sonyxm5_4.png,34990,Audio,true,75

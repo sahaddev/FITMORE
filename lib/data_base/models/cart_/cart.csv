@@ -1,0 +1,6 @@
+id,title,price,image,quantity,newPrice
+1,Apple iPhone 14,79900,https://example.com/iphone14.png,1,74900
+2,Samsung Galaxy S23,69900,https://example.com/galaxyS23.png,2,65900
+3,OnePlus 11,56999,https://example.com/oneplus11.png,1,52999
+4,Google Pixel 7,59999,https://example.com/pixel7.png,3,55999
+5,AirPods Pro,24900,https://example.com/airpodspro.png,2,22900

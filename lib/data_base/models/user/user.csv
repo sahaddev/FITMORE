@@ -1,0 +1,6 @@
+id,name,phoneNumber,email,password,profile,active
+1,John Doe,9876543210,john@example.com,securePass123,https://example.com/john.png,true
+2,Jane Smith,9123456780,jane@example.com,pass456,https://example.com/jane.png,true
+3,Michael Brown,9988776655,michael@example.com,myPass789,https://example.com/michael.png,false
+4,Emily Johnson,9090909090,emily@example.com,password321,https://example.com/emily.png,true
+5,David Wilson,9112233445,david@example.com,davidPass555,https://example.com/david.png,true
