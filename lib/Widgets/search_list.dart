@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:e_commerce/application/features/home/widgets/home_gride.dart';
 import 'package:e_commerce/data_base/models/product/db_product_model.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +31,7 @@ class SearchListWidget extends StatelessWidget {
                 childAspectRatio: 3.5 / 4),
             itemBuilder: (context, index) {
               final data = productList[index];
-              final imageBytes = base64.decode(data.image1);
+              final imageBytes = data.image1;
               return ProductCard(
                 imageUrl: imageBytes,
                 name: data.title,
