@@ -1,12 +1,14 @@
-import 'dart:convert';
+import 'dart:math';
+
 import 'package:e_commerce/Widgets/favorite_card.dart';
 import 'package:e_commerce/application/core/widgets/appbar.dart';
-import 'package:e_commerce/data_base/function/favorite_function.dart';
-import 'package:e_commerce/data_base/models/favorite/favorite_model.dart';
-import 'package:e_commerce/service/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../data_base/models/favorite/favorite_model.dart';
+import '../../service/favorite.dart';
+import '../../service/model/favorite_model.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -18,15 +20,29 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
-    favoritee.getAllFavorite();
+    // favoritee.getAllFavorite();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: mainTitle('Favorite'),
+      floatingActionButton: IconButton(
+          onPressed: () {
+            int id = Random().nextInt(1000);
+            FavoriteApiService().addFavorite(Favorite(
+                id: id,
+                title: "Test $id",
+                price: 1000,
+                image:
+                    'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=808&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'));
+            setState(() {});
+          },
+          icon: const Icon(
+            Icons.heart_broken,
+          )),
       body: FutureBuilder(
         future: FavoriteApiService().getAllFavorites(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            final favoriteList = snapshot.data;
+            final List<Favorite> favoriteList = snapshot.data;
             if (favoriteList.isEmpty) {
               return Center(
                   child: Lottie.asset("asset/Animation - 1717653689444.json",
