@@ -12,11 +12,12 @@ import 'package:e_commerce/data_base/models/favorite/favorite_model.dart';
 import 'package:e_commerce/data_base/models/order_history/order_history_model.dart';
 import 'package:e_commerce/data_base/models/product/db_product_model.dart';
 import 'package:e_commerce/data_base/models/user/db_model.dart';
-import 'package:e_commerce/screens/user/splash_scree.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
+
+import 'Widgets/bottom_navigator.dart';
 
 // ignore: constant_identifier_names
 const SAVE_KEY_NAME = 'UserLoggidIn';
@@ -67,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         title: "MenCart",
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
-        home: SplashScreen(),
+        home: BottomNavigator(),
       ),
     );
   }

@@ -36,70 +36,74 @@ class AddressCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name!,
-                style: const TextStyle(fontSize: 22, color: Colors.black),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                '$city,$state',
-                style: const TextStyle(fontSize: 17, color: Colors.black),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 25,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      pincode!,
-                      style: const TextStyle(fontSize: 17, color: Colors.black),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          addres.deleteAddress(id);
-                        },
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Color.fromARGB(255, 212, 58, 47),
-                        ))
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name!,
+                  style: const TextStyle(fontSize: 22, color: Colors.black),
                 ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                height: 25,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      phoneNumber!,
-                      style: const TextStyle(fontSize: 17, color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 30,
-                      width: 60,
-                      child: ElevatedButton(
-                        style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.grey),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => EditAddressScreen(index),
-                          ));
-                        },
-                        child: const Text('Edit'),
+                const SizedBox(height: 5),
+                Text(
+                  '$city,$state',
+                  style: const TextStyle(fontSize: 17, color: Colors.black),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 25,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        pincode!,
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.black),
                       ),
-                    )
-                  ],
+                      IconButton(
+                          onPressed: () {
+                            addres.deleteAddress(id);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Color.fromARGB(255, 212, 58, 47),
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  height: 25,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        phoneNumber!,
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 30,
+                        width: 60,
+                        child: ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.grey),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => EditAddressScreen(index),
+                            ));
+                          },
+                          child: const Text('Edit'),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

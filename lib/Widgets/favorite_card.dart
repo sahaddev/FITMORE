@@ -1,17 +1,15 @@
-import 'dart:typed_data';
-
-import 'package:e_commerce/data_base/models/favorite/favorite_model.dart';
+import 'package:e_commerce/service/model/favorite_model.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteCard extends StatelessWidget {
   const FavoriteCard(
       {super.key,
-      required this.imagebytes,
+      required this.image,
       required this.data,
       required this.index});
   final int index;
-  final Uint8List imagebytes;
-  final FavoriteModel data;
+  final String image;
+  final Favorite data;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class FavoriteCard extends StatelessWidget {
                 width: 88,
                 child: Image(
                   fit: BoxFit.fill,
-                  image: MemoryImage(imagebytes),
+                  image: NetworkImage(image),
                 ),
               ),
             ),
