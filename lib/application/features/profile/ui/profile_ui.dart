@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:e_commerce/application/features/profile/getX/profile_get.dart';
-import 'package:e_commerce/application/features/profile/widgets/option_title_ui.dart';
-import 'package:e_commerce/application/features/profile/widgets/profile_deatile_row.dart';
 import 'package:e_commerce/screens/admin/admin_login.dart';
 import 'package:e_commerce/screens/user/address_screen.dart';
 import 'package:e_commerce/screens/user/edit_profile.dart';
@@ -12,6 +10,7 @@ import 'package:e_commerce/application/features/terms/ui/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class ProfileUi extends StatelessWidget {
   const ProfileUi({super.key});
@@ -20,165 +19,327 @@ class ProfileUi extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileGet = Get.put(ProfileGet());
     profileGet.initialdata();
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color(0xFFF2F4F7), // Light grey background
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 30),
-                Stack(
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Padding(
+                padding: EdgeInsets.only(bottom: 3.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Obx(
-                      () => Center(
-                        child: profileGet.selectedImage.value == null
-                            ? const CircleAvatar(
-                                radius: 50,
-                                backgroundImage:
-                                    AssetImage('asset/images (profile).jpg'),
-                              )
-                            : CircleAvatar(
-                                radius: 50,
-                                backgroundImage: FileImage(
-                                    File(profileGet.selectedImage.value!.path)),
-                              ),
+                    _buildCircleButton(
+                      icon: Icons.arrow_back_ios_new,
+                      onTap: () {
+                        // Navigation pop if applicable, or maybe this is a main tab so no back?
+                        // Assuming it might be nested or just for visual consistency with design.
+                        // But usually a main tab doesn't pop.
+                        // Leaving empty or Navigator.maybePop if needed.
+                        // Design shows back button.
+                        Navigator.maybePop(context);
+                      },
+                    ),
+                    Text(
+                      'Settings',
+                      style: GoogleFonts.manrope(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
                       ),
                     ),
-                    Positioned(
-                      top: 60,
-                      left: MediaQuery.of(context).size.width * .52,
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white,
-                        child: InkWell(
-                          onTap: () {
-                            profileGet.pickImageFromGallery();
-                          },
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                    _buildCircleButton(
+                      icon: Icons.logout_outlined, // Logout Icon
+                      onTap: () {
+                        profileGet.signOut(context);
+                      },
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  profileGet.userModel.name ?? "Null",
-                  style: GoogleFonts.roboto(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+              ),
+
+              // Profile Card
+              Container(
+                padding: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                Text(
-                  'Status: Active',
-                  style: GoogleFonts.roboto(color: Colors.grey),
-                ),
-                const SizedBox(height: 22),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: Obx(() {
+                  final imagePath = profileGet.selectedImage.value?.path;
+                  final hasImage = imagePath != null;
+
+                  return Row(
                     children: [
-                      ProfileDetailRow(
-                        icon: Icons.email,
-                        title: 'Email',
-                        value: profileGet.userModel.email ?? "Null",
+                      Stack(
+                        children: [
+                          Container(
+                            width: 16.w,
+                            height: 16.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: hasImage
+                                    ? FileImage(File(imagePath))
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        'asset/images (profile).jpg'), // Fixed asset path string from original
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 4.w,
+                              height: 4.w,
+                              decoration: BoxDecoration(
+                                color:
+                                    const Color(0xFF22C55E), // Green status dot
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                      Divider(
-                        color: Colors.grey[300],
+                      SizedBox(width: 4.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              profileGet.userModel.name ?? "User Name",
+                              style: GoogleFonts.manrope(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 0.5.h),
+                            Text(
+                              profileGet.userModel.email ?? "email@example.com",
+                              style: GoogleFonts.manrope(
+                                fontSize: 9.sp,
+                                color: Colors.grey.shade500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              profileGet.userModel.phoneNumber ?? "+1234567890",
+                              style: GoogleFonts.manrope(
+                                fontSize: 9.sp,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      ProfileDetailRow(
-                        icon: Icons.phone,
-                        title: 'Phone Number',
-                        value: profileGet.userModel.phoneNumber ?? "Null",
-                      ),
-                      Divider(
-                        color: Colors.grey[300],
-                      ),
-                      const ProfileDetailRow(
-                        icon: Icons.person,
-                        title: 'Gender',
-                        value: 'Male',
-                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                EditProfile(user: profileGet.userModel),
+                          ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(2.w),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.edit,
+                              size: 14.sp, color: Colors.grey.shade700),
+                        ),
+                      )
                     ],
-                  ),
+                  );
+                }),
+              ),
+              SizedBox(height: 4.h),
+
+              // App Settings Section
+              _buildSectionTitle('APP SETTINGS'),
+              SizedBox(height: 1.5.h),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                const SizedBox(height: 16),
-                OptionTile(
-                  icon: Icons.person_pin_outlined,
-                  title: 'Admin Login',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AdminLogin(),
-                    ));
-                  },
+                child: Column(
+                  children: [
+                    _buildSettingsItem(
+                      icon: Icons.home_outlined,
+                      title: 'Addresses',
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AddressScreen(),
+                        ));
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildSettingsItem(
+                      icon: Icons.shopping_bag_outlined,
+                      title: 'Order History',
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyOrderScreen(),
+                        ));
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildSettingsItem(
+                      icon: Icons.admin_panel_settings_outlined,
+                      title: 'Admin Login',
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AdminLogin(),
+                        ));
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildSettingsItem(
+                      icon: Icons.lock_outline,
+                      title: 'Privacy & Terms',
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const TermsOne(),
+                        ));
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildSettingsItem(
+                      icon: Icons.headset_mic_outlined,
+                      title: 'Help & Support',
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AboutUs(),
+                        ));
+                      },
+                    ),
+                  ],
                 ),
-                OptionTile(
-                  icon: Icons.location_city_rounded,
-                  title: 'Address',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddressScreen(),
-                    ));
-                  },
+              ),
+              SizedBox(height: 4.h),
+
+              // Popular Section (Placeholder functionality matching design structure)
+              _buildSectionTitle('POPULAR'),
+              SizedBox(height: 1.5.h),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                OptionTile(
-                  icon: Icons.help,
-                  title: 'About',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AboutUs(),
-                    ));
-                  },
+                child: Column(
+                  children: [
+                    _buildSettingsItem(
+                      icon: Icons.security_outlined,
+                      title: 'Safety Preferences',
+                      onTap: () {},
+                    ),
+                    // _buildDivider(), // No divider for single item or last item if we want
+                  ],
                 ),
-                OptionTile(
-                  icon: Icons.privacy_tip,
-                  title: 'Terms',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const TermsOne(),
-                    ));
-                  },
-                ),
-                OptionTile(
-                  icon: Icons.history,
-                  title: 'Order History',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const MyOrderScreen(),
-                    ));
-                  },
-                ),
-                OptionTile(
-                  icon: Icons.edit_calendar_rounded,
-                  title: 'Edit',
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          EditProfile(user: profileGet.userModel),
-                    ));
-                  },
-                ),
-                OptionTile(
-                  icon: Icons.logout,
-                  title: 'LogOut',
-                  onTap: () {
-                    profileGet.signOut(context);
-                  },
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 4.h),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: GoogleFonts.manrope(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.bold,
+        color: Colors.grey.shade600,
+        letterSpacing: 1.2,
+      ),
+    );
+  }
+
+  Widget _buildSettingsItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20), // For ripple effect
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(2.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius:
+                      BorderRadius.circular(10), // Rounded square icon bg
+                ),
+                child: Icon(icon, color: Colors.black87, size: 16.sp),
+              ),
+              SizedBox(width: 4.w),
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.manrope(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios,
+                  size: 12.sp, color: Colors.grey.shade400),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      height: 1,
+      thickness: 0.5,
+      color: Colors.grey.shade200,
+      indent: 18.w, // Indent to align with text start (icon width + spacing)
+    );
+  }
+
+  Widget _buildCircleButton(
+      {required IconData icon, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 10.w,
+        height: 10.w, // Circular
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Icon(icon, size: 14.sp, color: Colors.black87),
       ),
     );
   }
