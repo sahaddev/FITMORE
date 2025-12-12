@@ -63,8 +63,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (p0, p1, p2) => const GetMaterialApp(
+    return Sizer(
+      builder: (context, orientation, deviceType) => const GetMaterialApp(
         title: "MenCart",
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
