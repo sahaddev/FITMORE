@@ -1,5 +1,5 @@
-import 'package:e_commerce/service/model/user_model.dart';
-import 'package:e_commerce/service/user.dart';
+import 'package:e_commerce/data_base/models/user/db_model.dart';
+import 'package:e_commerce/data_base/function/user_functions.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:email_validator/email_validator.dart';
@@ -306,13 +306,12 @@ class _RegScreenState extends State<RegScreen> {
     }
 
     if (_formKey.currentState!.validate()) {
-      UserApiService()
-          .addUser(User(
+      UserFunction()
+          .addUser(UserModel(
             email: _emailController.text,
             name: _nameController.text,
             phoneNumber: _phonenumberController.text,
-            password: _passwordController
-                .text, // Fixed typo from original '_passwordControlle'
+            password: _passwordController.text,
             active: true,
           ))
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(

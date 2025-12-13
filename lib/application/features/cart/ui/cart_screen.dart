@@ -2,14 +2,14 @@ import 'package:e_commerce/Widgets/calcuate_cart.dart';
 import 'package:e_commerce/application/core/widgets/appbar.dart';
 import 'package:e_commerce/application/features/cart/getX/cart_getx.dart';
 import 'package:e_commerce/data_base/function/cart_function.dart';
-import 'package:e_commerce/service/cart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../Widgets/mainbutton.dart';
 import '../../../../screens/user/payment/cart_payment.dart';
-import '../../../../service/model/cart_model.dart';
+import '../../../../data_base/models/cart_/cart_model.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -20,6 +20,12 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   @override
+  void initState() {
+    super.initState();
+    cartt.getAllCart();
+  }
+
+  @override
   Widget build(BuildContext context) {
     cartt.getAllCart();
     final cartGet = Get.put(CartGet());
@@ -29,216 +35,180 @@ class _CartScreenState extends State<CartScreen> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder(
-              future: CartApiService().getAllCarts(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasError) {
+            child: ValueListenableBuilder(
+              valueListenable: cartvaluelisener,
+              builder: (BuildContext context, List<CartModel> cartList,
+                  Widget? child) {
+                if (cartList.isEmpty) {
                   return Center(
-                    child: Text(snapshot.error.toString()),
-                  );
-                } else if (snapshot.hasData) {
-                  final List<CartModel> cartList = snapshot.data;
-                  if (cartList.isEmpty) {
-                    return Center(
-                        child: Lottie.asset(
-                            "asset/Animation - 1717596108476 (2).json",
-                            height: 250));
-                  }
-                  return ListView.builder(
-                    itemCount: cartList.length,
-                    itemBuilder: (context, index) {
-                      final data = cartList[index];
-                      final imagebytes = data.image;
-                      GlobalKey<FormState> formkey = GlobalKey<FormState>();
-                      return FutureBuilder(
-                        future: CartApiService().getAllCarts(),
-                        builder: (context, AsyncSnapshot snapshot) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Dismissible(
-                              key: formkey,
-                              onDismissed: (direction) {
-                                setState(() {
-                                  cartList.removeAt(index);
-                                });
-                                // box.delete(data.id);
-                              },
-                              direction: DismissDirection.endToStart,
-                              background: Container(
-                                alignment: Alignment.centerRight,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color:
-                                      const Color.fromARGB(255, 255, 243, 242),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Color.fromARGB(255, 240, 43, 43),
-                                  ),
+                      child: Lottie.asset(
+                          "asset/Animation - 1717596108476 (2).json",
+                          height: 250));
+                }
+                return ListView.builder(
+                  itemCount: cartList.length,
+                  itemBuilder: (context, index) {
+                    final data = cartList[index];
+                    final imagebytes = data.image;
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Dismissible(
+                        key: Key(data.id.toString()),
+                        onDismissed: (direction) {
+                          cartt.deleteCartItem(data.id);
+                        },
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: const Color.fromARGB(255, 255, 243, 242),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Icon(
+                              Icons.delete,
+                              color: Color.fromARGB(255, 240, 43, 43),
+                            ),
+                          ),
+                        ),
+                        child: Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[50],
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                height: double.infinity,
+                                width: MediaQuery.of(context).size.width * .3,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image(
+                                      image: NetworkImage(imagebytes),
+                                      fit: BoxFit.cover),
                                 ),
                               ),
-                              child: Container(
-                                height: 110,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[50],
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .6,
+                                child: Column(
                                   children: [
-                                    SizedBox(
-                                      height: double.infinity,
-                                      width: MediaQuery.of(context).size.width *
-                                          .3,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image(
-                                            image: NetworkImage(imagebytes),
-                                            fit: BoxFit.cover),
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          data.title,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          .6,
-                                      child: Column(
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Size 1$index',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black45),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Expanded(
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                data.title,
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
+                                          SizedBox(
+                                            width: 60,
+                                            child: Text(
+                                              '\$${data.newPrice}',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.red,
+                                                fontSize: 20,
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                'Size 1$index',
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.black45),
-                                              ),
+                                          Container(
+                                            height: 30,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                          ),
-                                          Expanded(
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                SizedBox(
-                                                  width: 60,
-                                                  child: Text(
-                                                    '\$${data.newPrice}',
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.red,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    cartGet.countLessing(
+                                                      idd: data.id,
+                                                      imagee: data.image,
+                                                      pricee: data.price,
+                                                      quantityy: data.quantity,
+                                                      titlee: data.title,
+                                                    );
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.remove,
+                                                      color: Colors.white),
                                                 ),
-                                                Container(
-                                                  height: 30,
-                                                  width: 80,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.green,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          cartGet.countLessing(
-                                                            idd: data.id,
-                                                            imagee: data.image,
-                                                            pricee: data.price,
-                                                            quantityy:
-                                                                data.quantity,
-                                                            titlee: data.title,
-                                                          );
-                                                        },
-                                                        child: const Icon(
-                                                            Icons.remove,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                      Text('${data.quantity}',
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .white)),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            cartGet.countAdding(
-                                                              idd: data.id,
-                                                              imagee:
-                                                                  data.image,
-                                                              pricee:
-                                                                  data.price,
-                                                              quantityy:
-                                                                  data.quantity,
-                                                              titlee:
-                                                                  data.title,
-                                                              context: context,
-                                                            );
-                                                          });
-                                                        },
-                                                        child: const Icon(
-                                                            Icons.add,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
+                                                Text('${data.quantity}',
+                                                    style: const TextStyle(
+                                                        color: Colors.white)),
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      cartGet.countAdding(
+                                                        idd: data.id,
+                                                        imagee: data.image,
+                                                        pricee: data.price,
+                                                        quantityy:
+                                                            data.quantity,
+                                                        titlee: data.title,
+                                                        context: context,
+                                                      );
+                                                    });
+                                                  },
+                                                  child: const Icon(Icons.add,
+                                                      color: Colors.white),
+                                                ),
                                               ],
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: Text('Something Went Wrong'),
-                  );
-                }
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
           const SizedBox(height: 10),
           const CalculateCart(),
-          FutureBuilder(
-            future: CartApiService().getAllCarts(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              final cartList = snapshot.data;
+          ValueListenableBuilder(
+            valueListenable: cartvaluelisener,
+            builder: (BuildContext context, List<CartModel> cartList,
+                Widget? child) {
               return Visibility(
                 // ignore: prefer_is_empty
-                visible: cartList.length > 0 ? true : false,
+                visible: cartList.isNotEmpty,
                 child: Button(
                     text: 'Check Out',
                     onPressedCallback: () {

@@ -1,6 +1,6 @@
 import 'package:e_commerce/Widgets/bottom_navigator.dart';
 import 'package:e_commerce/screens/user/registrationscreen.dart';
-import 'package:e_commerce/service/user.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -208,8 +208,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        final Map<String, dynamic> value =
-                            await UserApiService().login(_emailController.text,
+                        final Map<String, dynamic> value = await UserFunction()
+                            .login(_emailController.text,
                                 _passwordController.text);
                         if (value['login'] == false) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

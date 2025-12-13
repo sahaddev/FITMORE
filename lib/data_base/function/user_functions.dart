@@ -6,8 +6,7 @@ ValueNotifier<List<UserModel>> userListNotifier = ValueNotifier([]);
 UserFunction userr = UserFunction();
 
 class UserFunction extends ChangeNotifier {
-
-  void addUser(UserModel value) async {
+  Future<String> addUser(UserModel value) async {
     final userDB = await Hive.openBox<UserModel>('user_db');
     final id = await userDB.add(value);
     value.id = id;
@@ -15,7 +14,7 @@ class UserFunction extends ChangeNotifier {
     userDB.put(
         id,
         UserModel(
-             id: id,
+            id: id,
             name: user!.name,
             phoneNumber: user.phoneNumber,
             email: user.email,
@@ -23,6 +22,7 @@ class UserFunction extends ChangeNotifier {
     userListNotifier.value.add(user);
 
     userListNotifier.notifyListeners();
+    return "User Added Successfully";
   }
 
   Future<void> getAlluser() async {
@@ -32,7 +32,7 @@ class UserFunction extends ChangeNotifier {
     userListNotifier.notifyListeners();
   }
 
-  Future<UserModel> getUserById(id)async{
+  Future<UserModel> getUserById(id) async {
     final userDB = await Hive.openBox<UserModel>('user_db');
     UserModel user = userDB.getAt(id)!;
     return user;
@@ -50,5 +50,16 @@ class UserFunction extends ChangeNotifier {
     }
     value.id = id;
     await userDB.put(id, value);
+  }
+
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    final userDB = await Hive.openBox<UserModel>('user_db');
+    try {
+      final user = userDB.values.firstWhere(
+          (element) => element.email == email && element.password == password);
+      return {'login': true, 'message': 'Login Success', 'user': user};
+    } catch (e) {
+      return {'login': false, 'message': 'Invalid Email or Password'};
+    }
   }
 }

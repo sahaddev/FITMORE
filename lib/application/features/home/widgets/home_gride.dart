@@ -1,71 +1,69 @@
 import 'package:e_commerce/application/features/deatile/ui/product_detiles.dart';
-import 'package:e_commerce/service/model/product_model.dart';
-import 'package:e_commerce/service/product.dart';
+import 'package:e_commerce/data_base/models/product/db_product_model.dart';
+import 'package:e_commerce/data_base/function/product_db_function.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ProductsGrid extends StatelessWidget {
+class ProductsGrid extends StatefulWidget {
   const ProductsGrid({super.key});
 
-  get itemBuilder => null;
-
   @override
+  State<ProductsGrid> createState() => _ProductsGridState();
+}
+
+class _ProductsGridState extends State<ProductsGrid> {
+  @override
+  void initState() {
+    super.initState();
+    productt.getAllProduct();
+  }
+
   Widget build(BuildContext context) {
     return Expanded(
-      child: FutureBuilder(
-        future: ProductService().getProducts(),
+      child: ValueListenableBuilder(
+        valueListenable: productListNotifier,
         builder: (
           BuildContext context,
-          AsyncSnapshot snapshot,
+          List<ProductModel> productList,
+          Widget? child,
         ) {
-          if (snapshot.hasError) {
+          if (productList.isEmpty) {
             return Center(
-              child: Text(snapshot.error.toString()),
+              child: Text(
+                'List is empty',
+                style: GoogleFonts.roboto(),
+              ),
             );
-          } else if (snapshot.hasData) {
-            final productList = snapshot.data;
-            if (productList.isEmpty) {
-              return Center(
-                child: Text(
-                  'List is empty',
-                  style: GoogleFonts.roboto(),
-                ),
-              );
-            } else {
-              return GridView.builder(
-                itemCount: productList.length,
-                padding: const EdgeInsets.all(8),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 3.5 / 4),
-                itemBuilder: (context, index) {
-                  final Product data = productList[index];
-                  final image = data.image1;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ProductDetiles(
-                              index: data.id,
-                              title: data.title,
-                              price: data.price as int,
-                              discription: data.discription,
-                              image: data.image1)));
-                    },
-                    child: ProductCard(
-                      imageUrl: image,
-                      name: data.title,
-                      price: data.price.toString(),
-                      rating: index.toDouble(),
-                    ),
-                  );
-                },
-              );
-            }
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return GridView.builder(
+              itemCount: productList.length,
+              padding: const EdgeInsets.all(8),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 3.5 / 4),
+              itemBuilder: (context, index) {
+                final ProductModel data = productList[index];
+                final image = data.image1;
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductDetiles(
+                            index: data.id ?? 0,
+                            title: data.title,
+                            price: data.price,
+                            discription: data.discription,
+                            image: data.image1)));
+                  },
+                  child: ProductCard(
+                    imageUrl: image,
+                    name: data.title,
+                    price: data.price.toString(),
+                    rating: index.toDouble(),
+                  ),
+                );
+              },
             );
           }
         },

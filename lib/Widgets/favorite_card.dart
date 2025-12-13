@@ -1,4 +1,4 @@
-import 'package:e_commerce/service/model/favorite_model.dart';
+import 'package:e_commerce/data_base/models/favorite/favorite_model.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteCard extends StatelessWidget {
@@ -9,7 +9,7 @@ class FavoriteCard extends StatelessWidget {
       required this.index});
   final int index;
   final String image;
-  final Favorite data;
+  final FavoriteModel data;
 
   @override
   Widget build(BuildContext context) {

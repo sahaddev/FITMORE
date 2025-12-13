@@ -2,10 +2,9 @@ import 'package:e_commerce/Widgets/address_card.dart';
 import 'package:e_commerce/Widgets/mainbutton.dart';
 import 'package:e_commerce/application/core/widgets/appbar.dart';
 import 'package:e_commerce/screens/user/add_address.dart';
-import 'package:e_commerce/service/address.dart';
+import '../../data_base/models/address/db_address_model.dart';
+import '../../data_base/function/address_function.dart';
 import 'package:flutter/material.dart';
-
-import '../../service/model/address_model.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -16,6 +15,12 @@ class AddressScreen extends StatefulWidget {
 
 class _AddressScreenState extends State<AddressScreen> {
   @override
+  void initState() {
+    super.initState();
+    addres.getAllAddress();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -23,61 +28,40 @@ class _AddressScreenState extends State<AddressScreen> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder(
-              future: AddressApiService().getAllAddresses(),
+            child: ValueListenableBuilder(
+              valueListenable: addressListNotifyer,
               builder: (
                 BuildContext context,
-                AsyncSnapshot snapshot,
+                List<AddressModel> addresslist,
+                Widget? child,
               ) {
-                if (snapshot.hasData) {
-                  final List<Address> addresslist = snapshot.data;
-                  if (addresslist.isEmpty) {
-                    return const Center(
-                      child: SizedBox(
-                        height: 350,
-                        width: 300,
-                        child: Image(
-                          fit: BoxFit.fill,
-                          image: AssetImage('asset/addres is empty.png'),
-                        ),
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: addresslist.length,
-                    itemBuilder: (context, index) {
-                      final data = addresslist[index];
-                      if (addresslist.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            'Your addres list is Empty',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 139, 139, 139),
-                              fontSize: 18,
-                            ),
-                          ),
-                        );
-                      }
-                      return AddressCard(
-                        index: index,
-                        id: data.id,
-                        name: data.name,
-                        phoneNumber: data.phonenumber,
-                        city: data.city,
-                        pincode: data.pincode,
-                        state: data.state,
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(snapshot.error.toString()),
-                  );
-                } else {
+                if (addresslist.isEmpty) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: SizedBox(
+                      height: 350,
+                      width: 300,
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: AssetImage('asset/addres is empty.png'),
+                      ),
+                    ),
                   );
                 }
+                return ListView.builder(
+                  itemCount: addresslist.length,
+                  itemBuilder: (context, index) {
+                    final data = addresslist[index];
+                    return AddressCard(
+                      index: index,
+                      id: data.id,
+                      name: data.name,
+                      phoneNumber: data.phonenumber,
+                      city: data.city,
+                      pincode: data.pincode,
+                      state: data.state,
+                    );
+                  },
+                );
               },
             ),
           ),

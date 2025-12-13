@@ -48,7 +48,7 @@ class ProfileUi extends StatelessWidget {
                     Text(
                       'Settings',
                       style: GoogleFonts.manrope(
-                        fontSize: 16.sp,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                       ),
@@ -118,7 +118,7 @@ class ProfileUi extends StatelessWidget {
                             Text(
                               profileGet.userModel.name ?? "User Name",
                               style: GoogleFonts.manrope(
-                                fontSize: 14.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
@@ -128,7 +128,7 @@ class ProfileUi extends StatelessWidget {
                             Text(
                               profileGet.userModel.email ?? "email@example.com",
                               style: GoogleFonts.manrope(
-                                fontSize: 9.sp,
+                                fontSize: 12.sp,
                                 color: Colors.grey.shade500,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -136,7 +136,7 @@ class ProfileUi extends StatelessWidget {
                             Text(
                               profileGet.userModel.phoneNumber ?? "+1234567890",
                               style: GoogleFonts.manrope(
-                                fontSize: 9.sp,
+                                fontSize: 12.sp,
                                 color: Colors.grey.shade500,
                               ),
                             ),
@@ -157,7 +157,7 @@ class ProfileUi extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(Icons.edit,
-                              size: 14.sp, color: Colors.grey.shade700),
+                              size: 18.sp, color: Colors.grey.shade700),
                         ),
                       )
                     ],
@@ -261,7 +261,7 @@ class ProfileUi extends StatelessWidget {
     return Text(
       title,
       style: GoogleFonts.manrope(
-        fontSize: 10.sp,
+        fontSize: 14.sp,
         fontWeight: FontWeight.bold,
         color: Colors.grey.shade600,
         letterSpacing: 1.2,
@@ -290,21 +290,21 @@ class ProfileUi extends StatelessWidget {
                   borderRadius:
                       BorderRadius.circular(10), // Rounded square icon bg
                 ),
-                child: Icon(icon, color: Colors.black87, size: 16.sp),
+                child: Icon(icon, color: Colors.black87, size: 20.sp),
               ),
               SizedBox(width: 4.w),
               Expanded(
                 child: Text(
                   title,
                   style: GoogleFonts.manrope(
-                    fontSize: 12.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
                 ),
               ),
               Icon(Icons.arrow_forward_ios,
-                  size: 12.sp, color: Colors.grey.shade400),
+                  size: 16.sp, color: Colors.grey.shade400),
             ],
           ),
         ),
@@ -339,7 +339,7 @@ class ProfileUi extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(icon, size: 14.sp, color: Colors.black87),
+        child: Icon(icon, size: 18.sp, color: Colors.black87),
       ),
     );
   }
