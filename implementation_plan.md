@@ -1,34 +1,38 @@
-# Implementation Plan - Home UI Update
+# Implementation Plan - Notification UI Update
 
-Refactor the `HomeUi` to match a modern E-commerce design standard, using `sizer` for responsiveness and `google_fonts` for typography.
+Refactor `lib/application/features/notification/ui/notification_ui.dart` to match the provided design.
 
-## 1. `lib/application/features/home/ui/home_ui.dart`
-- **Header Section**:
-  - Replace `AppBar` with a custom `SafeArea` + `Row` header.
-  - Left: Profile Avatar (Asset).
-  - Center/Left: "Hello Alex" (Gray) / "Good Morning!" (Bold Black).
-  - Right: Notification ButtonIcon & Bag/Cart ButtonIcon.
-- **Search Section**:
-  - Keep `CusSearchBar`.
-- **Categories Section**:
-  - Move "Categories" title and "See All" into `CategoriesSection` widget.
-  - Remove independent "Brand" text and row if it conflicts or is redundant (will likely keep or adapt).
-- **Banner Section**:
-  - Keep Carousel but ensure `ClearanceBanner` looks good.
-- **Popular Products**:
-  - Add "Popular Product" title before `ProductsGrid`.
+## 1. UI Structure
+- **Scaffold**: Light grey background (`Colors.grey[50]` or similar).
+- **AppBar**:
+  - Leading: Back Icon (`Icons.arrow_back`).
+  - Title: "Notifications" (Centred, Bold).
+  - Actions: Settings Icon (`Icons.settings`).
+- **Body**:
+  - `SingleChildScrollView` containing:
+    - "Today" Section Header.
+    - List of Notification Cards for today.
+    - "Previously" Section Header.
+    - List of Notification Cards for previously.
+    - Footer Text: "Missing notifications? Go to historical notifications." (Link style).
 
-## 2. `lib/application/features/home/widgets/category_section.dart`
-- Uncomment the list view.
-- Implementation of `ListView` with chips: "All", "Men", "Women", "Girls".
-- Logic for selection (local state or just UI mock).
-- Add Title "Categories" and "See All".
+## 2. Components
+- **`NotificationSectionHeader`**: Simple text widget for "Today" / "Previously".
+- **`NotificationCard`**:
+  - Container with `BoxDecoration` (White, Rounded Corners, Shadow/Border if needed).
+  - Layout:
+    - **Avatar**: CircleAvatar with light orange background, "FM" text in orange.
+    - **Content**:
+      - Title: "FitMore Store" (Bold).
+      - Message: RichText for "your pickup order is **now ready!**".
+      - Details: "Order #48291 • Ready for pickup" (Grey, smaller).
+    - **Trailing**:
+      - Time: "10m ago" (Top right).
+      - Indicator: Yellow dot (if unread).
 
-## 3. `lib/application/features/home/widgets/search_bar.dart`
-- Update design to match typical modern search bars (rounded corners, search icon left, filter icon right).
+## 3. Data Mocking
+- Mock the list items as seen in the screenshot to populate the sections.
 
-## 4. `lib/application/features/home/widgets/clearance_bar.dart`
-- Update styling if necessary to match "Special Sale" look.
-
-## 5. `lib/application/features/home/widgets/home_gride.dart`
-- Ensure grid looks correct with new layout.
+## 4. Dependencies
+- `google_fonts`: For typography (Poppins/Roboto).
+- `sizer`: For responsive sizing (`.sp`, `.w`, `.h`).

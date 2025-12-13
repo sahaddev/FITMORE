@@ -1,9 +1,6 @@
-import 'package:e_commerce/application/core/const/const_values.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../../utils/constants/text_style.dart';
 
 int notificationCount = 1;
 
@@ -13,101 +10,256 @@ class ListOfNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF4F5F7), // Light grey background
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF4F5F7),
         surfaceTintColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+        ),
+        title: Text(
+          'Notifications',
+          style: GoogleFonts.poppins(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+        ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 5.sw),
-            child: CircleAvatar(
-              backgroundColor: Colors.blue,
-              radius: 15.sp,
-              child: Text(
-                notificationCount.toString(),
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          )
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings, color: Colors.black),
+          ),
         ],
-        title: Text('Notifications',
-            style: TextStyles.heading2.copyWith(fontSize: 3.sh)),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 1.sh),
-          const Expanded(
-              child: BuildNotificationBox(
-            day: 'Today',
-            massage: 'Hi, Massage for fitMore',
-          )),
-        ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSectionHeader('Today'),
+              SizedBox(height: 1.5.h),
+              const NotificationCard(
+                title: 'FitMore Store',
+                messagePrefix: 'Hi Caitlyn Margusity, your pickup order is ',
+                highlightedMessage: 'now ready!',
+                orderDetails: 'Order #48291 • Ready for pickup',
+                time: '10m ago',
+                isUnread: true,
+              ),
+              const NotificationCard(
+                title: 'FitMore Store',
+                messagePrefix: 'Hi sahad Mp, your pickup order is ',
+                highlightedMessage: 'now ready!',
+                orderDetails: 'Order #48290 • Ready for pickup',
+                time: '10m ago',
+                isUnread: true,
+              ),
+              const NotificationCard(
+                title: 'FitMore Store',
+                messagePrefix: 'Hi jhon Mathew, your pickup order is ',
+                highlightedMessage: 'now ready!',
+                orderDetails: 'Order #48289 • Ready for pickup',
+                time: '10m ago',
+                isUnread: true,
+              ),
+              SizedBox(height: 3.h),
+              _buildSectionHeader('Previously'),
+              SizedBox(height: 1.5.h),
+              const NotificationCard(
+                title: 'FitMore Store',
+                messagePrefix: 'Hi Spider Man, your pickup order is ',
+                highlightedMessage: 'now ready!',
+                orderDetails:
+                    'Order #48100 • Pickup completed', // Inferred or dummy
+                time: 'Yesterday',
+                isUnread: false,
+                hideStatusDot: true,
+              ),
+              SizedBox(height: 4.h),
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Missing notifications?',
+                      style: GoogleFonts.poppins(
+                        fontSize: 13.sp,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 0.5.h),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to historical
+                      },
+                      child: Text(
+                        'Go to historical notifications.',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13.sp,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 4.h),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: GoogleFonts.poppins(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
+        color: Colors.grey[600],
       ),
     );
   }
 }
 
-class BuildNotificationBox extends StatelessWidget {
-  final String day;
-  final String massage;
-  const BuildNotificationBox({
+class NotificationCard extends StatelessWidget {
+  final String title;
+  final String messagePrefix;
+  final String highlightedMessage;
+  final String orderDetails;
+  final String time;
+  final bool isUnread;
+  final bool hideStatusDot;
+
+  const NotificationCard({
     super.key,
-    required this.day,
-    required this.massage,
+    required this.title,
+    required this.messagePrefix,
+    required this.highlightedMessage,
+    required this.orderDetails,
+    required this.time,
+    this.isUnread = false,
+    this.hideStatusDot = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.grey[50],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: .5.sh),
-            Padding(
-              padding: EdgeInsets.only(left: 5.sw),
-              child: Text(day,
-                  style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.bold, color: Colors.grey)),
+      margin: EdgeInsets.only(bottom: 1.5.h),
+      padding: EdgeInsets.all(4.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Avatar
+          Container(
+            height: 12.w,
+            width: 12.w,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFF4E5), // Light orange
+              shape: BoxShape.circle,
             ),
-            Divider(color: Colors.grey[300]),
-            Expanded(
-                child: ListView.builder(
-              itemCount: notificationtext.length,
-              itemBuilder: (context, index) =>
-                  NotificaitonCard(massage: notificationtext[index]),
-            ))
-          ],
-        ));
-  }
-}
-
-class NotificaitonCard extends StatelessWidget {
-  final String massage;
-  const NotificaitonCard({
-    super.key,
-    required this.massage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 20.sp,
-        child: Image.asset(
-          'asset/play_store_512.png',
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.cover,
-        ),
+            alignment: Alignment.center,
+            child: Text(
+              'FM',
+              style: GoogleFonts.poppins(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.orange,
+              ),
+            ),
+          ),
+          SizedBox(width: 3.w),
+          // Content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          time,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12.sp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        if (!hideStatusDot && isUnread) ...[
+                          SizedBox(width: 1.w),
+                          Container(
+                            width: 2.w,
+                            height: 2.w,
+                            decoration: const BoxDecoration(
+                              color: Colors.orange,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 0.5.h),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.poppins(
+                      fontSize: 13.sp,
+                      color: Colors.black87,
+                      height: 1.4,
+                    ),
+                    children: [
+                      TextSpan(text: messagePrefix),
+                      TextSpan(
+                        text: highlightedMessage,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 0.5.h),
+                Text(
+                  orderDetails,
+                  style: GoogleFonts.poppins(
+                    fontSize: 12.sp,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      title: Text(
-        massage,
-        style: TextStyles.bodyText2
-            .copyWith(color: Colors.black, fontSize: 1.8.sh),
-      ),
-      subtitle: Text('10m ago',
-          style: TextStyles.bodyText2.copyWith(fontSize: 1.5.sh)),
     );
   }
 }
