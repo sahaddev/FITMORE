@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:typed_data';
+import 'package:sizer/sizer.dart';
+
 import 'package:e_commerce/application/features/deatile/ui/product_detiles.dart';
 import 'package:e_commerce/data_base/models/product/db_product_model.dart';
 import 'package:e_commerce/data_base/function/product_db_function.dart';
@@ -19,55 +24,55 @@ class _ProductsGridState extends State<ProductsGrid> {
   }
 
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ValueListenableBuilder(
-        valueListenable: productListNotifier,
-        builder: (
-          BuildContext context,
-          List<ProductModel> productList,
-          Widget? child,
-        ) {
-          if (productList.isEmpty) {
-            return Center(
-              child: Text(
-                'List is empty',
-                style: GoogleFonts.roboto(),
-              ),
-            );
-          } else {
-            return GridView.builder(
-              itemCount: productList.length,
-              padding: const EdgeInsets.all(8),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 3.5 / 4),
-              itemBuilder: (context, index) {
-                final ProductModel data = productList[index];
-                final image = data.image1;
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetiles(
-                            index: data.id ?? 0,
-                            title: data.title,
-                            price: data.price,
-                            discription: data.discription,
-                            image: data.image1)));
-                  },
-                  child: ProductCard(
-                    imageUrl: image,
-                    name: data.title,
-                    price: data.price.toString(),
-                    rating: index.toDouble(),
-                  ),
-                );
-              },
-            );
-          }
-        },
-      ),
+    return ValueListenableBuilder(
+      valueListenable: productListNotifier,
+      builder: (
+        BuildContext context,
+        List<ProductModel> productList,
+        Widget? child,
+      ) {
+        if (productList.isEmpty) {
+          return Center(
+            child: Text(
+              'List is empty',
+              style: GoogleFonts.roboto(),
+            ),
+          );
+        } else {
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: productList.length,
+            padding: const EdgeInsets.all(8),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4.w,
+                mainAxisSpacing: 4.w,
+                childAspectRatio: 0.75),
+            itemBuilder: (context, index) {
+              final ProductModel data = productList[index];
+              final image = data.image1;
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProductDetiles(
+                          index: data.id ?? 0,
+                          title: data.title,
+                          price: data.price,
+                          discription: data.discription,
+                          image: data.image1)));
+                },
+                child: ProductCard(
+                  imageUrl: image,
+                  name: data.title,
+                  price: data.price.toString(),
+                  rating: index.toDouble(),
+                ),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }
@@ -86,6 +91,27 @@ class ProductCard extends StatelessWidget {
     required this.rating,
   });
 
+  Widget _buildImage(String source) {
+    Uint8List? imageBytes;
+    try {
+      imageBytes = base64Decode(source);
+    } catch (e) {
+      imageBytes = null;
+    }
+    return Image(
+      errorBuilder: (context, error, stackTrace) {
+        log(error.toString());
+        return const Icon(Icons.broken_image);
+      },
+      fit: BoxFit.cover,
+      // ignore: unnecessary_null_comparison
+      image: imageBytes == null
+          ? const AssetImage('asset/download(add image).png')
+              as ImageProvider<Object>
+          : MemoryImage(imageBytes),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -103,12 +129,8 @@ class ProductCard extends StatelessWidget {
                 color: Colors.grey[300],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.fill,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(8),
+                  child: _buildImage(imageUrl)),
             ),
           ),
           Expanded(
@@ -118,28 +140,42 @@ class ProductCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(name,
+                    Expanded(
+                      child: Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.aBeeZee(
-                            color: Colors.grey[500], fontSize: 12)),
-                    const Spacer(),
+                          color: Colors.grey[500],
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 2.w),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 16),
-                        const SizedBox(width: 4),
-                        Text(rating.toString(),
-                            style: GoogleFonts.roboto(
-                                color: Colors.black45,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500)),
+                        Icon(Icons.star, color: Colors.orange, size: 16.sp),
+                        SizedBox(width: 1.w),
+                        Text(
+                          rating.toString(),
+                          style: GoogleFonts.roboto(
+                            color: Colors.black45,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
-                Text(price,
-                    style: GoogleFonts.aBeeZee(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800)),
+                Text(
+                  price,
+                  style: GoogleFonts.aBeeZee(
+                    color: Colors.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,56 +1,76 @@
 import 'package:e_commerce/screens/user/search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
-class CategoriesSection extends StatelessWidget {
+class CategoriesSection extends StatefulWidget {
   const CategoriesSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<CategoriesSection> createState() => _CategoriesSectionState();
+}
 
+class _CategoriesSectionState extends State<CategoriesSection> {
+  final List<String> list = ['All', 'Men', 'Women', 'Girls'];
+  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "All",
-              style: GoogleFonts.roboto(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-                 Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
-                      ));
-              },
-              child: Text(
-                "See All",
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Categories",
                 style: GoogleFonts.roboto(
-                  fontSize: 13,
-                  color: const Color.fromARGB(255, 34, 233, 40),
-                  fontWeight: FontWeight.w400,
+                  fontSize: 18.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-          ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  ));
+                },
+                child: Text(
+                  "See All",
+                  style: GoogleFonts.roboto(
+                    fontSize: 13.sp,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        // SizedBox(
-        //   height: 38,
-        //   child: ListView.builder(
-        //     itemCount: list.length,
-        //     scrollDirection: Axis.horizontal,
-        //     itemBuilder: (context, index) {
-        //       return  CategoryChip(
-        //         label:list[index],
-        //         isSelected: index == 0 ? true : false,
-        //       );
-        //     },
-        //   ),
-        // ),
+        SizedBox(height: 2.h),
+        SizedBox(
+          height: 5.h,
+          child: ListView.separated(
+            itemCount: list.length,
+            scrollDirection: Axis.horizontal,
+            separatorBuilder: (context, index) => SizedBox(width: 3.w),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                child: CategoryChip(
+                  label: list[index],
+                  isSelected: index == selectedIndex,
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -65,20 +85,19 @@ class CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 0.5.h),
       decoration: BoxDecoration(
-        border: isSelected == false
-            ? Border.all(color: Colors.black54, width: 2)
-            : null,
-        color: isSelected ? Colors.green : Colors.grey[200],
-        borderRadius: BorderRadius.circular(16.0),
+        color: isSelected ? const Color(0xFFFF660E) : Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        border: isSelected ? null : Border.all(color: Colors.grey.shade200),
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: GoogleFonts.poppins(
           color: isSelected ? Colors.white : Colors.black,
-          fontWeight: FontWeight.w500,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+          fontSize: 13.sp,
         ),
       ),
     );

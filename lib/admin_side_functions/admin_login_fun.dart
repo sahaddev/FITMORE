@@ -7,7 +7,7 @@ adminCheckLogin(BuildContext ctx,
     required adminPasswordEditingCon}) {
   final email = adminEmailEditingCon.text;
   final password = adminPasswordEditingCon.text;
-  if (email == "sahad@gmail.com" || password == "12345") {
+  if (email == "0" || password == "0") {
     Navigator.of(ctx).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const BottomNavigationAdmin(),

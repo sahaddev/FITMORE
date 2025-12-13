@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class ClearanceBanner extends StatelessWidget {
   final String image;
@@ -7,50 +9,27 @@ class ClearanceBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
       decoration: BoxDecoration(
-        image:  DecorationImage(image: AssetImage(image,),fit: BoxFit.fill),
-        color: Colors.green[500],
-        borderRadius: BorderRadius.circular(18.0),
+        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+        color: Colors.orange, // Fallback
+        borderRadius: BorderRadius.circular(20.0),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
-
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * .4,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Text(
-                //   'Clearance Sales',
-                //   style: GoogleFonts.aBeeZee(
-                //     fontSize: 26,
-                //     color: Colors.white,
-                //   ),
-                // ),
-                const Spacer(),
-                SizedBox(
-                  height: 30,
-                  width: 120,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      '% Up to 50%',
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
+          Text(
+            'Get Your\nSpecial Sale\nUp to 40%',
+            style: GoogleFonts.poppins(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              height: 1.2,
             ),
           ),
+          SizedBox(height: 2.h),
         ],
       ),
     );
