@@ -1,29 +1,30 @@
-import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_flutter/cloudinary_object.dart';
 import 'package:cloudinary_flutter/image/cld_image.dart';
-import 'package:cloudinary_url_gen/cloudinary.dart';
+
 import 'package:cloudinary_url_gen/transformation/effect/effect.dart';
 import 'package:cloudinary_url_gen/transformation/gravity/gravity.dart';
 import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
-import 'package:e_commerce/data_base/models/address/db_address_model.dart';
-import 'package:e_commerce/data_base/models/cart_/cart_model.dart';
-import 'package:e_commerce/data_base/models/coupon/coupon_model.dart';
-import 'package:e_commerce/data_base/models/favorite/favorite_model.dart';
-import 'package:e_commerce/data_base/models/order_history/order_history_model.dart';
-import 'package:e_commerce/data_base/models/product/db_product_model.dart';
-import 'package:e_commerce/data_base/models/user/db_model.dart';
+import 'package:e_commerce/core/database/models/address/db_address_model.dart';
+import 'package:e_commerce/core/database/models/cart_/cart_model.dart';
+import 'package:e_commerce/core/database/models/coupon/coupon_model.dart';
+import 'package:e_commerce/core/database/models/favorite/favorite_model.dart';
+import 'package:e_commerce/core/database/models/order_history/order_history_model.dart';
+import 'package:e_commerce/core/database/models/product/db_product_model.dart';
+import 'package:e_commerce/core/database/models/user/db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 
-import 'Widgets/bottom_navigator.dart';
+import 'core/widgets/bottom_navigator.dart';
 
 // ignore: constant_identifier_names
 const SAVE_KEY_NAME = 'UserLoggidIn';
 
 Future<void> main() async {
-  CloudinaryContext.cloudinary = Cloudinary.fromCloudName(cloudName: 'fitmore');
+  // CloudinaryContext is deprecated. Cloudinary configuration is now passed to widgets directly.
+  // See usage in App widget below.
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(UserModelAdapter().typeId)) {
@@ -88,6 +89,8 @@ class App extends StatelessWidget {
               height: 140,
               // Add a Cloudinary CldImageWidget that wraps Flutter's authenticated Image widget.
               child: CldImageWidget(
+                  cloudinary:
+                      CloudinaryObject.fromCloudName(cloudName: 'fitmore'),
                   publicId: 'cld-sample',
                   transformation: Transformation()
                     // Resize to 250 x 250 pixels using the 'fill' crop mode and 'autoGravity'.
