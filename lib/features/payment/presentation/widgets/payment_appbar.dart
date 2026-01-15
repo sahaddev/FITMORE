@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 AppBar paymentTitle(BuildContext context) {
   return AppBar(
+    surfaceTintColor: Colors.white,
     backgroundColor: Colors.white,
     elevation: .2,
     leading: IconButton(
