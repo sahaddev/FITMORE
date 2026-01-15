@@ -26,48 +26,45 @@ class _BottomNavigator extends State<BottomNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SizedBox(
-        height: 12.sh,
-        child: BottomNavigationBar(
-          // backgroundColor: Colors.white,
-          backgroundColor: Colors.white,
-          showSelectedLabels: false,
-          selectedIconTheme: IconThemeData(
-            size: 4.sh,
-          ),
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: false,
-          unselectedItemColor: Colors.grey[300],
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorite',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifications',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.inbox_rounded),
-              label: 'Cart',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: selectedindex,
-          selectedItemColor: Colors.amber[800],
-          onTap: (index) {
-            setState(() {
-              selectedindex = index;
-            });
-          },
+      bottomNavigationBar: BottomNavigationBar(
+        // backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        showSelectedLabels: false,
+        selectedIconTheme: IconThemeData(
+          size: 4.sh,
         ),
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: false,
+        unselectedItemColor: Colors.grey[300],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inbox_rounded),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: selectedindex,
+        selectedItemColor: Colors.amber[800],
+        onTap: (index) {
+          setState(() {
+            selectedindex = index;
+          });
+        },
       ),
       backgroundColor: Colors.white,
       body: pages[selectedindex],
