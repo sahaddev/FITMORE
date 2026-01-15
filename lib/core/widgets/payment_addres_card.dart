@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../features/address/presentation/pages/add_address.dart';
 import '../../features/address/presentation/pages/edit_addres.dart';
@@ -22,145 +24,152 @@ class PaymentAddrescard extends StatelessWidget {
           Widget? child) {
         return Stack(
           children: [
-            ListView.separated(
-              separatorBuilder: (context, index) => const Divider(thickness: 2),
+            ListView.builder(
+              // Changed to builder, removed separator for cleaner look with card margins
+              padding: const EdgeInsets.only(bottom: 100), // Space for FAB
               itemCount: addressList.length,
               itemBuilder: (context, index) {
                 final data = addressList[index];
-                return Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Column(
+                final bool isPrimary =
+                    index == 0; // Keeping logic for primary badge if needed
+
+                // Using a card style similar to AddressCard but with selection action
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                        index: index,
+                        productIndex: productIndex,
+                      ),
+                    ));
+                  },
+                  child: Container(
+                    width: 100.w,
+                    margin:
+                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.03),
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 10, left: 20),
-                              child: Text(
-                                data.name,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: Container(
-                                height: 20,
-                                width: 50,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 229, 229, 229),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                child: const Center(
-                                    child: Text(
-                                  "HOME",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 100, 100, 100),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 170),
-                              child: ElevatedButton(
-                                style: const ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStatePropertyAll(Colors.white),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditAddressScreen(index),
-                                  ));
-                                },
-                                child: const Text(
-                                  'Edit',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 33, 58, 243),
+                            Row(
+                              children: [
+                                Text(
+                                  data.name,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
+                                ),
+                                if (isPrimary) ...[
+                                  SizedBox(width: 3.w),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 2.5.w, vertical: 0.5.h),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE8F5E9),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      "PRIMARY",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xFF43A047),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                            // Edit Action
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditAddressScreen(index),
+                                ));
+                              },
+                              child: Text(
+                                "Edit",
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blueAccent,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${data.city},${data.state},${data.city} - ${data.pincode}',
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    data.phonenumber,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 40),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => PaymentScreen(
-                                              index: index,
-                                              productIndex: productIndex,
-                                            ),
-                                          ));
-                                        },
-                                        icon: const Icon(
-                                          Icons.arrow_right_alt,
-                                          size: 35,
-                                          color: Colors.blue,
-                                        )),
-                                  )
-                                ],
-                              ),
-                            ],
+                        SizedBox(height: 1.5.h),
+                        Text(
+                          data.phonenumber,
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            color: Colors.grey[700],
+                            height: 1.5,
                           ),
                         ),
-                        const SizedBox(height: 15),
-                      ]),
+                        SizedBox(height: 0.5.h),
+                        Text(
+                          '${data.city}, ${data.state} ${data.pincode}',
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            color: Colors.grey[600],
+                            height: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Select to Pay",
+                              style: GoogleFonts.inter(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            SizedBox(width: 1.w),
+                            Icon(Icons.arrow_forward,
+                                size: 12.sp, color: Colors.grey[400]),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 320, top: 520),
-              child: Container(
-                width: 70,
-                height: 70,
-                decoration: const BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                ),
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AddAdress(),
-                      ));
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      size: 35,
-                    )),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AddAdress(),
+                  ));
+                },
+                backgroundColor: Colors.black, // Dark theme accent
+                child: const Icon(Icons.add, color: Colors.white),
               ),
-            )
+            ),
           ],
         );
       },
