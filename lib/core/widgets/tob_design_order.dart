@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TopBannerOrderPage extends StatelessWidget {
   const TopBannerOrderPage({
@@ -10,118 +12,111 @@ class TopBannerOrderPage extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 30, left: 30, top: 10),
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
           child: SizedBox(
-            height: 35,
+            height: 5.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromARGB(255, 3, 50, 204)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(35))),
-                      child: const Icon(
-                        Icons.done,
-                        size: 18,
-                        color: Color.fromARGB(255, 3, 43, 204),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    '_______________',
-                    style: TextStyle(color: Color.fromARGB(255, 33, 82, 243)),
+                _buildStep(
+                    isActive: true,
+                    isCompleted: true,
+                    label: "1",
+                    icon: Icons.check),
+                Expanded(
+                  child: Container(
+                    height: 2,
+                    color: const Color(0xFF2152F3),
                   ),
                 ),
-                Column(
-                  children: [
-                    Container(
-                        height: 25,
-                        width: 25,
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 33, 40, 243),
-                            border: Border.all(
-                                width: 1,
-                                color: const Color.fromARGB(255, 2, 62, 181)),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(35))),
-                        child: const Center(
-                          child: Text(
-                            '2',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    '_______________',
-                    style: TextStyle(color: Colors.grey),
+                _buildStep(
+                    isActive: true, isCompleted: false, label: "2", icon: null),
+                Expanded(
+                  child: Container(
+                    height: 2,
+                    color: Colors.grey.shade300,
                   ),
                 ),
-                Column(
-                  children: [
-                    Container(
-                        height: 25,
-                        width: 25,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(35))),
-                        child: const Center(
-                          child: Text(
-                            '3',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                  ],
-                ),
+                _buildStep(
+                    isActive: false,
+                    isCompleted: false,
+                    label: "3",
+                    icon: null),
               ],
             ),
           ),
         ),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            SizedBox(width: 4.w),
             Text(
-              "Address",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 140, 140, 140),
-                  fontWeight: FontWeight.w400),
+              "ADDRESS",
+              style: GoogleFonts.poppins(
+                  color: Colors.grey,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500),
             ),
-            SizedBox(height: 5),
+            const Spacer(),
             Text(
-              "Order Summery",
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              "SUMMARY",
+              style: GoogleFonts.poppins(
+                  color: const Color(0xFF2152F3),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: 5),
+            const Spacer(),
             Text(
-              "Payment",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 140, 140, 140),
-                  fontWeight: FontWeight.w400),
-            )
+              "PAYMENT",
+              style: GoogleFonts.poppins(
+                  color: Colors.grey.shade400,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(width: 4.w),
           ],
         )
       ],
+    );
+  }
+
+  Widget _buildStep(
+      {required bool isActive,
+      required bool isCompleted,
+      required String label,
+      IconData? icon}) {
+    return Container(
+      height: 3.5.h,
+      width: 3.5.h,
+      decoration: BoxDecoration(
+        color: isCompleted || isActive
+            ? const Color(0xFF2152F3)
+            : Colors.grey.shade200,
+        shape: BoxShape.circle,
+        border: Border.all(
+          width: 1.5,
+          color: isCompleted || isActive
+              ? const Color(0xFF2152F3)
+              : Colors.grey.shade300,
+        ),
+      ),
+      child: Center(
+        child: isCompleted && icon != null
+            ? Icon(
+                icon,
+                size: 12.sp,
+                color: Colors.white,
+              )
+            : Text(
+                label,
+                style: GoogleFonts.poppins(
+                  fontSize: 14.sp,
+                  color: isActive ? Colors.white : Colors.grey.shade400,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+      ),
     );
   }
 }

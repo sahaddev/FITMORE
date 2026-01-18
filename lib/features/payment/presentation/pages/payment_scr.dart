@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:sizer/sizer.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/database/function/product_db_function.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
@@ -22,206 +24,194 @@ class _PaymentScreenState extends State<PaymentScreen> {
   int quantity = 1;
   int? newPrice;
   late ProductModel? data;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: .2,
+        elevation: 0,
+        centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.chevron_left,
-            size: 30,
-            color: Colors.grey,
+            size: 20.sp,
+            color: Colors.black,
           ),
         ),
-        title: const Text(
-          'Order Summery',
-          style: TextStyle(
+        title: Text(
+          'Order Summary',
+          style: GoogleFonts.poppins(
             color: Colors.black,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w600,
+            fontSize: 16.sp,
           ),
         ),
       ),
       body: ListView(
+        padding: EdgeInsets.only(bottom: 2.h),
         children: [
           const TopBannerOrderPage(),
-          const Divider(thickness: 2),
+          SizedBox(height: 2.h),
           PaymentAddresCard(widget: widget),
-          const SizedBox(height: 15),
-          const Divider(
-              thickness: 12, color: Color.fromARGB(255, 225, 225, 225)),
+          SizedBox(height: 2.h),
           ValueListenableBuilder(
             valueListenable: productListNotifier,
             builder: (BuildContext context, List<ProductModel> productList,
                 Widget? child) {
+              if (productList.isEmpty ||
+                  widget.productIndex >= productList.length) {
+                return SizedBox();
+              }
               final data = productList[widget.productIndex];
               final image = data.image1;
               final image64 = base64.decode(image);
-              return SizedBox(
-                height: 170,
-                width: double.infinity,
+
+              // Ensure newPrice is initialized if null
+              // This acts as a side effect check, though generally should be in logic
+              if (newPrice == null) {
+                // Initialize outside build if possible, but safe here for display logic
+              }
+
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 4.w),
+                padding: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 5),
                     PaymProDelCard1(image64: image64, data: data),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 60,
-                      child: Column(
-                        children: [
-                          Row(
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 4.5.h,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  width: 1, color: Colors.grey.shade200)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Container(
-                                  height: 35,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(2),
-                                      border: Border.all(
-                                          width: 1, color: Colors.grey)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          if (quantity > 1) {
-                                            setState(() {
-                                              quantity--;
-                                            });
-                                            newPrice = data.price * quantity;
-                                          }
-                                        },
-                                        child: const Icon(Icons.remove,
-                                            color: Colors.black),
-                                      ),
-                                      Text('$quantity',
-                                          style: const TextStyle(
-                                              color: Colors.black)),
-                                      InkWell(
-                                        onTap: () async {
-                                          final productDB =
-                                              await Hive.openBox<ProductModel>(
-                                                  'product_db');
-
-                                          int count = 0;
-                                          for (var i = 0;
-                                              i < productDB.length;
-                                              i++) {
-                                            final currentProduct =
-                                                productDB.getAt(i);
-                                            if (currentProduct!.id == data.id) {
-                                              count =
-                                                  currentProduct.productCount;
-                                            }
-                                          }
-                                          if (count > quantity) {
-                                            setState(() {
-                                              quantity++;
-                                            });
-                                          } else {
-                                            // ignore: use_build_context_synchronously
-                                            ScaffoldMessenger.of(context)
-                                                .clearSnackBars();
-                                            // ignore: use_build_context_synchronously
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'product out of stock'),
-                                                backgroundColor: Colors.red,
-                                              ),
-                                            );
-                                          }
-
-                                          newPrice = data.price * quantity;
-                                        },
-                                        child: const Icon(Icons.add,
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              IconButton(
+                                constraints: const BoxConstraints(),
+                                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                                onPressed: () {
+                                  if (quantity > 1) {
+                                    setState(() {
+                                      quantity--;
+                                      newPrice = data.price * quantity;
+                                    });
+                                  }
+                                },
+                                icon: Icon(Icons.remove,
+                                    color: Colors.black, size: 16.sp),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: newPrice == null
-                                    ? Text(
-                                        '\$ ${data.price}',
-                                        style: const TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    : Text(
-                                        '\$ $newPrice',
-                                        style: const TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                              ),
-                              const SizedBox(width: 15),
-                              const Text(
-                                '5% off',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 22, 114, 25),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500),
+                              Text('$quantity',
+                                  style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp)),
+                              IconButton(
+                                constraints: const BoxConstraints(),
+                                padding: EdgeInsets.symmetric(horizontal: 2.w),
+                                onPressed: () async {
+                                  final productDB =
+                                      await Hive.openBox<ProductModel>(
+                                          'product_db');
+
+                                  int count = 0;
+                                  // Simple lookup
+                                  final productInDb = productDB.values
+                                      .firstWhere(
+                                          (element) => element.id == data.id,
+                                          orElse: () => data);
+                                  count = productInDb.productCount;
+
+                                  if (count > quantity) {
+                                    setState(() {
+                                      quantity++;
+                                      newPrice = data.price * quantity;
+                                    });
+                                  } else {
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Product out of stock'),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                                icon: Icon(Icons.add,
+                                    color: Colors.black, size: 16.sp),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 5),
-                          const PaymShowDisText()
-                        ],
-                      ),
+                        ),
+                        // Removed the duplicate price summary here as it's redundant with the bottom bar and top card
+                        // But if design requires it near quantity, we can keep "Delivery" text or similar
+                        const PaymShowDisText()
+                      ],
                     )
                   ],
                 ),
               );
             },
           ),
-          const SizedBox(height: 10),
-          const Divider(
-            thickness: 12,
-            color: Color.fromARGB(255, 225, 225, 225),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            '  Price Details',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+          SizedBox(height: 2.h),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 4.w),
+            padding: EdgeInsets.all(4.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Price Details',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 1.h),
+                PaymCalculateCard(
+                    widget: widget, quantity: quantity, newPrice: newPrice),
+              ],
             ),
           ),
-          PaymCalculateCard(
-              widget: widget, quantity: quantity, newPrice: newPrice),
-          Container(
-            width: double.infinity,
-            height: 60,
-            color: const Color.fromARGB(255, 218, 217, 217),
-          ),
-          ValueListenableBuilder(
-            valueListenable: productListNotifier,
-            builder: (BuildContext context, List<ProductModel> productList,
-                Widget? child) {
-              final data = productList[widget.productIndex];
-              return PaymConAndPrice(
-                  newPrice: newPrice,
-                  data: data,
-                  widget: widget,
-                  quantity: quantity);
-            },
-          ),
+          SizedBox(height: 4.h), // Space for bottom bar
         ],
+      ),
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: productListNotifier,
+        builder: (BuildContext context, List<ProductModel> productList,
+            Widget? child) {
+          if (productList.isEmpty || widget.productIndex >= productList.length)
+            return const SizedBox();
+          final data = productList[widget.productIndex];
+          return PaymConAndPrice(
+              newPrice: newPrice,
+              data: data,
+              widget: widget,
+              quantity: quantity);
+        },
       ),
     );
   }

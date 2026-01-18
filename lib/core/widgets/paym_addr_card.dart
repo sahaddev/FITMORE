@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../features/payment/presentation/pages/payment_address.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
@@ -19,88 +21,87 @@ class PaymentAddresCard extends StatelessWidget {
       valueListenable: addressListNotifyer,
       builder:
           (BuildContext context, List<AddressModel> addresList, Widget? child) {
+        if (addresList.isEmpty) return const SizedBox(); // Handle empty case
         final data = addresList[widget.index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, left: 20),
-                  child: Text(
+        return Container(
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: 4.w),
+          padding: EdgeInsets.all(4.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
                     data.name,
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0),
-                  child: Container(
-                    height: 27,
-                    width: 55,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 229, 229, 229),
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: const Center(
-                        child: Text(
+                  SizedBox(width: 3.w),
+                  Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Text(
                       "HOME",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 100, 100, 100),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    )),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 170),
-                  child: ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.white),
+                      style: GoogleFonts.poppins(
+                          color: Colors.grey.shade600,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600),
                     ),
+                  ),
+                  const Spacer(),
+                  TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             PaymentAddress(productIndex: widget.productIndex),
                       ));
                     },
-                    child: const Text(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size(0, 0),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text(
                       'Change',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 33, 58, 243),
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFF2152F3),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${data.city},${data.state},${data.city} - ${data.pincode}',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    data.phonenumber,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400),
-                  ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 1.5.h),
+              Text(
+                '${data.city}, ${data.state}, ${data.city} - ${data.pincode}',
+                style: GoogleFonts.poppins(
+                    color: Colors.grey.shade700,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(height: 0.5.h),
+              Text(
+                data.phonenumber,
+                style: GoogleFonts.poppins(
+                    color: Colors.grey.shade700,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
         );
       },
     );

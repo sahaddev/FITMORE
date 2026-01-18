@@ -32,7 +32,7 @@ class MyOrderCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 20),
                 child: SizedBox(
-                  height: 90,
+                  height: 100,
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
