@@ -22,7 +22,7 @@ class CusSearchBar extends StatelessWidget {
                 hintText: 'Search..',
                 hintStyle: GoogleFonts.poppins(
                   color: Colors.grey[400],
-                  fontSize: 13.sp,
+                  fontSize: 14.sp,
                 ),
                 prefixIcon: Icon(
                   Icons.search,
@@ -34,16 +34,6 @@ class CusSearchBar extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        SizedBox(width: 3.w),
-        Container(
-          height: 6.h,
-          width: 6.h,
-          decoration: const BoxDecoration(
-            color: Color(0xFFF6F6F6), // Or accent color if needed
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.tune, color: Colors.black, size: 18.sp),
         ),
       ],
     );

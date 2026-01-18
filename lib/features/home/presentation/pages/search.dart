@@ -23,6 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 70,
@@ -38,21 +39,24 @@ class _SearchScreenState extends State<SearchScreen> {
             )),
         title: SizedBox(
           width: 310,
-          child: TextField(
-            onChanged: (value) => runFilter(value),
-            decoration: const InputDecoration(
-              labelText: 'search',
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              // filled: true,
-              // fillColor: Color.fromARGB(255, 255, 255, 255),
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.grey,
+          child: Container(
+            height: 45,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF6F6F6),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: TextField(
+              onChanged: (value) => runFilter(value),
+              decoration: const InputDecoration(
+                hintText: 'Search...',
+                hintStyle: TextStyle(color: Colors.grey),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
               ),
-              hintStyle: TextStyle(color: Colors.grey),
-              contentPadding: EdgeInsets.all(5),
             ),
           ),
         ),

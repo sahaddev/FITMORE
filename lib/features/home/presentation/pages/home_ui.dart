@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../notification/presentation/pages/notification_ui.dart';
 import '../widgets/category_section.dart';
-import '../widgets/clearance_bar.dart';
+import '../widgets/rotating_carousel.dart';
 import '../widgets/home_gride.dart';
 import '../widgets/search_bar.dart';
 import 'search.dart';
@@ -16,11 +15,11 @@ class HomeUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> imageList = [
-      'asset/images-b5.jpg',
-      'asset/images-6.jpg',
-      'asset/images-b3.jpg',
-      'asset/images-b4.jpg',
-      'asset/images-b1.jpg',
+      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
+      'asset/ChatGPT Image Jan 18, 2026, 03_04_46 PM.png',
+      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
+      'asset/ChatGPT Image Jan 18, 2026, 03_04_46 PM.png',
+      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
     ];
 
     return Scaffold(
@@ -57,7 +56,7 @@ class HomeUi extends StatelessWidget {
                             Text(
                               'Hello Alex',
                               style: GoogleFonts.poppins(
-                                fontSize: 12.sp,
+                                fontSize: 14.sp,
                                 color: Colors.grey,
                               ),
                             ),
@@ -108,17 +107,8 @@ class HomeUi extends StatelessWidget {
                 SizedBox(height: 3.h),
 
                 // Banner
-                CarouselSlider(
-                  items: imageList.map((image) {
-                    return ClearanceBanner(image: image);
-                  }).toList(),
-                  options: CarouselOptions(
-                    height: 22.h,
-                    autoPlay: true,
-                    viewportFraction: 1,
-                    enlargeCenterPage: false,
-                  ),
-                ),
+                // Banner
+                RotatingCarousel(images: imageList),
                 SizedBox(height: 3.h),
 
                 // Popular Product Header
@@ -142,7 +132,7 @@ class HomeUi extends StatelessWidget {
                       child: Text(
                         "See All",
                         style: GoogleFonts.roboto(
-                          fontSize: 13.sp,
+                          fontSize: 14.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.w500,
                         ),

@@ -41,7 +41,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                 child: Text(
                   "See All",
                   style: GoogleFonts.roboto(
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                   ),
@@ -98,7 +98,7 @@ class CategoryChip extends StatelessWidget {
         style: GoogleFonts.poppins(
           color: isSelected ? Colors.white : Colors.black,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-          fontSize: 13.sp,
+          fontSize: 14.sp,
         ),
       ),
     );
