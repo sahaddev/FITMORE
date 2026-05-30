@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/user/db_model.dart';
-import '../../../../core/utils/constants/text_style.dart';
+import '../../../../core/theme/text_style.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 

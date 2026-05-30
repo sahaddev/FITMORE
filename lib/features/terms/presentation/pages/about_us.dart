@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/utils/constants/text_style.dart';
+import '../../../../core/theme/text_style.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
