@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/database/function/order_history.dart';
-import '../../../../core/database/models/order_history/order_history_model.dart';
+import '../../../../core/models/order_history/order_history_model.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
@@ -11,7 +10,7 @@ class MyOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    orderhistoryy.getAllOrders();
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -28,7 +27,7 @@ class MyOrderScreen extends StatelessWidget {
         ),
       ),
       body: ValueListenableBuilder(
-        valueListenable: orderhistoryNotify,
+        valueListenable: ValueNotifier<List<OrderhistoryModel>>([]),
         builder: (BuildContext context, List<OrderhistoryModel> orderList,
             Widget? child) {
           if (orderList.isEmpty) {

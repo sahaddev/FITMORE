@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import '../../../../core/widgets/category_card.dart';
 
 class CategotyList extends StatelessWidget {
@@ -26,7 +25,7 @@ class CategotyList extends StatelessWidget {
         ),
       ),
       body: ValueListenableBuilder(
-        valueListenable: productListNotifier,
+        valueListenable: ValueNotifier<List<ProductModel>>([]),
         builder: (BuildContext context, List<ProductModel> productList,
             Widget? child) {
           final categoryProducts = productList

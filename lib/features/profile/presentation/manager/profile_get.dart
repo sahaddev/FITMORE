@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,15 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/user/db_model.dart';
+import '../../../../core/models/user/db_model.dart';
 import '../../../../core/theme/text_style.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
 class ProfileGet extends GetxController {
-  UserFunction userr = UserFunction();
-
   var selectedImage = Rxn<File>();
 
   UserModel userModel = UserModel(
@@ -25,12 +21,6 @@ class ProfileGet extends GetxController {
       name: 'Tester',
       password: '12345678',
       phoneNumber: '12345678');
-
-  initialdata() async {
-    SharedPreferences sharepeference = await SharedPreferences.getInstance();
-    final id = sharepeference.getString('USER_ID');
-    userModel = await userr.getUserById(int.parse(id.toString()));
-  }
 
   signOut(BuildContext ctx) {
     Get.dialog(AlertDialog(
@@ -70,17 +60,7 @@ class ProfileGet extends GetxController {
     required TextEditingController phonenumberEditcontroller,
     required TextEditingController emailEditconstroller,
     required UserModel userModel,
-  }) async {
-    final name = nameEditcontroller.text;
-    final phoneNum = phonenumberEditcontroller.text;
-    final email = emailEditconstroller.text;
-    final user = UserModel(
-      name: name,
-      phoneNumber: phoneNum,
-      email: email,
-    );
-    userr.updateUser(userModel.id!, user);
-  }
+  }) async {}
 
   changingPassword({
     required TextEditingController oldPasswordEditcontroller,
@@ -113,8 +93,6 @@ class ProfileGet extends GetxController {
     }
 
     if (userModel.password == oldpassword || newpassword == oldpassword) {
-      final user = UserModel(password: newpassword);
-      userr.updateUser(userModel.id!, user);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: Color.fromARGB(255, 131, 131, 131),
@@ -129,12 +107,8 @@ class ProfileGet extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnedImage != null) {
       selectedImage.value = File(returnedImage.path);
-      final bytes2 = await selectedImage.value!.readAsBytes();
-      final String base64Image2 = base64Encode(bytes2);
-      final profile = UserModel(
-        profile: base64Image2,
-      );
-      userr.updateUser(0, profile); // Update the user ID accordingly
+
+      // Update the user ID accordingly
     }
   }
 }

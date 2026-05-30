@@ -1,8 +1,6 @@
+import 'package:e_commerce/core/models/coupon/coupon_model.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 
-import '../database/function/coupon_function.dart';
-import '../database/models/coupon/coupon_model.dart';
 
 class CouponNote extends StatelessWidget {
   const CouponNote({
@@ -12,7 +10,7 @@ class CouponNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: couponNotify,
+      valueListenable: ValueNotifier<List<CouponModel>>([]),
       builder:
           (BuildContext context, List<CouponModel> couponList, Widget? child) {
         return ListView.separated(
@@ -29,7 +27,7 @@ class CouponNote extends StatelessWidget {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  couponn.deleteCoupon(data.id!);
+                  
                 },
               ),
             );
@@ -41,13 +39,13 @@ class CouponNote extends StatelessWidget {
 }
 
 Future<bool> addingCoupon(BuildContext context, couponCodeController) async {
-  final couponDB = await Hive.openBox<CouponModel>('coupon_db');
+  final couponDB = <CouponModel>[];
   final code = couponCodeController.text;
   // ignore: unnecessary_null_comparison
   if (couponDB != null) {
     for (var i = 0; i < couponDB.length; i++) {
-      final currentCode = couponDB.getAt(i);
-      if (currentCode!.code == code) {
+      final currentCode = couponDB[i];
+      if (currentCode.code == code) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           behavior: SnackBarBehavior.floating,
@@ -59,7 +57,5 @@ Future<bool> addingCoupon(BuildContext context, couponCodeController) async {
       }
     }
   }
-  final coupon = CouponModel(code: code);
-  await couponn.addCoupon(coupon);
   return true;
 }

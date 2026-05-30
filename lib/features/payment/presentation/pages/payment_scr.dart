@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import '../../../../core/widgets/paym_addr_card.dart';
 import '../../../../core/widgets/payment_widgets_main.dart';
 import '../../../../core/widgets/tob_design_order.dart';
@@ -61,7 +59,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           PaymentAddresCard(widget: widget),
           SizedBox(height: 2.h),
           ValueListenableBuilder(
-            valueListenable: productListNotifier,
+            valueListenable: ValueNotifier<List<ProductModel>>([]),
             builder: (BuildContext context, List<ProductModel> productList,
                 Widget? child) {
               if (productList.isEmpty ||
@@ -126,13 +124,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 padding: EdgeInsets.symmetric(horizontal: 2.w),
                                 onPressed: () async {
                                   final productDB =
-                                      await Hive.openBox<ProductModel>(
-                                          'product_db');
+                                      <ProductModel>[];
 
                                   int count = 0;
                                   // Simple lookup
-                                  final productInDb = productDB.values
-                                      .firstWhere(
+                                  final productInDb = productDB.firstWhere(
                                           (element) => element.id == data.id,
                                           orElse: () => data);
                                   count = productInDb.productCount;
@@ -201,7 +197,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ],
       ),
       bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: productListNotifier,
+        valueListenable: ValueNotifier<List<ProductModel>>([]),
         builder: (BuildContext context, List<ProductModel> productList,
             Widget? child) {
           if (productList.isEmpty ||

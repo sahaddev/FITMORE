@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
@@ -40,7 +39,7 @@ class _ProductEditState extends State<ProductEdit> {
     _priceController = TextEditingController();
     _discriptionController = TextEditingController();
     _productCountController = TextEditingController();
-    final productlist = productListNotifier.value;
+    final productlist = ValueNotifier<List<ProductModel>>([]).value;
     _productModel = productlist[widget.index];
     _productNameController.text = _productModel.title;
     _priceController.text = _productModel.price.toString();

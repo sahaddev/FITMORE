@@ -16,7 +16,6 @@ class ProfileUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileGet = Get.put(ProfileGet());
-    profileGet.initialdata();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7), // Light grey background

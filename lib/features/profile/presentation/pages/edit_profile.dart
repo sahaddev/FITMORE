@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/user/db_model.dart';
+import '../../../../core/models/user/db_model.dart';
 import '../../../../core/widgets/change_password.dart';
 import '../../../../core/widgets/h1_headline.dart';
 import '../../../../core/widgets/mainbutton.dart';
@@ -36,7 +35,7 @@ class _EditProfileState extends State<EditProfile> {
     _emailEditconstroller = TextEditingController();
     _dbPasswordcontroller = TextEditingController();
 
-    final userlist = userListNotifier.value;
+    final userlist = ValueNotifier<List<UserModel>>([]).value;
 
     if (userlist.isNotEmpty) {
       _nameEditcontroller.text = widget.user.name!;

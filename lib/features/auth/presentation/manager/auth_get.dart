@@ -1,11 +1,9 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:e_commerce/main.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/user/db_model.dart';
+import '../../../../core/models/user/db_model.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
@@ -29,14 +27,14 @@ class AuthGet extends GetxController {
       required nameController,
       required phonenumberController,
       required passwordControlle}) async {
-    final userDB = await Hive.openBox<UserModel>('user_db');
+    final userDB = <UserModel>[];
     final email = emailController.text;
 
     // ignore: unnecessary_null_comparison
     if (userDB != null) {
       for (var i = 0; i < userDB.length; i++) {
-        final currentUser = userDB.getAt(i);
-        if (currentUser!.email == email) {
+        final currentUser = userDB[i];
+        if (currentUser.email == email) {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -65,14 +63,6 @@ class AuthGet extends GetxController {
         content: Text('Invalid User name and password'),
       ));
     } else {
-      final usermodel = UserModel(
-        name: name,
-        phoneNumber: phonenumber,
-        email: email,
-        password: password,
-      );
-      userr.addUser(usermodel);
-
       // ignore: use_build_context_synchronously
       NavigationService.pushReplacementNamed(AppRouters.login);
     }
@@ -80,14 +70,14 @@ class AuthGet extends GetxController {
 
   Future<void> login(
       String email, String password, BuildContext context) async {
-    final userDB = await Hive.openBox<UserModel>('user_db');
+    final userDB = <UserModel>[];
     UserModel? user;
 
     // ignore: unnecessary_null_comparison
     if (userDB != null) {
       for (var i = 0; i < userDB.length; i++) {
-        final currentUser = userDB.getAt(i);
-        if (currentUser!.email == email && currentUser.password == password) {
+        final currentUser = userDB[i];
+        if (currentUser.email == email && currentUser.password == password) {
           user = currentUser;
           break;
         }

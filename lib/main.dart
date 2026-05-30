@@ -5,16 +5,8 @@ import 'package:cloudinary_url_gen/transformation/effect/effect.dart';
 import 'package:cloudinary_url_gen/transformation/gravity/gravity.dart';
 import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
-import 'package:e_commerce/core/database/models/address/db_address_model.dart';
-import 'package:e_commerce/core/database/models/cart_/cart_model.dart';
-import 'package:e_commerce/core/database/models/coupon/coupon_model.dart';
-import 'package:e_commerce/core/database/models/favorite/favorite_model.dart';
-import 'package:e_commerce/core/database/models/order_history/order_history_model.dart';
-import 'package:e_commerce/core/database/models/product/db_product_model.dart';
-import 'package:e_commerce/core/database/models/user/db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 
 import 'core/widgets/bottom_navigator.dart';
@@ -26,31 +18,7 @@ Future<void> main() async {
   // CloudinaryContext is deprecated. Cloudinary configuration is now passed to widgets directly.
   // See usage in App widget below.
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  if (!Hive.isAdapterRegistered(UserModelAdapter().typeId)) {
-    Hive.registerAdapter(UserModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(ProductModelAdapter().typeId)) {
-    Hive.registerAdapter(ProductModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(AddressModelAdapter().typeId)) {
-    Hive.registerAdapter(AddressModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(CartModelAdapter().typeId)) {
-    Hive.registerAdapter(CartModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(FavoriteModelAdapter().typeId)) {
-    Hive.registerAdapter(FavoriteModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(OrderhistoryModelAdapter().typeId)) {
-    Hive.registerAdapter(OrderhistoryModelAdapter());
-  }
-  if (!Hive.isAdapterRegistered(CouponModelAdapter().typeId)) {
-    Hive.registerAdapter(CouponModelAdapter());
-  }
 
-  await Hive.openBox<FavoriteModel>('favorite_db');
-  await Hive.openBox<CartModel>('cart_db');
   runApp(const MyApp());
 }
 

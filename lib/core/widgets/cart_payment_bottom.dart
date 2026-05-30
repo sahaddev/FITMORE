@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
 
 import '../../features/payment/presentation/manager/payment_get.dart';
 import '../../features/payment/presentation/pages/cart_payment.dart';
 import '../../features/payment/presentation/pages/payment_last_page.dart';
-import '../database/function/cart_function.dart';
-import '../database/function/order_history.dart';
-import '../database/models/cart_/cart_model.dart';
-import '../database/models/order_history/order_history_model.dart';
+import '../models/cart_/cart_model.dart';
 
 class CartPaymBottom extends StatelessWidget {
   const CartPaymBottom({
@@ -52,7 +48,7 @@ class CartPaymBottom extends StatelessWidget {
           SizedBox(
             width: 150,
             child: ValueListenableBuilder(
-              valueListenable: cartvaluelisener,
+              valueListenable: ValueNotifier<List<CartModel>>([]),
               builder: (BuildContext context, List<CartModel> cartList,
                   Widget? child) {
                 return ElevatedButton(
@@ -61,17 +57,8 @@ class CartPaymBottom extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (groupValue == 'Now3') {
-                      final cardDb = await Hive.openBox<CartModel>('cart_db');
+                      final cardDb = <CartModel>[];
 
-                      for (var i = 0; i < cardDb.length; i++) {
-                        final data = cartList[i];
-                        final order = OrderhistoryModel(
-                          image: data.image,
-                          title: data.title,
-                          price: data.price,
-                        );
-                        orderhistoryy.addOrderHistory(order);
-                      }
                       cardDb.clear();
 
                       // ignore: use_build_context_synchronously

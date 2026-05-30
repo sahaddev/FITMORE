@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/assets/lottie/lottie_json.dart';
-import '../../../../core/database/function/favorite_function.dart';
-import '../../../../core/database/models/favorite/favorite_model.dart';
+import '../../../../core/models/favorite/favorite_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/favorite_card.dart';
 
@@ -21,7 +18,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-    favoritee.getAllFavorite();
   }
 
   @override
@@ -30,20 +26,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       backgroundColor: Colors.white,
       appBar: mainTitle('Favorite'),
       floatingActionButton: IconButton(
-          onPressed: () {
-            int id = Random().nextInt(1000);
-            favoritee.addInfavorite(FavoriteModel(
-                id: id,
-                title: "Test $id",
-                price: 1000,
-                image:
-                    'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=808&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'));
-          },
+          onPressed: () {},
           icon: const Icon(
             Icons.heart_broken,
           )),
       body: ValueListenableBuilder(
-        valueListenable: favoriteNotifier,
+        valueListenable: ValueNotifier<List<FavoriteModel>>([]),
         builder: (BuildContext context, List<FavoriteModel> favoriteList,
             Widget? child) {
           if (favoriteList.isEmpty) {
@@ -61,9 +49,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     vertical: 1.h), // Add vertical spacing between items
                 child: Dismissible(
                   key: Key(data.id.toString()),
-                  onDismissed: (direction) {
-                    favoritee.deleteFavorite(data.id);
-                  },
+                  onDismissed: (direction) {},
                   direction: DismissDirection.endToStart,
                   background: Container(
                     padding: EdgeInsets.only(right: 5.w),

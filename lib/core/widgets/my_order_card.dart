@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../features/orders/presentation/pages/order_deatiles.dart';
-import '../database/function/order_history.dart';
-import '../database/models/order_history/order_history_model.dart';
+
+import '../models/order_history/order_history_model.dart';
 
 class MyOrderCard extends StatelessWidget {
   const MyOrderCard({
@@ -13,7 +13,7 @@ class MyOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: orderhistoryNotify,
+      valueListenable: ValueNotifier<List<OrderhistoryModel>>([]),
       builder: (BuildContext context, List<OrderhistoryModel> orderList,
           Widget? child) {
         return ListView.separated(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/database/function/user_functions.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
@@ -24,9 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     // Assuming userr is a global instance from user_functions.dart as seen in original code
-    // If not, might need to check where it comes from. Original code had: userr.getAlluser(); in build.
+    // If not, might need to check where it comes from. Original code had:  in build.
     // Ideally side effects belong in initState or similar.
-    userr.getAlluser();
+    
   }
 
   @override
@@ -208,20 +207,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        final Map<String, dynamic> value = await UserFunction()
-                            .login(_emailController.text,
-                                _passwordController.text);
-                        if (!context.mounted) return;
-                        if (value['login'] == false) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.red,
-                            content: Text(value['message']),
-                          ));
-                        } else {
-                          NavigationService.pushNamedAndRemoveUntil(
-                              AppRouters.bottomNav);
-                        }
+                        NavigationService.pushNamedAndRemoveUntil(
+                            AppRouters.bottomNav);
                       }
                     },
                     style: ElevatedButton.styleFrom(

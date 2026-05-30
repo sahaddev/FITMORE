@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/user/db_model.dart';
+import '../../../../core/models/user/db_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 
@@ -17,12 +16,11 @@ class AdminUserListScreen extends StatefulWidget {
 class _AdminUserListScreenState extends State<AdminUserListScreen> {
   @override
   Widget build(BuildContext context) {
-    userr.getAlluser();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: mainTitle('Users'),
       body: ValueListenableBuilder(
-        valueListenable: userListNotifier,
+        valueListenable: ValueNotifier<List<UserModel>>([]),
         builder:
             (BuildContext context, List<UserModel> userModel, Widget? child) {
           return Padding(
@@ -80,18 +78,12 @@ class _AdminUserListScreenState extends State<AdminUserListScreen> {
                     IconButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).clearSnackBars();
-                        final id = data.id;
+
                         if (isActive) {
                           setState(() {
                             data.active = false;
                           });
-                          final user = UserModel(
-                              name: data.name,
-                              phoneNumber: data.phoneNumber,
-                              email: data.email,
-                              password: data.password,
-                              active: false);
-                          userr.updateUser(id ?? 0, user);
+
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text('User deactiveted'),
@@ -101,13 +93,7 @@ class _AdminUserListScreenState extends State<AdminUserListScreen> {
                           setState(() {
                             data.active = true;
                           });
-                          final user = UserModel(
-                              name: data.name,
-                              phoneNumber: data.phoneNumber,
-                              email: data.email,
-                              password: data.password,
-                              active: true);
-                          userr.updateUser(id!, user);
+
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text('User Activeted'),

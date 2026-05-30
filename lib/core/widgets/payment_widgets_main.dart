@@ -8,8 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../features/payment/presentation/manager/payment_get.dart';
 import '../../features/payment/presentation/pages/patment_scr_two.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
-import '../database/function/product_db_function.dart';
-import '../database/models/product/db_product_model.dart';
+
+import '../models/product/db_product_model.dart';
 
 class PaymConAndPrice extends StatelessWidget {
   const PaymConAndPrice({
@@ -125,7 +125,7 @@ class PaymCalculateCard extends StatelessWidget {
     final paymentGet = Get.put(PaymentGet());
 
     return ValueListenableBuilder(
-      valueListenable: productListNotifier,
+      valueListenable: ValueNotifier<List<ProductModel>>([]),
       builder: (BuildContext context, List<ProductModel> productList,
           Widget? child) {
         final data = productList[widget.productIndex];

@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/assets/lottie/lottie_json.dart';
-import '../../../../core/database/function/cart_function.dart';
-import '../../../../core/database/models/cart_/cart_model.dart';
+import '../../../../core/models/cart_/cart_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/calcuate_cart.dart';
 import '../../../../core/widgets/mainbutton.dart';
@@ -23,12 +22,12 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    cartt.getAllCart();
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    cartt.getAllCart();
+    
     final cartGet = Get.put(CartGet());
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: cartvaluelisener,
+              valueListenable: ValueNotifier<List<CartModel>>([]),
               builder: (BuildContext context, List<CartModel> cartList,
                   Widget? child) {
                 if (cartList.isEmpty) {
@@ -54,7 +53,7 @@ class _CartScreenState extends State<CartScreen> {
                       child: Dismissible(
                         key: Key(data.id.toString()),
                         onDismissed: (direction) {
-                          cartt.deleteCartItem(data.id);
+                          
                         },
                         direction: DismissDirection.endToStart,
                         background: Container(
@@ -202,7 +201,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(height: 10),
           const CalculateCart(),
           ValueListenableBuilder(
-            valueListenable: cartvaluelisener,
+            valueListenable: ValueNotifier<List<CartModel>>([]),
             builder: (BuildContext context, List<CartModel> cartList,
                 Widget? child) {
               return Visibility(

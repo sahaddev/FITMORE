@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import '../../../core/database/function/product_db_function.dart';
-import '../../../core/database/models/product/db_product_model.dart';
-
 Future<void> updatingProductOnBUttonclick(
     {required productModel,
     required selectedImage1,
@@ -39,11 +36,7 @@ Future<void> updatingProductOnBUttonclick(
   }
 
   final name = productNameController.text.trim();
-  final int price = int.parse(priceController.text);
   final discription = discriptionController.text.trim();
-  final category = productCategory;
-  final count = int.parse(productCountController.text);
-  final id = productModel.id;
 
   if (name.isEmpty ||
       discription.isEmpty ||
@@ -53,21 +46,6 @@ Future<void> updatingProductOnBUttonclick(
       base64Image4!.isEmpty) {
     return;
   }
-
-  final product = ProductModel(
-    id: productModel.id!,
-    title: productNameController.text,
-    discription: discriptionController.text,
-    category: category!,
-    price: price,
-    productCount: count,
-    image1: base64Image1,
-    image2: base64Image2,
-    image3: base64Image3,
-    image4: base64Image4,
-  );
-
-  productt.updateProduct(id!, product);
 }
 
 List<String> categories = [

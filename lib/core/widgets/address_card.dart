@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../features/address/presentation/pages/edit_addres.dart';
-import '../database/function/address_function.dart';
 
 class AddressCard extends StatelessWidget {
   final int? id;
@@ -133,9 +132,7 @@ class AddressCard extends StatelessWidget {
               ),
               SizedBox(width: 2.w),
               InkWell(
-                onTap: () {
-                  addres.deleteAddress(id);
-                },
+                onTap: () {},
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
                   child: Text(

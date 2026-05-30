@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/function/coupon_function.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/coupon_note.dart';
 
@@ -16,7 +15,7 @@ class _CouponScreenState extends State<CouponScreen> {
   final _couponCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    couponn.getAllCoupon();
+    
     return Scaffold(
       appBar: mainTitle('Coupon List'),
       body: Padding(

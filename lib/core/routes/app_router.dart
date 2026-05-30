@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
-import 'package:e_commerce/core/database/models/user/db_model.dart';
+import 'package:e_commerce/core/models/user/db_model.dart';
 
 // Feature screens
 import '../../features/splash/presentation/pages/splash_scree.dart';

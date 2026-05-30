@@ -2,12 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/adapters.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/cart_/cart_model.dart';
-import '../../../../core/database/models/favorite/favorite_model.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import '../widgets/bottom_part.dart';
 import '../widgets/middle_part.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
@@ -20,8 +16,6 @@ class ProductDetiles extends StatefulWidget {
   int price;
   String image;
   String discription;
-
-  late Box<CartModel> cartBox;
 
   ProductDetiles({
     super.key,
@@ -63,33 +57,11 @@ class _ProductDetilesState extends State<ProductDetiles> {
         ),
         actions: [
           ValueListenableBuilder(
-            valueListenable:
-                Hive.box<FavoriteModel>('favorite_db').listenable(),
+            valueListenable: ValueNotifier(null),
             builder: (context, box, child) {
-              final isFavorite = box.get(widget.index) != null;
               return GestureDetector(
                 onTap: () async {
                   ScaffoldMessenger.of(context).clearSnackBars();
-                  if (isFavorite) {
-                    box.delete(widget.index);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      margin: const EdgeInsets.all(8),
-                      behavior: SnackBarBehavior.floating,
-                      content: Text(
-                        'Remove from Favorite',
-                        style: GoogleFonts.roboto(),
-                      ),
-                      backgroundColor: Colors.red,
-                    ));
-                  } else {
-                    final base64Image1 = widget.image;
-                    final favorite = FavoriteModel(
-                        id: widget.index,
-                        title: widget.title,
-                        price: widget.price,
-                        image: base64Image1);
-                    await box.put(widget.index, favorite);
-                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
@@ -98,8 +70,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(width: 1, color: Colors.grey[300]!)),
-                  child: Icon(
-                    isFavorite ? Icons.favorite : Icons.heart_broken,
+                  child: const Icon(
+                    Icons.heart_broken,
                     size: 18,
                     color: Colors.red,
                   ),
@@ -128,7 +100,7 @@ class _ProductDetilesState extends State<ProductDetiles> {
           children: [
             const SizedBox(height: 20),
             ValueListenableBuilder(
-              valueListenable: productListNotifier,
+              valueListenable: ValueNotifier<List<ProductModel>>([]),
               builder: (BuildContext context, List<ProductModel> productList,
                   Widget? child) {
                 final data = productList[widget.index];
@@ -178,38 +150,21 @@ class _ProductDetilesState extends State<ProductDetiles> {
                 discription: widget.discription),
             const Spacer(),
             ValueListenableBuilder(
-              valueListenable: Hive.box<CartModel>('cart_db').listenable(),
+              valueListenable: ValueNotifier(null),
               builder: (context, box, child) {
-                final isInCart = box.get(widget.index) != null;
+                const isInCart = null != null;
                 return Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
                       ScaffoldMessenger.of(context).clearSnackBars();
-                      if (isInCart) {
-                        NavigationService.pushNamed(AppRouters.cart);
-                      } else {
-                        final title = widget.title;
-                        final price = widget.price;
-                        final image = widget.image;
 
-                        final cart = CartModel(
-                          id: widget.index,
-                          title: title,
-                          price: price,
-                          image: image,
-                          quantity: 1,
-                          newPrice: price,
-                        );
-
-                        box.put(widget.index, cart);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Added to Cart'),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Added to Cart'),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

@@ -1,6 +1,5 @@
 import 'package:e_commerce/core/widgets/address_card.dart' show AddressCard;
-import '../../../../core/database/function/address_function.dart';
-import '../../../../core/database/models/address/db_address_model.dart';
+import '../../../../core/models/address/db_address_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    addres.getAllAddress();
+    
   }
 
   @override
@@ -32,7 +31,7 @@ class _AddressScreenState extends State<AddressScreen> {
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: addressListNotifyer,
+              valueListenable: ValueNotifier<List<AddressModel>>([]),
               builder: (
                 BuildContext context,
                 List<AddressModel> addresslist,

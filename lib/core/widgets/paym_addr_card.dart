@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../features/payment/presentation/pages/payment_address.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
-import '../database/function/address_function.dart';
-import '../database/models/address/db_address_model.dart';
+
+import '../models/address/db_address_model.dart';
 
 class PaymentAddresCard extends StatelessWidget {
   const PaymentAddresCard({
@@ -18,7 +18,7 @@ class PaymentAddresCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: addressListNotifyer,
+      valueListenable: ValueNotifier<List<AddressModel>>([]),
       builder:
           (BuildContext context, List<AddressModel> addresList, Widget? child) {
         if (addresList.isEmpty) return const SizedBox(); // Handle empty case

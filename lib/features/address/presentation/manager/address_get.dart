@@ -1,5 +1,3 @@
-import 'package:e_commerce/core/database/function/address_function.dart';
-import 'package:e_commerce/core/database/models/address/db_address_model.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
@@ -25,16 +23,6 @@ class AddressGet extends GetxController {
       return;
     }
 
-    final addressMo = AddressModel(
-      name: name,
-      city: city,
-      state: state,
-      pincode: pincode,
-      phonenumber: phoneNumber,
-    );
-
-    addres.addAddress(addressMo);
-
     if (name.isNotEmpty ||
         phoneNumber.isNotEmpty ||
         city.isNotEmpty ||
@@ -50,22 +38,5 @@ class AddressGet extends GetxController {
       required cityEditcontroller,
       required pincodeEditcontroller,
       required stateEditcontroller,
-      required addresModel}) async {
-    final name = nameEditcontroller.text;
-    final phoneNumber = phonenumberEditcontroller.text;
-    final city = cityEditcontroller.text;
-    final pincode = pincodeEditcontroller.text;
-    final state = stateEditcontroller.text;
-
-    final address = AddressModel(
-      id: addresModel.id,
-      name: name,
-      city: city,
-      state: state,
-      pincode: pincode,
-      phonenumber: phoneNumber,
-    );
-
-    addres.updateAddress(addresModel.id!, address);
-  }
+      required addresModel}) async {}
 }

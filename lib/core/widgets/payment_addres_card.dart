@@ -5,8 +5,8 @@ import 'package:sizer/sizer.dart';
 import '../../features/address/presentation/pages/add_address.dart';
 import '../../features/address/presentation/pages/edit_addres.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
-import '../database/function/address_function.dart';
-import '../database/models/address/db_address_model.dart';
+
+import '../models/address/db_address_model.dart';
 
 class PaymentAddrescard extends StatelessWidget {
   const PaymentAddrescard({
@@ -19,7 +19,7 @@ class PaymentAddrescard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: addressListNotifyer,
+      valueListenable: ValueNotifier<List<AddressModel>>([]),
       builder: (BuildContext context, List<AddressModel> addressList,
           Widget? child) {
         return Stack(

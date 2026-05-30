@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 
-import '../database/models/order_history/order_history_model.dart';
+import '../models/order_history/order_history_model.dart';
 
 class DashbordCard extends StatelessWidget {
   final Color color;
@@ -86,13 +85,13 @@ class DashbordCard extends StatelessWidget {
 }
 
 Future<String> totelRevenue() async {
-  final orderDB = await Hive.openBox<OrderhistoryModel>('order_history_db');
+  final orderDB = <OrderhistoryModel>[];
 
   num sum = 0;
 
   for (var i = 0; i < orderDB.length; i++) {
-    final current = orderDB.getAt(i);
-    sum = sum + current!.price;
+    final current = orderDB[i];
+    sum = sum + current.price;
   }
   return '$sum';
 }

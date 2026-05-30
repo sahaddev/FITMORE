@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/database/function/address_function.dart';
-import '../../../../core/database/models/address/db_address_model.dart';
+import '../../../../core/models/address/db_address_model.dart';
 import 'add_address.dart'; // Import to reuse LabelInputContainer and AceternityInput
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
@@ -34,7 +33,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     _cityEditcontroller = TextEditingController();
     _pincodeEditcontroller = TextEditingController();
     _stateEditcontroller = TextEditingController();
-    final addressList = addressListNotifyer.value;
+    final addressList = ValueNotifier<List<AddressModel>>([]).value;
     _addresModel = addressList[widget.index];
     _nameEditcontroller.text = _addresModel.name;
     _phonenumberEditcontroller.text = _addresModel.phonenumber;

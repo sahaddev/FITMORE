@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/user/db_model.dart';
 import '../manager/auth_get.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
@@ -308,21 +306,12 @@ class _RegScreenState extends State<RegScreen> {
     }
 
     if (_formKey.currentState!.validate()) {
-      final value = await UserFunction().addUser(UserModel(
-        email: _emailController.text,
-        name: _nameController.text,
-        phoneNumber: _phonenumberController.text,
-        password: _passwordController.text,
-        active: true,
-      ));
-
       if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.grey,
-        margin: const EdgeInsets.all(15),
-        content: Text(value),
+        margin: EdgeInsets.all(15),
+        content: Text("User Added Successfully"),
       ));
     }
   }

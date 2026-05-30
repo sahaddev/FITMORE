@@ -2,12 +2,9 @@ import 'package:e_commerce/core/assets/lottie/lottie_json.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../core/database/function/order_history.dart';
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/database/models/order_history/order_history_model.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
-import '../../../../core/database/models/user/db_model.dart';
+import '../../../../core/models/order_history/order_history_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
+import '../../../../core/models/user/db_model.dart';
 import '../../../../core/widgets/dash_bord_card.dart';
 import '../../../../core/widgets/h1_headline.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
@@ -18,9 +15,9 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    userr.getAlluser();
-    productt.getAllProduct();
-    orderhistoryy.getAllOrders();
+    
+    
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -82,19 +79,19 @@ class DashboardScreen extends StatelessWidget {
             const SizedBox(height: 20),
             DashbordCard(
               color: Colors.blue,
-              listNotifier: userListNotifier,
+              listNotifier: ValueNotifier<List<UserModel>>([]),
               value: UserModel,
               name: 'User',
             ),
             DashbordCard(
               color: Colors.orange,
-              listNotifier: productListNotifier,
+              listNotifier: ValueNotifier<List<ProductModel>>([]),
               value: ProductModel,
               name: 'Product',
             ),
             DashbordCard(
               color: Colors.green,
-              listNotifier: orderhistoryNotify,
+              listNotifier: ValueNotifier<List<OrderhistoryModel>>([]),
               value: OrderhistoryModel,
               name: 'Orders',
             ),

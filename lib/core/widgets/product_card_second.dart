@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../features/product_details/presentation/pages/product_detiles.dart';
-import '../database/function/product_db_function.dart';
-import '../database/models/product/db_product_model.dart';
+
+import '../models/product/db_product_model.dart';
 
 class ProductSecondCard extends StatelessWidget {
   const ProductSecondCard({
@@ -13,7 +13,7 @@ class ProductSecondCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: productListNotifier,
+      valueListenable: ValueNotifier<List<ProductModel>>([]),
       builder: (BuildContext context, List<ProductModel> productList,
           Widget? child) {
         return SizedBox(

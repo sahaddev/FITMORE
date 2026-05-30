@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../features/cart/presentation/manager/cart_getx.dart';
-import '../database/function/cart_function.dart';
-import '../database/models/cart_/cart_model.dart';
+import '../models/cart_/cart_model.dart';
 
 class CalculateCart extends StatelessWidget {
   const CalculateCart({
@@ -14,7 +13,7 @@ class CalculateCart extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartGet = Get.put(CartGet());
     return ValueListenableBuilder(
-      valueListenable: cartvaluelisener,
+      valueListenable: ValueNotifier<List<CartModel>>([]),
       builder: (BuildContext context, List<CartModel> cartList, Widget? child) {
         return Visibility(
           // ignore: prefer_is_empty

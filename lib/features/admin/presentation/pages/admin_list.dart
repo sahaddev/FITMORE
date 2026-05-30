@@ -3,8 +3,7 @@ import 'package:e_commerce/core/routes/app_routers.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AdminList extends StatefulWidget {
@@ -17,7 +16,7 @@ class AdminList extends StatefulWidget {
 class _AdminListState extends State<AdminList> {
   @override
   Widget build(BuildContext context) {
-    productt.getAllProduct();
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,7 +45,7 @@ class _AdminListState extends State<AdminList> {
       body: Stack(
         children: [
           ValueListenableBuilder(
-            valueListenable: productListNotifier,
+            valueListenable: ValueNotifier<List<ProductModel>>([]),
             builder: (BuildContext context, List<ProductModel> productList,
                 Widget? child) {
               return ListView.builder(
@@ -66,7 +65,7 @@ class _AdminListState extends State<AdminList> {
                             setState(() {
                               productList.removeAt(index);
                             });
-                            productt.deleteProduct(data.id);
+                            
                           },
                           direction: DismissDirection.endToStart,
                           background: Container(

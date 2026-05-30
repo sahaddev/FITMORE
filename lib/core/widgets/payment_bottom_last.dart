@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../../features/payment/presentation/manager/payment_get.dart';
 import '../../features/payment/presentation/pages/patment_scr_two.dart';
-import '../database/function/product_db_function.dart';
-import '../database/models/product/db_product_model.dart';
+
+import '../models/product/db_product_model.dart';
 
 class PaymContiAndPriceLastScr extends StatelessWidget {
   const PaymContiAndPriceLastScr({
@@ -50,7 +50,7 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
           SizedBox(
             width: 150,
             child: ValueListenableBuilder(
-              valueListenable: productListNotifier,
+              valueListenable: ValueNotifier<List<ProductModel>>([]),
               builder: (BuildContext context, List<ProductModel> productList,
                   Widget? child) {
                 final data = productList[widget.productIndex];
@@ -66,19 +66,6 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
                           imagee: widget.image,
                           titlee: widget.title,
                           pricee: widget.price);
-                      final product = ProductModel(
-                        title: data.title,
-                        discription: data.discription,
-                        image1: data.image1,
-                        image2: data.image2,
-                        image3: data.image3,
-                        image4: data.image4,
-                        price: data.price,
-                        category: data.category,
-                        productCount: data.productCount - widget.quantity,
-                        id: data.id,
-                      );
-                      productt.updateProduct(data.id!, product);
                     }
                   },
                   child: const Text(

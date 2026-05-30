@@ -1,6 +1,4 @@
 import 'dart:convert';
-import '../../../core/database/function/product_db_function.dart';
-import '../../../core/database/models/product/db_product_model.dart';
 
 Future<void> addProductOnbuttenClick(
     {required selectedImage1,
@@ -25,10 +23,7 @@ Future<void> addProductOnbuttenClick(
   final String base64Image4 = base64Encode(bytes4);
 
   final name = productNameController.text.trim();
-  final int price = int.parse(priceController.text);
   final discription = discriptionController.text.trim();
-  final category = productCategory;
-  final count = int.parse(productCountController.text);
 
   if (name.isEmpty ||
       discription.isEmpty ||
@@ -38,19 +33,6 @@ Future<void> addProductOnbuttenClick(
       base64Image4.isEmpty) {
     return;
   }
-
-  final product = ProductModel(
-      title: name,
-      discription: discription,
-      image1: base64Image1,
-      image2: base64Image2,
-      image3: base64Image3,
-      image4: base64Image4,
-      productCount: count,
-      price: price,
-      category: category!);
-
-  productt.addProduct(product);
 }
 
 List<String> categories = [

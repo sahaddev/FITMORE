@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../database/function/favorite_function.dart';
-import '../database/models/favorite/favorite_model.dart';
+
+import '../models/favorite/favorite_model.dart';
 
 class FavoriteCard extends StatelessWidget {
   const FavoriteCard({
@@ -143,7 +143,7 @@ class FavoriteCard extends StatelessWidget {
                       .h), // Push it down a bit to center vertically relative to logic or top aligned? Image shows it vertically centered relative to block usually.
               GestureDetector(
                 onTap: () {
-                  favoritee.deleteFavorite(data.id);
+                  
                 },
                 child: Container(
                   padding: EdgeInsets.all(2.w),

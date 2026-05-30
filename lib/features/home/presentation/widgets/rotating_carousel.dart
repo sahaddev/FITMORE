@@ -89,9 +89,9 @@ class _RotatingCarouselState extends State<RotatingCarousel>
               return Transform(
                 transform: Matrix4.identity()
                   ..setEntry(3, 2, 0.001) // Perspective
-                  ..translate(0.0, 0.0, 0.0) // Center of rotation
+                  ..translateByDouble(0.0, 0.0, 0.0, 1.0) // Center of rotation
                   ..rotateY(item.angle)
-                  ..translate(0.0, 0.0, radius), // Move out to radius
+                  ..translateByDouble(0.0, 0.0, radius, 1.0), // Move out to radius
                 alignment: Alignment.center,
                 child: SizedBox(
                   width: itemWidth,

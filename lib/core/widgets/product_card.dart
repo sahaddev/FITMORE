@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 
 import '../../features/product_details/presentation/pages/product_detiles.dart';
-import '../database/function/product_db_function.dart';
-import '../database/models/favorite/favorite_model.dart';
-import '../database/models/product/db_product_model.dart';
+
+import '../models/product/db_product_model.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({
@@ -15,7 +13,7 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: productListNotifier,
+      valueListenable: ValueNotifier<List<ProductModel>>([]),
       builder: (BuildContext context, List<ProductModel> productList,
           Widget? child) {
         return SizedBox(
@@ -99,62 +97,19 @@ class ProductList extends StatelessWidget {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: ValueListenableBuilder(
-                                    valueListenable:
-                                        Hive.box<FavoriteModel>('favorite_db')
-                                            .listenable(),
-                                    builder: (context, box, child) {
-                                      final isFavorite = box.get(index) != null;
-                                      return IconButton(
-                                        padding: const EdgeInsets.all(3),
-                                        onPressed: () async {
-                                          ScaffoldMessenger.of(context)
-                                              .clearSnackBars();
-
-                                          if (isFavorite) {
-                                            await box.delete(index);
-
-                                            // ignore: use_build_context_synchronously
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content:
-                                                    Text('Remove Successfully'),
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 255, 62, 62),
-                                              ),
-                                            );
-                                          } else {
-                                            final favorite = FavoriteModel(
-                                                id: data.id!,
-                                                title: data.title,
-                                                price: data.price,
-                                                image: data.image1);
-                                            await box.put(index, favorite);
-
-                                            // ignore: use_build_context_synchronously
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content:
-                                                    Text('Added Successfully'),
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 93, 255, 39),
-                                              ),
-                                            );
-                                          }
-
-                                          // print('Button Working');
-                                        },
-                                        icon: Icon(
-                                          isFavorite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.red,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text('Added to Favorite'),
+                                          backgroundColor: Colors.grey,
+                                        ));
+                                      },
+                                      icon: const Icon(
+                                        Icons.favorite_border,
+                                        color: Color(0xFFFF4848),
+                                        size: 25,
+                                      )),
                                 )
                               ],
                             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/function/product_db_function.dart';
-import '../../../../core/database/models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 import '../../../../core/widgets/search_list.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
@@ -17,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    foundproduct.value = productListNotifier.value;
+    foundproduct.value = ValueNotifier<List<ProductModel>>([]).value;
     super.initState();
   }
 
@@ -70,9 +69,9 @@ class _SearchScreenState extends State<SearchScreen> {
     ValueNotifier<List<ProductModel>> result = ValueNotifier([]);
 
     if (enteredKeyWord.isEmpty) {
-      result.value = productListNotifier.value;
+      result.value = ValueNotifier<List<ProductModel>>([]).value;
     } else {
-      List<ProductModel> filteredList = productListNotifier.value
+      List<ProductModel> filteredList = ValueNotifier<List<ProductModel>>([]).value
           .where((product) => product.title
               .toLowerCase()
               .contains(enteredKeyWord.toLowerCase()))
