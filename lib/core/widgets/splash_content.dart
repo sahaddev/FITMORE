@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class Splashcontent extends StatelessWidget {
   final String? text, image;
@@ -19,7 +20,7 @@ class Splashcontent extends StatelessWidget {
           child: Image(
               fit: BoxFit.cover,
               image: AssetImage(
-                  'asset/photo_2023-10-26_20-08-37-removebg-preview (1).png')),
+                  AppImages.photo20231026200837RemovebgPreview1)),
         ),
         Text(
           text!,

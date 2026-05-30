@@ -1,3 +1,4 @@
+import 'package:e_commerce/core/assets/lottie/lottie_json.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -77,7 +78,7 @@ class DashboardScreen extends StatelessWidget {
           children: [
             const H1headline(text: 'Welcome Admin'),
             LottieBuilder.asset(
-              "asset/Animation - 1710834997320 (2).json",
+              LottieAsset.dashboardEmpty,
               height: 200,
             ),
             const SizedBox(height: 20),

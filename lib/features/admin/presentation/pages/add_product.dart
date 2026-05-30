@@ -6,6 +6,7 @@ import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
 import '../../functions/add_product_fun.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -47,7 +48,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     borderRadius: BorderRadius.circular(5)),
                 child: selectedImage1 == null
                     ? Image.asset(
-                        'asset/download(add image).png',
+                        AppImages.downloadAddImage,
                         fit: BoxFit.fill,
                       )
                     : Image.file(
@@ -75,7 +76,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         borderRadius: BorderRadius.circular(5)),
                     child: selectedImage2 == null
                         ? Image.asset(
-                            'asset/download(add image).png',
+                            AppImages.downloadAddImage,
                             fit: BoxFit.fill,
                           )
                         : Image.file(
@@ -96,7 +97,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         borderRadius: BorderRadius.circular(5)),
                     child: selectedImage3 == null
                         ? Image.asset(
-                            'asset/download(add image).png',
+                            AppImages.downloadAddImage,
                             fit: BoxFit.fill,
                           )
                         : Image.file(
@@ -117,7 +118,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         borderRadius: BorderRadius.circular(5)),
                     child: selectedImage4 == null
                         ? Image.asset(
-                            'asset/download(add image).png',
+                            AppImages.downloadAddImage,
                             fit: BoxFit.fill,
                           )
                         : Image.file(

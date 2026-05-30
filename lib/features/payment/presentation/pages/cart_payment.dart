@@ -7,6 +7,7 @@ import '../../../../core/widgets/payment_secon_top_banner.dart';
 import '../../../../core/widgets/visa_card.dart';
 import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class CartPaymentScreen extends StatefulWidget {
   final dynamic totelPrice;
@@ -54,7 +55,7 @@ class _CartPaymentScreenState extends State<CartPaymentScreen> {
                 padding: EdgeInsets.only(right: 30),
                 child: SizedBox(
                     width: 35,
-                    child: Image(image: AssetImage('asset/download(UPI).png'))),
+                    child: Image(image: AssetImage(AppImages.downloadUpi))),
               ),
             ),
             const ListTile(
@@ -65,7 +66,7 @@ class _CartPaymentScreenState extends State<CartPaymentScreen> {
               trailing: SizedBox(
                   width: 100,
                   child:
-                      Image(image: AssetImage('asset/images(Phonepay).png'))),
+                      Image(image: AssetImage(AppImages.imagesPhonepay))),
             ),
             const ListTile(
               leading: Radio<String>(
@@ -135,10 +136,10 @@ class _CartPaymentScreenState extends State<CartPaymentScreen> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  PassingPaymImage(image: 'asset/download(Visa).png'),
-                  PassingPaymImage(image: 'asset/download(MAsterCard).png'),
-                  PassingPaymImage(image: 'asset/download(Rupa).png'),
-                  PassingPaymImage(image: 'asset/download(Razopay).png'),
+                  PassingPaymImage(image: AppImages.downloadVisa),
+                  PassingPaymImage(image: AppImages.downloadMastercard),
+                  PassingPaymImage(image: AppImages.downloadRupa),
+                  PassingPaymImage(image: AppImages.downloadRazopay),
                 ],
               ),
             ),

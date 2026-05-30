@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../components/ui/offer_carousel.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -133,7 +134,7 @@ class ProductCard extends StatelessWidget {
       fit: BoxFit.cover,
       // ignore: unnecessary_null_comparison
       image: imageBytes == null
-          ? const AssetImage('asset/download(add image).png')
+          ? const AssetImage(AppImages.downloadAddImage)
               as ImageProvider<Object>
           : MemoryImage(imageBytes),
     );

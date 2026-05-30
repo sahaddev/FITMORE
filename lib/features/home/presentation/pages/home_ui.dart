@@ -8,6 +8,7 @@ import '../widgets/rotating_carousel.dart';
 import '../widgets/home_gride.dart';
 import '../widgets/search_bar.dart';
 import 'search.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class HomeUi extends StatelessWidget {
   const HomeUi({super.key});
@@ -15,11 +16,11 @@ class HomeUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> imageList = [
-      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
-      'asset/ChatGPT Image Jan 18, 2026, 03_04_46 PM.png',
-      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
-      'asset/ChatGPT Image Jan 18, 2026, 03_04_46 PM.png',
-      'asset/ChatGPT Image Jan 18, 2026, 03_01_34 PM.png',
+      AppImages.chatgptImageJan182026030134Pm,
+      AppImages.chatgptImageJan182026030446Pm,
+      AppImages.chatgptImageJan182026030134Pm,
+      AppImages.chatgptImageJan182026030446Pm,
+      AppImages.chatgptImageJan182026030134Pm,
     ];
 
     return Scaffold(
@@ -44,7 +45,7 @@ class HomeUi extends StatelessWidget {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: AssetImage(
-                                  'asset/images-b5.jpg'), // Placeholder avatar
+                                  AppImages.imagesB5), // Placeholder avatar
                               fit: BoxFit.cover,
                             ),
                           ),

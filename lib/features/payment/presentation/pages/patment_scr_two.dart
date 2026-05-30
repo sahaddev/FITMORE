@@ -12,6 +12,7 @@ import '../widgets/payment_appbar.dart';
 import 'package:e_commerce/components/ui/payment_method_selector.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class PaymentScreenTwo extends StatefulWidget {
   final int price;
@@ -74,7 +75,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                           id: 'Yes',
                           label: 'UPI',
                           description: 'Pay by any UPI app',
-                          icon: Image.asset('asset/download(UPI).png',
+                          icon: Image.asset(AppImages.downloadUpi,
                               errorBuilder: (c, e, s) =>
                                   const Icon(LucideIcons.smartphone)),
                         ),
@@ -82,7 +83,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                           id: 'Now',
                           label: 'Wallets',
                           description: 'PhonePe, GPay, Paytm',
-                          icon: Image.asset('asset/images(Phonepay).png',
+                          icon: Image.asset(AppImages.imagesPhonepay,
                               errorBuilder: (c, e, s) =>
                                   const Icon(LucideIcons.wallet)),
                         ),
@@ -137,12 +138,12 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          PassingPaymImage(image: 'asset/download(Visa).png'),
+                          PassingPaymImage(image: AppImages.downloadVisa),
                           PassingPaymImage(
-                              image: 'asset/download(MAsterCard).png'),
-                          PassingPaymImage(image: 'asset/download(Rupa).png'),
+                              image: AppImages.downloadMastercard),
+                          PassingPaymImage(image: AppImages.downloadRupa),
                           PassingPaymImage(
-                              image: 'asset/download(Razopay).png'),
+                              image: AppImages.downloadRazopay),
                         ],
                       ),
                     ),

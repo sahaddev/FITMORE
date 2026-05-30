@@ -6,6 +6,7 @@ import '../../../../core/widgets/mainbutton.dart';
 import 'package:flutter/material.dart';
 
 import 'add_address.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -43,7 +44,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       width: 300,
                       child: Image(
                         fit: BoxFit.fill,
-                        image: AssetImage('asset/addres is empty.png'),
+                        image: AssetImage(AppImages.addresIsEmpty),
                       ),
                     ),
                   );

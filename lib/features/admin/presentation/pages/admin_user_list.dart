@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/user/db_model.dart';
 import '../../../../core/widgets/appbar.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AdminUserListScreen extends StatefulWidget {
   const AdminUserListScreen({super.key});
@@ -47,7 +48,7 @@ class _AdminUserListScreenState extends State<AdminUserListScreen> {
                           ? const CircleAvatar(
                               radius: 26,
                               backgroundImage:
-                                  AssetImage('asset/images(person).png'),
+                                  AssetImage(AppImages.imagesPerson),
                             )
                           : CircleAvatar(
                               radius: 26,

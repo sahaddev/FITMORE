@@ -5,6 +5,7 @@ import '../../../../core/database/function/product_db_function.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
 import 'add_product.dart';
 import 'product_edit.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AdminList extends StatefulWidget {
   const AdminList({super.key});
@@ -93,7 +94,7 @@ class _AdminListState extends State<AdminList> {
                                     // ignore: unnecessary_null_comparison
                                     image: data.image1 == null
                                         ? const AssetImage(
-                                                'asset/download(add image).png')
+                                                AppImages.downloadAddImage)
                                             as ImageProvider<Object>
                                         : MemoryImage(imageBytes),
                                   ),

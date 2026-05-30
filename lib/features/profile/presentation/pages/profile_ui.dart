@@ -12,6 +12,7 @@ import '../../../terms/presentation/pages/about_us.dart';
 import '../../../terms/presentation/pages/terms.dart';
 import '../manager/profile_get.dart';
 import 'edit_profile.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class ProfileUi extends StatelessWidget {
   const ProfileUi({super.key});
@@ -89,7 +90,7 @@ class ProfileUi extends StatelessWidget {
                                     ? FileImage(File(imagePath))
                                         as ImageProvider
                                     : const AssetImage(
-                                        'asset/images (profile).jpg'), // Fixed asset path string from original
+                                        AppImages.imagesProfile), // Fixed asset path string from original
                                 fit: BoxFit.cover,
                               ),
                             ),

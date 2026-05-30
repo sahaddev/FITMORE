@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../core/assets/lottie/lottie_json.dart';
 import '../../../../core/database/function/cart_function.dart';
 import '../../../../core/database/models/cart_/cart_model.dart';
 import '../../../../core/widgets/appbar.dart';
@@ -40,9 +41,7 @@ class _CartScreenState extends State<CartScreen> {
                   Widget? child) {
                 if (cartList.isEmpty) {
                   return Center(
-                      child: Lottie.asset(
-                          "asset/Animation - 1717596108476 (2).json",
-                          height: 250));
+                      child: Lottie.asset(LottieAsset.cartEmpty, height: 250));
                 }
                 return ListView.builder(
                   itemCount: cartList.length,

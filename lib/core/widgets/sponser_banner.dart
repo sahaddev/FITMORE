@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class SponserBanner extends StatelessWidget {
   const SponserBanner({
@@ -15,35 +16,35 @@ class SponserBanner extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10, left: 5),
             child: Image(
-              image: AssetImage('asset/552e7055d032d71f(1).webp'),
+              image: AssetImage(AppImages.e7055d032d71f1),
               fit: BoxFit.fill,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Image(
-              image: AssetImage('asset/download(spo 2).jpg'),
+              image: AssetImage(AppImages.downloadSpo2),
               fit: BoxFit.fill,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Image(
-              image: AssetImage('asset/images(spo 3).jpg'),
+              image: AssetImage(AppImages.imagesSpo3),
               fit: BoxFit.fill,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Image(
-              image: AssetImage('asset/images(spo 4).jpg'),
+              image: AssetImage(AppImages.imagesSpo4),
               fit: BoxFit.fill,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Image(
-              image: AssetImage('asset/images(spo 5).jpg'),
+              image: AssetImage(AppImages.imagesSpo5),
               fit: BoxFit.fill,
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/assets/lottie/lottie_json.dart';
 import '../../../../core/database/function/favorite_function.dart';
 import '../../../../core/database/models/favorite/favorite_model.dart';
 import '../../../../core/widgets/appbar.dart';
@@ -47,8 +48,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             Widget? child) {
           if (favoriteList.isEmpty) {
             return Center(
-                child: Lottie.asset("asset/Animation - 1717653689444.json",
-                    height: 250));
+                child: Lottie.asset(LottieAsset.favoriteEmpty, height: 250));
           }
           return ListView.builder(
             itemCount: favoriteList.length,

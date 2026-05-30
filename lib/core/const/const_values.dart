@@ -1,9 +1,10 @@
+import 'package:e_commerce/core/assets/images/app_images.dart';
 List<String> notificationImage = [
-  'asset/images(notifica).jpg',
-  'asset/images-b1.jpg',
-  'asset/images-6.jpg',
-  'asset/images-b3.jpg',
-  'asset/images-b4.jpg',
+  AppImages.imagesNotifica,
+  AppImages.imagesB1,
+  AppImages.images6,
+  AppImages.imagesB3,
+  AppImages.imagesB4,
 ];
 List<String> notificationtext = [
   'Hi Caitlyn Margusity, your pickup order is now! ready',
@@ -16,22 +17,22 @@ List<String> notificationtext = [
 List<Map<String, String>> splashData = [
   {
     'text': 'Welcome to FitMore,Lets shop!',
-    'image': 'asset/splash_1.png',
+    'image': AppImages.splash1,
   },
   {
     'text': 'Welcome help people conect with state of America',
-    'image': 'asset/splash_2.png',
+    'image': AppImages.splash2,
   },
   {
     'text': 'We show the easy way to shop. \njust stay at home with us',
-    'image': 'asset/splash_3.png',
+    'image': AppImages.splash3,
   }
 ];
 
 List<Map<String, String>> imageListHome = [
-  {'image': 'asset/images-b5.jpg'}, 
-  {'image': 'asset/images-6.jpg'},
-  {'image': 'asset/images-b3.jpg'},
-  {'image': 'asset/images-b4.jpg'},
-  {'image': 'asset/images-b1.jpg'},
+  {'image': AppImages.imagesB5}, 
+  {'image': AppImages.images6},
+  {'image': AppImages.imagesB3},
+  {'image': AppImages.imagesB4},
+  {'image': AppImages.imagesB1},
 ];
