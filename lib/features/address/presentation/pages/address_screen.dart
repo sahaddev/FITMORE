@@ -1,4 +1,4 @@
-import 'package:e_commerce/core/widgets/address_card.dart' show AddressCard;
+import 'package:e_commerce/features/address/presentation/widgets/address_card.dart' show AddressCard;
 import '../../../../core/models/address/db_address_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';

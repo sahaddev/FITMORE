@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../features/address/presentation/pages/add_address.dart';
-import '../../features/address/presentation/pages/edit_addres.dart';
-import '../../features/payment/presentation/pages/payment_scr.dart';
+import '../../../address/presentation/pages/add_address.dart';
+import '../../../address/presentation/pages/edit_addres.dart';
+import '../pages/payment_scr.dart';
 
-import '../models/address/db_address_model.dart';
+import '../../../../core/models/address/db_address_model.dart';
 
 class PaymentAddrescard extends StatelessWidget {
   const PaymentAddrescard({

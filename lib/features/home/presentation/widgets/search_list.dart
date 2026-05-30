@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../features/home/presentation/widgets/home_gride.dart';
+import './home_gride.dart';
 
-import '../models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 
 class SearchListWidget extends StatelessWidget {
   const SearchListWidget({

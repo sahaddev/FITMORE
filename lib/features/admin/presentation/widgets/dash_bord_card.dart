@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/order_history/order_history_model.dart';
+import '../../../../core/models/order_history/order_history_model.dart';
 
 class DashbordCard extends StatelessWidget {
   final Color color;

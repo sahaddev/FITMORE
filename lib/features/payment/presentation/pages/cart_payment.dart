@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/widgets/cart_payment_bottom.dart';
-import '../../../../core/widgets/pay_card_productdel.dart';
-import '../../../../core/widgets/payment_secon_top_banner.dart';
-import '../../../../core/widgets/visa_card.dart';
+import '../widgets/cart_payment_bottom.dart';
+import '../widgets/pay_card_productdel.dart';
+import '../widgets/payment_secon_top_banner.dart';
+import '../widgets/visa_card.dart';
 import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';

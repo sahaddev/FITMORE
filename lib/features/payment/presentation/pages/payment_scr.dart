@@ -4,9 +4,9 @@ import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
-import '../../../../core/widgets/paym_addr_card.dart';
-import '../../../../core/widgets/payment_widgets_main.dart';
-import '../../../../core/widgets/tob_design_order.dart';
+import '../widgets/paym_addr_card.dart';
+import '../widgets/payment_widgets_main.dart';
+import '../widgets/tob_design_order.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class PaymentScreen extends StatefulWidget {

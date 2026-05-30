@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../core/models/order_history/order_history_model.dart';
 import '../../../../core/models/product/db_product_model.dart';
 import '../../../../core/models/user/db_model.dart';
-import '../../../../core/widgets/dash_bord_card.dart';
+import '../widgets/dash_bord_card.dart';
 import '../../../../core/widgets/h1_headline.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';

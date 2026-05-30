@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
-import '../../../../core/widgets/search_list.dart';
+import '../widgets/search_list.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class SearchScreen extends StatefulWidget {

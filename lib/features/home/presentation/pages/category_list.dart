@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
-import '../../../../core/widgets/category_card.dart';
+import '../widgets/category_card.dart';
 
 class CategotyList extends StatelessWidget {
   final String category;

@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../features/payment/presentation/manager/payment_get.dart';
-import '../../features/payment/presentation/pages/patment_scr_two.dart';
-import '../../features/payment/presentation/pages/payment_scr.dart';
+import '../manager/payment_get.dart';
+import '../pages/patment_scr_two.dart';
+import '../pages/payment_scr.dart';
 
-import '../models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 
 class PaymConAndPrice extends StatelessWidget {
   const PaymConAndPrice({

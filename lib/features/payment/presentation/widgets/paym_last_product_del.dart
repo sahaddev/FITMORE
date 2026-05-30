@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/payment/presentation/manager/payment_get.dart';
-import '../../features/payment/presentation/pages/patment_scr_two.dart';
+import '../manager/payment_get.dart';
+import '../pages/patment_scr_two.dart';
 
 class PaymentLastScrDelCard extends StatelessWidget {
   const PaymentLastScrDelCard({

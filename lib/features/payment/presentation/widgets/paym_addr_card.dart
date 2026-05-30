@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../features/payment/presentation/pages/payment_address.dart';
-import '../../features/payment/presentation/pages/payment_scr.dart';
+import '../pages/payment_address.dart';
+import '../pages/payment_scr.dart';
 
-import '../models/address/db_address_model.dart';
+import '../../../../core/models/address/db_address_model.dart';
 
 class PaymentAddresCard extends StatelessWidget {
   const PaymentAddresCard({

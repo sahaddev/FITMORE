@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../features/admin/presentation/pages/admin_list.dart';
-import '../../features/admin/presentation/pages/admin_user_list.dart';
-import '../../features/admin/presentation/pages/coupon_screen.dart';
-import '../../features/admin/presentation/pages/dashboard.dart';
+import '../pages/admin_list.dart';
+import '../pages/admin_user_list.dart';
+import '../pages/coupon_screen.dart';
+import '../pages/dashboard.dart';
 
 class BottomNavigationAdmin extends StatefulWidget {
   const BottomNavigationAdmin({super.key});

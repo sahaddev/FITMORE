@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/cart/presentation/manager/cart_getx.dart';
-import '../models/cart_/cart_model.dart';
+import '../manager/cart_getx.dart';
+import '../../../../core/models/cart_/cart_model.dart';
 
 class CalculateCart extends StatelessWidget {
   const CalculateCart({

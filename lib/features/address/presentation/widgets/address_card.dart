@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../features/address/presentation/pages/edit_addres.dart';
+import '../pages/edit_addres.dart';
 
 class AddressCard extends StatelessWidget {
   final int? id;

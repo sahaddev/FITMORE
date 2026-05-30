@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/payment/presentation/manager/payment_get.dart';
-import '../../features/payment/presentation/pages/cart_payment.dart';
+import '../manager/payment_get.dart';
+import '../pages/cart_payment.dart';
 
 class CartPayDelCard extends StatelessWidget {
   const CartPayDelCard({

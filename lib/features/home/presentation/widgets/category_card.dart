@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import '../models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 
 class CatogeryCard extends StatelessWidget {
   const CatogeryCard({

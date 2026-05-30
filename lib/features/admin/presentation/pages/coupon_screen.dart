@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/appbar.dart';
-import '../../../../core/widgets/coupon_note.dart';
+import '../widgets/coupon_note.dart';
 
 class CouponScreen extends StatefulWidget {
   const CouponScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/notification/presentation/pages/notification_ui.dart';
+import '../pages/notification_ui.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({

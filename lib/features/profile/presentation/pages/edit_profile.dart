@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/models/user/db_model.dart';
-import '../../../../core/widgets/change_password.dart';
+import '../widgets/change_password.dart';
 import '../../../../core/widgets/h1_headline.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';

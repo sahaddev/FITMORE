@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import '../../features/product_details/presentation/pages/product_detiles.dart';
+import '../../../product_details/presentation/pages/product_detiles.dart';
 
-import '../models/product/db_product_model.dart';
+import '../../../../core/models/product/db_product_model.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({

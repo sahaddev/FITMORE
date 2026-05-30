@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../features/product_details/presentation/pages/product_detiles.dart';
-import '../models/product/db_product_model.dart';
+import '../pages/product_detiles.dart';
+import '../../../../core/models/product/db_product_model.dart';
 
 class ProductDetiCard extends StatelessWidget {
   const ProductDetiCard({

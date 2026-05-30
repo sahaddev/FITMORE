@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/assets/lottie/lottie_json.dart';
 import '../../../../core/models/favorite/favorite_model.dart';
 import '../../../../core/widgets/appbar.dart';
-import '../../../../core/widgets/favorite_card.dart';
+import '../widgets/favorite_card.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});

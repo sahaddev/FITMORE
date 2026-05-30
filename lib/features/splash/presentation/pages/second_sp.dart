@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/const/const_values.dart';
 import '../../../../core/widgets/mainbutton.dart';
-import '../../../../core/widgets/splash_content.dart';
+import '../widgets/splash_content.dart';
 import '../../../auth/presentation/manager/auth_get.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';

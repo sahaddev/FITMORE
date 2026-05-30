@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 
-import '../models/favorite/favorite_model.dart';
+import '../../../../core/models/favorite/favorite_model.dart';
 
 class FavoriteCard extends StatelessWidget {
   const FavoriteCard({

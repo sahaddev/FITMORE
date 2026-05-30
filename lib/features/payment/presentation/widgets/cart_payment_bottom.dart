@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/payment/presentation/manager/payment_get.dart';
-import '../../features/payment/presentation/pages/patment_scr_two.dart';
+import '../manager/payment_get.dart';
+import '../pages/cart_payment.dart';
+import '../pages/payment_last_page.dart';
+import '../../../../core/models/cart_/cart_model.dart';
 
-import '../models/product/db_product_model.dart';
-
-class PaymContiAndPriceLastScr extends StatelessWidget {
-  const PaymContiAndPriceLastScr({
+class CartPaymBottom extends StatelessWidget {
+  const CartPaymBottom({
     super.key,
     required this.allow,
     required this.widget,
@@ -15,14 +15,12 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
   });
 
   final bool? allow;
-  final PaymentScreenTwo widget;
-
+  final CartPaymentScreen widget;
   final String groupValue;
 
   @override
   Widget build(BuildContext context) {
     final paymentGet = Get.put(PaymentGet());
-
     return Container(
       padding: const EdgeInsets.all(10),
       width: double.infinity,
@@ -32,7 +30,7 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
         children: [
           allow == true
               ? Text(
-                  '\$${paymentGet.afterdicount(widget.price, allow!)}',
+                  '\$${paymentGet.afterdicount(widget.totelPrice, allow!)}',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -40,7 +38,7 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
                   ),
                 )
               : Text(
-                  '\$${widget.price}',
+                  '\$${widget.totelPrice}',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -50,22 +48,25 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
           SizedBox(
             width: 150,
             child: ValueListenableBuilder(
-              valueListenable: ValueNotifier<List<ProductModel>>([]),
-              builder: (BuildContext context, List<ProductModel> productList,
+              valueListenable: ValueNotifier<List<CartModel>>([]),
+              builder: (BuildContext context, List<CartModel> cartList,
                   Widget? child) {
-                final data = productList[widget.productIndex];
                 return ElevatedButton(
                   style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.orange),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (groupValue == 'Now3') {
-                      paymentGet.addToOrderHistory(
-                          productCount: data.productCount,
-                          context: context,
-                          imagee: widget.image,
-                          titlee: widget.title,
-                          pricee: widget.price);
+                      final cardDb = <CartModel>[];
+
+                      cardDb.clear();
+
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const PaymentLastScareen(),
+                          ),
+                          (route) => false);
                     }
                   },
                   child: const Text(

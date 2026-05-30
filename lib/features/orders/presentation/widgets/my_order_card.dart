@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import '../../features/orders/presentation/pages/order_deatiles.dart';
+import '../pages/order_deatiles.dart';
 
-import '../models/order_history/order_history_model.dart';
+import '../../../../core/models/order_history/order_history_model.dart';
 
 class MyOrderCard extends StatelessWidget {
   const MyOrderCard({

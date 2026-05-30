@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../core/assets/lottie/lottie_json.dart';
 import '../../../../core/models/cart_/cart_model.dart';
 import '../../../../core/widgets/appbar.dart';
-import '../../../../core/widgets/calcuate_cart.dart';
+import '../widgets/calcuate_cart.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../manager/cart_getx.dart';
 

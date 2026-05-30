@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/widgets/paym_last_product_del.dart';
-import '../../../../core/widgets/payment_bottom_last.dart';
-import '../../../../core/widgets/payment_secon_top_banner.dart';
-import '../../../../core/widgets/visa_card.dart';
+import '../widgets/paym_last_product_del.dart';
+import '../widgets/payment_bottom_last.dart';
+import '../widgets/payment_secon_top_banner.dart';
+import '../widgets/visa_card.dart';
 import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
 import 'package:e_commerce/features/payment/presentation/widgets/payment_method_selector.dart';
