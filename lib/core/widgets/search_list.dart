@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../components/ui/offer_carousel.dart';
 import '../../features/home/presentation/widgets/home_gride.dart';
+import '../../features/ui/offer_carousel.dart';
 import '../database/models/product/db_product_model.dart';
 
 class SearchListWidget extends StatelessWidget {
@@ -93,17 +93,6 @@ class SearchListWidget extends StatelessWidget {
       builder: (BuildContext context, List<ProductModel> productList,
           Widget? child) {
         if (productList.isEmpty) {
-          // return SingleChildScrollView(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       const SizedBox(height: 50),
-          //       const Text('Product list is empty'),
-          //       const SizedBox(height: 20),
-
-          //     ],
-          //   ),
-          // );
           return OfferCarousel(offers: sampleOffers);
         } else {
           return GridView.builder(

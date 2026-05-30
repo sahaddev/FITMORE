@@ -9,7 +9,7 @@ import '../../../../core/widgets/payment_secon_top_banner.dart';
 import '../../../../core/widgets/visa_card.dart';
 import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
-import 'package:e_commerce/components/ui/payment_method_selector.dart';
+import 'package:e_commerce/features/payment/presentation/widgets/payment_method_selector.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';

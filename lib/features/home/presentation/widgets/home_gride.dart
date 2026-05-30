@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:e_commerce/features/ui/offer_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../components/ui/offer_carousel.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class ProductsGrid extends StatelessWidget {
