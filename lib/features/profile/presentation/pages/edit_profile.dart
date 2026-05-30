@@ -8,6 +8,7 @@ import '../../../../core/widgets/h1_headline.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
 import '../manager/profile_get.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel user;
@@ -118,7 +119,7 @@ class _EditProfileState extends State<EditProfile> {
                     phonenumberEditcontroller: _phonenumberEditcontroller,
                     emailEditconstroller: _emailEditconstroller,
                     userModel: widget.user);
-                Navigator.of(context).pop();
+                NavigationService.pop();
               }),
         ],
       ),

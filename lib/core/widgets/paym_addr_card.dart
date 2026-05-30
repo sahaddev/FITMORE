@@ -70,7 +70,7 @@ class PaymentAddresCard extends StatelessWidget {
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      minimumSize: Size(0, 0),
+                      minimumSize: const Size(0, 0),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(

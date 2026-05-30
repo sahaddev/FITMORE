@@ -1,8 +1,8 @@
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-
-import '../pages/search.dart';
 
 class CategoriesSection extends StatefulWidget {
   const CategoriesSection({super.key});
@@ -34,9 +34,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SearchScreen(),
-                  ));
+                  NavigationService.pushNamed(AppRouters.search);
                 },
                 child: Text(
                   "See All",

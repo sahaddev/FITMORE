@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/database/function/address_function.dart';
 import '../../../../core/widgets/payment_addres_card.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class PaymentAddress extends StatelessWidget {
   final int productIndex;
@@ -25,7 +26,7 @@ class PaymentAddress extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            NavigationService.pop();
           },
           icon: const Icon(Icons.chevron_left),
           color: Colors.black,

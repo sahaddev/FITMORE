@@ -8,6 +8,7 @@ import '../../../../core/widgets/visa_card.dart';
 import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class CartPaymentScreen extends StatefulWidget {
   final dynamic totelPrice;
@@ -65,8 +66,7 @@ class _CartPaymentScreenState extends State<CartPaymentScreen> {
               title: Text('Wallets'),
               trailing: SizedBox(
                   width: 100,
-                  child:
-                      Image(image: AssetImage(AppImages.imagesPhonepay))),
+                  child: Image(image: AssetImage(AppImages.imagesPhonepay))),
             ),
             const ListTile(
               leading: Radio<String>(
@@ -117,7 +117,7 @@ class _CartPaymentScreenState extends State<CartPaymentScreen> {
                               child: const Text('Submit')),
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                NavigationService.pop();
                               },
                               child: const Text('Close')),
                         ],

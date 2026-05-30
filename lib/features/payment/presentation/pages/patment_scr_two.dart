@@ -13,6 +13,7 @@ import 'package:e_commerce/components/ui/payment_method_selector.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class PaymentScreenTwo extends StatefulWidget {
   final int price;
@@ -139,11 +140,9 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           PassingPaymImage(image: AppImages.downloadVisa),
-                          PassingPaymImage(
-                              image: AppImages.downloadMastercard),
+                          PassingPaymImage(image: AppImages.downloadMastercard),
                           PassingPaymImage(image: AppImages.downloadRupa),
-                          PassingPaymImage(
-                              image: AppImages.downloadRazopay),
+                          PassingPaymImage(image: AppImages.downloadRazopay),
                         ],
                       ),
                     ),
@@ -179,7 +178,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             shape: BoxShape.circle,
           ),
           child: const Icon(Icons.confirmation_number_outlined,
@@ -218,7 +217,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -266,7 +265,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: Colors.black.withValues(alpha: 0.02),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     )
@@ -309,7 +308,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                 children: [
                   Expanded(
                     child: TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => NavigationService.pop(),
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -339,7 +338,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                             context: context,
                           );
                         });
-                        Navigator.of(context).pop();
+                        NavigationService.pop();
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),

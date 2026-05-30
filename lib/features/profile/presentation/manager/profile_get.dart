@@ -10,7 +10,8 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/user/db_model.dart';
 import '../../../../core/utils/constants/text_style.dart';
-import '../../../auth/presentation/pages/login_screen.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class ProfileGet extends GetxController {
   UserFunction userr = UserFunction();
@@ -43,7 +44,7 @@ class ProfileGet extends GetxController {
       actions: [
         IconButton(
             onPressed: () {
-              Navigator.of(ctx).pop();
+              NavigationService.pop();
             },
             icon: const Icon(
               Icons.cancel,
@@ -54,9 +55,7 @@ class ProfileGet extends GetxController {
               final shareprefe = await SharedPreferences.getInstance();
               await shareprefe.clear();
               // ignore: use_build_context_synchronously
-              Navigator.of(ctx).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (ctx) => const LoginScreen()),
-                  (route) => false);
+              NavigationService.pushNamedAndRemoveUntil(AppRouters.login);
             },
             icon: const Icon(
               Icons.done,

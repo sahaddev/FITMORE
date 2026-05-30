@@ -9,6 +9,7 @@ import '../../../../core/database/models/product/db_product_model.dart';
 import '../../../../core/widgets/paym_addr_card.dart';
 import '../../../../core/widgets/payment_widgets_main.dart';
 import '../../../../core/widgets/tob_design_order.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class PaymentScreen extends StatefulWidget {
   final int productIndex;
@@ -35,7 +36,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            NavigationService.pop();
           },
           icon: Icon(
             Icons.chevron_left,
@@ -65,7 +66,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 Widget? child) {
               if (productList.isEmpty ||
                   widget.productIndex >= productList.length) {
-                return SizedBox();
+                return const SizedBox();
               }
               final data = productList[widget.productIndex];
               final image = data.image1;
@@ -203,8 +204,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
         valueListenable: productListNotifier,
         builder: (BuildContext context, List<ProductModel> productList,
             Widget? child) {
-          if (productList.isEmpty || widget.productIndex >= productList.length)
+          if (productList.isEmpty ||
+              widget.productIndex >= productList.length) {
             return const SizedBox();
+          }
           final data = productList[widget.productIndex];
           return PaymConAndPrice(
               newPrice: newPrice,

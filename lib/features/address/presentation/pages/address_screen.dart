@@ -5,8 +5,9 @@ import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import 'package:flutter/material.dart';
 
-import 'add_address.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -71,9 +72,7 @@ class _AddressScreenState extends State<AddressScreen> {
           Button(
               text: 'Add Address',
               onPressedCallback: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AddAdress(),
-                ));
+                NavigationService.pushNamed(AppRouters.addAddress);
               }),
           const SizedBox(height: 20),
         ],

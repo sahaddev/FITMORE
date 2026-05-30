@@ -5,14 +5,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../address/presentation/pages/address_screen.dart';
-import '../../../admin/presentation/pages/admin_login.dart';
-import '../../../orders/presentation/pages/myorder_screen.dart';
-import '../../../terms/presentation/pages/about_us.dart';
-import '../../../terms/presentation/pages/terms.dart';
 import '../manager/profile_get.dart';
-import 'edit_profile.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class ProfileUi extends StatelessWidget {
   const ProfileUi({super.key});
@@ -44,7 +40,7 @@ class ProfileUi extends StatelessWidget {
                         // But usually a main tab doesn't pop.
                         // Leaving empty or Navigator.maybePop if needed.
                         // Design shows back button.
-                        Navigator.maybePop(context);
+                        NavigationService.maybePop();
                       },
                     ),
                     Text(
@@ -89,8 +85,8 @@ class ProfileUi extends StatelessWidget {
                                 image: hasImage
                                     ? FileImage(File(imagePath))
                                         as ImageProvider
-                                    : const AssetImage(
-                                        AppImages.imagesProfile), // Fixed asset path string from original
+                                    : const AssetImage(AppImages
+                                        .imagesProfile), // Fixed asset path string from original
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -147,10 +143,8 @@ class ProfileUi extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                EditProfile(user: profileGet.userModel),
-                          ));
+                          NavigationService.pushNamed(AppRouters.editProfile,
+                              arguments: profileGet.userModel);
                         },
                         child: Container(
                           padding: EdgeInsets.all(2.w),
@@ -182,9 +176,7 @@ class ProfileUi extends StatelessWidget {
                       icon: Icons.home_outlined,
                       title: 'Addresses',
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AddressScreen(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.address);
                       },
                     ),
                     _buildDivider(),
@@ -192,9 +184,7 @@ class ProfileUi extends StatelessWidget {
                       icon: Icons.shopping_bag_outlined,
                       title: 'Order History',
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const MyOrderScreen(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.orders);
                       },
                     ),
                     _buildDivider(),
@@ -202,9 +192,7 @@ class ProfileUi extends StatelessWidget {
                       icon: Icons.admin_panel_settings_outlined,
                       title: 'Admin Login',
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AdminLogin(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.adminLogin);
                       },
                     ),
                     _buildDivider(),
@@ -212,9 +200,7 @@ class ProfileUi extends StatelessWidget {
                       icon: Icons.lock_outline,
                       title: 'Privacy & Terms',
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const TermsOne(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.terms);
                       },
                     ),
                     _buildDivider(),
@@ -222,9 +208,7 @@ class ProfileUi extends StatelessWidget {
                       icon: Icons.headset_mic_outlined,
                       title: 'Help & Support',
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AboutUs(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.aboutUs);
                       },
                     ),
                   ],

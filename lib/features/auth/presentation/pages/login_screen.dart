@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/database/function/user_functions.dart';
-import '../../../../core/widgets/bottom_navigator.dart';
-import 'registrationscreen.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Back Button
                 GestureDetector(
                   onTap: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
+                    if (NavigationService.canPop()) {
+                      NavigationService.pop();
                     }
                   },
                   child: Container(
@@ -219,10 +219,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             content: Text(value['message']),
                           ));
                         } else {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: ((ctx) => const BottomNavigator())),
-                              (Route<dynamic> route) => false);
+                          NavigationService.pushNamedAndRemoveUntil(
+                              AppRouters.bottomNav);
                         }
                       }
                     },
@@ -342,9 +340,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) => const RegScreen(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.register);
                       },
                       child: Text(
                         'Sign Up',

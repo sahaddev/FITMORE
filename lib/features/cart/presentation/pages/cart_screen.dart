@@ -1,3 +1,5 @@
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -8,7 +10,6 @@ import '../../../../core/database/models/cart_/cart_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/calcuate_cart.dart';
 import '../../../../core/widgets/mainbutton.dart';
-import '../../../payment/presentation/pages/cart_payment.dart';
 import '../manager/cart_getx.dart';
 
 class CartScreen extends StatefulWidget {
@@ -210,12 +211,11 @@ class _CartScreenState extends State<CartScreen> {
                 child: Button(
                     text: 'Check Out',
                     onPressedCallback: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CartPaymentScreen(
-                          index: 0,
-                          totelPrice: cartGet.totelPriceShare,
-                        ),
-                      ));
+                      NavigationService.pushNamed(AppRouters.cartPayment,
+                          arguments: {
+                            'index': 0,
+                            'totelPrice': cartGet.totelPriceShare
+                          });
                     }),
               );
             },

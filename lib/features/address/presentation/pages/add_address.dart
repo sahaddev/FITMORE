@@ -6,14 +6,14 @@ import 'package:sizer/sizer.dart';
 
 import '../manager/address_get.dart';
 
-class AddAdress extends StatefulWidget {
-  const AddAdress({super.key});
+class AddAddress extends StatefulWidget {
+  const AddAddress({super.key});
 
   @override
-  State<AddAdress> createState() => _AddAdressState();
+  State<AddAddress> createState() => _AddAddressState();
 }
 
-class _AddAdressState extends State<AddAdress> {
+class _AddAddressState extends State<AddAddress> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameEditcontroller = TextEditingController();
@@ -39,7 +39,7 @@ class _AddAdressState extends State<AddAdress> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -166,7 +166,7 @@ class _AddAdressState extends State<AddAdress> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Colors.white.withValues(alpha: 0.25),
                             offset: const Offset(0, 1),
                             blurRadius: 0,
                           ),
@@ -250,7 +250,7 @@ class AceternityInput extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             blurRadius: 2,
             offset: const Offset(0, 1),
           ),
@@ -275,7 +275,7 @@ class AceternityInput extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: Colors.grey.withOpacity(0.2)),
+            borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),

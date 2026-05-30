@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/database/function/product_db_function.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
 import '../../../../core/widgets/search_list.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -30,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              NavigationService.pop();
             },
             icon: const Icon(
               Icons.chevron_left,

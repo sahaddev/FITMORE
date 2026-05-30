@@ -1,10 +1,10 @@
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../../../core/database/function/product_db_function.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
-import 'add_product.dart';
-import 'product_edit.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 
 class AdminList extends StatefulWidget {
@@ -37,8 +37,7 @@ class _AdminListState extends State<AdminList> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AddProductScreen()));
+              NavigationService.pushNamed(AppRouters.addProduct);
             },
             color: Colors.black,
           )
@@ -139,11 +138,9 @@ class _AdminListState extends State<AdminList> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProductEdit(index),
-                                              ));
+                                              NavigationService.pushNamed(
+                                                  AppRouters.productEdit,
+                                                  arguments: index);
                                             },
                                             icon: const Icon(
                                               Icons.mode_edit_outline_outlined,

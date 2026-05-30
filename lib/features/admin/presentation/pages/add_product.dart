@@ -7,6 +7,7 @@ import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
 import '../../functions/add_product_fun.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -222,7 +223,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     discriptionController: _discriptionController,
                     productCategory: _productCategory,
                     productCountController: _productCountController);
-                Navigator.of(context).pop();
+                NavigationService.pop();
               })
         ],
       ),

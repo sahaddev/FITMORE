@@ -6,9 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/user/db_model.dart';
-import '../../../../core/widgets/bottom_navigator.dart';
-import '../../../splash/presentation/pages/second_sp.dart';
-import '../pages/login_screen.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class AuthGet extends GetxController {
   Future<void> checkUserLogin(BuildContext ctx) async {
@@ -18,12 +17,10 @@ class AuthGet extends GetxController {
       await Future.delayed(const Duration(seconds: 3));
 
       // ignore: use_build_context_synchronously
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: ((ctx) => const LoginScreen())));
+      NavigationService.pushReplacementNamed(AppRouters.login);
     } else {
       // ignore: use_build_context_synchronously
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: ((ctx) => const SecondSp())));
+      NavigationService.pushReplacementNamed(AppRouters.secondSplash);
     }
   }
 
@@ -77,8 +74,7 @@ class AuthGet extends GetxController {
       userr.addUser(usermodel);
 
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
+      NavigationService.pushReplacementNamed(AppRouters.login);
     }
   }
 
@@ -124,9 +120,7 @@ class AuthGet extends GetxController {
       await shareprefe.setBool(SAVE_KEY_NAME, true);
       await shareprefe.setString('USER_ID', user.id.toString());
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((ctx) => const BottomNavigator())),
-          (Route<dynamic> route) => false);
+      NavigationService.pushNamedAndRemoveUntil(AppRouters.bottomNav);
     } else {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

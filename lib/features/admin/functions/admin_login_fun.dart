@@ -1,6 +1,6 @@
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
-
-import '../../../core/widgets/bottom_navigation_admin.dart';
 
 adminCheckLogin(BuildContext ctx,
     {required context,
@@ -9,11 +9,7 @@ adminCheckLogin(BuildContext ctx,
   final email = adminEmailEditingCon.text;
   final password = adminPasswordEditingCon.text;
   if (email == "0" || password == "0") {
-    Navigator.of(ctx).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const BottomNavigationAdmin(),
-        ),
-        (route) => false);
+    NavigationService.pushNamedAndRemoveUntil(AppRouters.adminBottomNav);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       behavior: SnackBarBehavior.floating,

@@ -1,7 +1,7 @@
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-
-import '../pages/category_list.dart';
 
 class HomeGet extends GetxController {
   AnimatedContainer buildDots({int? index, required currentPage}) {
@@ -31,13 +31,8 @@ class HomeGet extends GetxController {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => CategotyList(
-                  category: categoryName[index],
-                ),
-              ),
-            );
+            NavigationService.pushNamed(AppRouters.categoryList,
+                arguments: {'category': categoryName[index]});
           },
           child: CircleAvatar(
             radius: 35,

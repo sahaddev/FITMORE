@@ -1,9 +1,10 @@
-import 'package:e_commerce/features/orders/presentation/pages/order_deatiles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/database/function/order_history.dart';
 import '../../../../core/database/models/order_history/order_history_model.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class MyOrderScreen extends StatelessWidget {
   const MyOrderScreen({super.key});
@@ -77,12 +78,8 @@ class MyOrderScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const OrderDeatiles(index: 0),
-                              ),
-                            );
+                            NavigationService.pushNamed(AppRouters.orderDetails,
+                                arguments: {index: 0});
                           },
                           child: Row(
                             children: [

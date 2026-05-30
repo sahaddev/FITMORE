@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 int notificationCount = 1;
 
@@ -17,7 +18,7 @@ class ListOfNotification extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => NavigationService.pop(),
           icon: const Icon(Icons.arrow_back, color: Colors.black),
         ),
         title: Text(

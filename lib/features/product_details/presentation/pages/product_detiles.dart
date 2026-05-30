@@ -8,10 +8,10 @@ import '../../../../core/database/function/product_db_function.dart';
 import '../../../../core/database/models/cart_/cart_model.dart';
 import '../../../../core/database/models/favorite/favorite_model.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
-import '../../../cart/presentation/pages/cart_screen.dart';
-import '../../../payment/presentation/pages/payment_address.dart';
 import '../widgets/bottom_part.dart';
 import '../widgets/middle_part.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 // ignore: must_be_immutable
 class ProductDetiles extends StatefulWidget {
@@ -48,7 +48,7 @@ class _ProductDetilesState extends State<ProductDetiles> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
+          onTap: () => NavigationService.pop(),
           child: Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -187,9 +187,7 @@ class _ProductDetilesState extends State<ProductDetiles> {
                     onPressed: () {
                       ScaffoldMessenger.of(context).clearSnackBars();
                       if (isInCart) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const CartScreen(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.cart);
                       } else {
                         final title = widget.title;
                         final price = widget.price;
@@ -236,10 +234,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
             CusBottom(
                 price: widget.price.toString(),
                 buttonFun: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        PaymentAddress(productIndex: widget.index),
-                  ));
+                  NavigationService.pushNamed(AppRouters.paymentAddress,
+                      arguments: {'productIndex': widget.index});
                 }),
           ],
         ),

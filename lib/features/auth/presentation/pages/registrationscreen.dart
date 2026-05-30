@@ -7,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/user/db_model.dart';
 import '../manager/auth_get.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class RegScreen extends StatefulWidget {
   const RegScreen({super.key});
@@ -44,8 +45,8 @@ class _RegScreenState extends State<RegScreen> {
                 // Back Button
                 GestureDetector(
                   onTap: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
+                    if (NavigationService.canPop()) {
+                      NavigationService.pop();
                     }
                   },
                   child: Container(

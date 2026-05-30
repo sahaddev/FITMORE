@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/database/function/address_function.dart';
 import '../../../../core/database/models/address/db_address_model.dart';
 import 'add_address.dart'; // Import to reuse LabelInputContainer and AceternityInput
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class EditAddressScreen extends StatefulWidget {
   final int index;
@@ -70,7 +71,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -179,7 +180,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                             pincodeEditcontroller: _pincodeEditcontroller,
                             stateEditcontroller: _stateEditcontroller,
                             addresModel: _addresModel);
-                        Navigator.of(context).pop();
+                        NavigationService.pop();
                       }
                     },
                     child: Container(
@@ -197,7 +198,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Colors.white.withValues(alpha: 0.25),
                             offset: const Offset(0, 1),
                             blurRadius: 0,
                           ),

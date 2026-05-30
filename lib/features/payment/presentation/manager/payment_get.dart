@@ -6,7 +6,8 @@ import '../../../../core/database/function/order_history.dart';
 import '../../../../core/database/models/coupon/coupon_model.dart';
 import '../../../../core/database/models/order_history/order_history_model.dart';
 import '../../../notification/presentation/pages/notification_ui.dart';
-import '../pages/payment_last_page.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class PaymentGet extends GetxController {
   addToOrderHistory(
@@ -24,11 +25,7 @@ class PaymentGet extends GetxController {
     if (productCount > 0) {
       notificationCount++;
       orderhistoryy.addOrderHistory(orderhistory);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const PaymentLastScareen(),
-          ),
-          (route) => false);
+      NavigationService.pushNamedAndRemoveUntil(AppRouters.paymentLastPage);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -69,7 +66,7 @@ class PaymentGet extends GetxController {
       }
     }
     // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
+    NavigationService.pop();
 
     discoundCalculator(totelPrice, allow!);
   }

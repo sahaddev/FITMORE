@@ -8,9 +8,10 @@ import '../../../../core/database/function/user_functions.dart';
 import '../../../../core/database/models/order_history/order_history_model.dart';
 import '../../../../core/database/models/product/db_product_model.dart';
 import '../../../../core/database/models/user/db_model.dart';
-import '../../../../core/widgets/bottom_navigator.dart';
 import '../../../../core/widgets/dash_bord_card.dart';
 import '../../../../core/widgets/h1_headline.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -40,7 +41,7 @@ class DashboardScreen extends StatelessWidget {
                     actions: [
                       TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            NavigationService.pop();
                           },
                           child: const Text(
                             'Cancel',
@@ -48,11 +49,8 @@ class DashboardScreen extends StatelessWidget {
                           )),
                       TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (context) => const BottomNavigator(),
-                                ),
-                                (route) => false);
+                            NavigationService.pushNamedAndRemoveUntil(
+                                AppRouters.bottomNav);
                           },
                           child: const Text(
                             'SignOut',

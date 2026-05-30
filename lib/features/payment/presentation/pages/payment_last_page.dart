@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/bottom_navigator.dart';
 import '../widgets/order_confirmation_card.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class PaymentLastScareen extends StatefulWidget {
   const PaymentLastScareen({super.key});
@@ -25,11 +26,7 @@ class _PaymentLastScareenState extends State<PaymentLastScareen> {
               dateTime: "01/02/24 23:46",
               totalAmount: "\$ 129",
               onGoToAccount: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const BottomNavigator(),
-                    ),
-                    (route) => false);
+                NavigationService.pushNamedAndRemoveUntil(AppRouters.bottomNav);
               },
             ),
           ),

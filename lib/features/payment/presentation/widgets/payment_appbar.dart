@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 AppBar paymentTitle(BuildContext context) {
   return AppBar(
@@ -7,7 +8,7 @@ AppBar paymentTitle(BuildContext context) {
     elevation: .2,
     leading: IconButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          NavigationService.pop();
         },
         icon: const Icon(
           Icons.chevron_left,

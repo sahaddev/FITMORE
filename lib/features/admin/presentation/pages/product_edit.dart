@@ -10,6 +10,7 @@ import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
 import '../../functions/add_product_fun.dart';
 import '../../functions/product_edit_fun.dart' hide categories;
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class ProductEdit extends StatefulWidget {
   final int index;
@@ -258,7 +259,7 @@ class _ProductEditState extends State<ProductEdit> {
                       discriptionController: _discriptionController,
                       productCategory: _productCategory,
                       productCountController: _productCountController);
-                  Navigator.of(context).pop();
+                  NavigationService.pop();
                 }),
           ],
         ),

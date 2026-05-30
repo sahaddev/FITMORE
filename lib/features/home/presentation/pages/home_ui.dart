@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../notification/presentation/pages/notification_ui.dart';
 import '../widgets/category_section.dart';
 import '../widgets/rotating_carousel.dart';
 import '../widgets/home_gride.dart';
 import '../widgets/search_bar.dart';
-import 'search.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class HomeUi extends StatelessWidget {
   const HomeUi({super.key});
@@ -77,9 +77,7 @@ class HomeUi extends StatelessWidget {
                       children: [
                         _buildHeaderIcon(Icons.notifications_outlined,
                             onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ListOfNotification()));
+                          NavigationService.pushNamed(AppRouters.notification);
                         }),
                         SizedBox(width: 2.w),
                         _buildHeaderIcon(Icons.shopping_bag_outlined,
@@ -95,9 +93,7 @@ class HomeUi extends StatelessWidget {
                 // Search Bar
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SearchScreen(),
-                    ));
+                    NavigationService.pushNamed(AppRouters.search);
                   },
                   child: const CusSearchBar(),
                 ),
@@ -126,9 +122,7 @@ class HomeUi extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const SearchScreen(),
-                        ));
+                        NavigationService.pushNamed(AppRouters.search);
                       },
                       child: Text(
                         "See All",

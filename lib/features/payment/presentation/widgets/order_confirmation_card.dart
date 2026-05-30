@@ -46,7 +46,7 @@ class OrderConfirmationCard extends StatelessWidget {
       ],
       child: Container(
         width: 100.w,
-        constraints: BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 400),
         padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -54,7 +54,7 @@ class OrderConfirmationCard extends StatelessWidget {
           border: Border.all(color: Colors.grey.shade300),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -75,7 +75,7 @@ class OrderConfirmationCard extends StatelessWidget {
                     curve: Curves.elasticOut),
               ],
               child: icon ??
-                  Icon(
+                  const Icon(
                     LucideIcons.checkCircle2,
                     size: 48,
                     color: Colors.green,

@@ -163,7 +163,7 @@ class PaymentAddrescard extends StatelessWidget {
               child: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AddAdress(),
+                    builder: (context) => const AddAddress(),
                   ));
                 },
                 backgroundColor: Colors.black, // Dark theme accent

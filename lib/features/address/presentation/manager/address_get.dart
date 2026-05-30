@@ -1,7 +1,7 @@
 import 'package:e_commerce/core/database/function/address_function.dart';
 import 'package:e_commerce/core/database/models/address/db_address_model.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class AddressGet extends GetxController {
   Future<void> addAddressOnButtonClick(
@@ -40,7 +40,7 @@ class AddressGet extends GetxController {
         city.isNotEmpty ||
         pincode.isNotEmpty ||
         state.isNotEmpty) {
-      Navigator.pop(context);
+      NavigationService.pop();
     }
   }
 

@@ -69,7 +69,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
         border: Border.all(color: const Color(0xFFE2E8F0)), // muted border
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             offset: const Offset(0, 1),
             blurRadius: 2,
           ),
@@ -137,7 +137,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   }
 
   Widget _buildMethodItem(PaymentMethod method, bool isSelected) {
-    final primaryColor = const Color(0xFF0F172A); // using clean black/slate
+    const primaryColor = Color(0xFF0F172A); // using clean black/slate
     final borderColor =
         isSelected ? primaryColor : const Color(0xFFE2E8F0); // slate-200
 
@@ -154,7 +154,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: primaryColor.withOpacity(0.1),
+                    color: primaryColor.withValues(alpha: 0.1),
                     blurRadius: 0,
                     spreadRadius: 0,
                     offset: const Offset(0, 0),
@@ -212,7 +212,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                       child: Container(
                         width: 10,
                         height: 10,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: primaryColor,
                         ),

@@ -123,8 +123,8 @@ class OrderStateCard extends StatelessWidget {
     // activeBgColor can be set to Theme.of(context).primaryColor if preferred
 
     // Assuming a dark primary color for contrast if isActive, or use a specific color like blue/black
-    final activeBgColor = Colors.black;
-    final activeTextColor = Colors.white;
+    const activeBgColor = Colors.black;
+    const activeTextColor = Colors.white;
     final inactiveBorderColor = Colors.grey.shade300;
 
     return Container(
@@ -173,7 +173,7 @@ class OrderStateCard extends StatelessWidget {
                     fontSize: 14.sp,
                     fontWeight: FontWeight.normal,
                     color: state.isActive
-                        ? activeTextColor.withOpacity(0.8)
+                        ? activeTextColor.withValues(alpha: 0.8)
                         : Colors.black54,
                   ),
                 ),
