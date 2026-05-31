@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../core/models/user/db_model.dart';
 import '../widgets/change_password.dart';
 import '../../../../core/widgets/h1_headline.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
-import '../manager/profile_get.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class EditProfile extends StatefulWidget {
@@ -57,7 +55,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final profileGet = Get.put(ProfileGet());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -113,11 +110,11 @@ class _EditProfileState extends State<EditProfile> {
           Button(
               text: 'Update',
               onPressedCallback: () {
-                profileGet.updateUserdetailsOnAclike(
-                    nameEditcontroller: _nameEditcontroller,
-                    phonenumberEditcontroller: _phonenumberEditcontroller,
-                    emailEditconstroller: _emailEditconstroller,
-                    userModel: widget.user);
+//                 profileGet.updateUserdetailsOnAclike(
+//                     nameEditcontroller: _nameEditcontroller,
+//                     phonenumberEditcontroller: _phonenumberEditcontroller,
+//                     emailEditconstroller: _emailEditconstroller,
+//                     userModel: widget.user);
                 NavigationService.pop();
               }),
         ],

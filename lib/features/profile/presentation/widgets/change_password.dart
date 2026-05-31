@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../manager/profile_get.dart';
 import '../../../../core/models/user/db_model.dart';
 
 class ChangePasswordWidget extends StatelessWidget {
@@ -15,20 +13,15 @@ class ChangePasswordWidget extends StatelessWidget {
     required UserModel userModel,
   })  : _oldPasswordEditcontroller = oldPasswordEditcontroller,
         _newPasswordEditcontroller = newPasswordEditcontroller,
-        _conformPasswordEditconstroller = conformPasswordEditconstroller,
-        _dbPasswordcontroller = dbPasswordcontroller,
-        _userModel = userModel;
+        _conformPasswordEditconstroller = conformPasswordEditconstroller;
 
   final GlobalKey<FormState> foemKey;
   final TextEditingController _oldPasswordEditcontroller;
   final TextEditingController _newPasswordEditcontroller;
   final TextEditingController _conformPasswordEditconstroller;
-  final TextEditingController _dbPasswordcontroller;
-  final UserModel _userModel;
 
   @override
   Widget build(BuildContext context) {
-    final profileGet = Get.put(ProfileGet());
     return Padding(
       padding: const EdgeInsets.only(right: 50),
       child: GestureDetector(
@@ -103,16 +96,16 @@ class ChangePasswordWidget extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       if (foemKey.currentState!.validate()) {
-                        profileGet.changingPassword(
-                            oldPasswordEditcontroller:
-                                _oldPasswordEditcontroller,
-                            newPasswordEditcontroller:
-                                _newPasswordEditcontroller,
-                            conformPasswordEditconstroller:
-                                _conformPasswordEditconstroller,
-                            dbPasswordcontroller: _dbPasswordcontroller.text,
-                            userModel: _userModel,
-                            context: context);
+//                         profileGet.changingPassword(
+//                             oldPasswordEditcontroller:
+//                                 _oldPasswordEditcontroller,
+//                             newPasswordEditcontroller:
+//                                 _newPasswordEditcontroller,
+//                             conformPasswordEditconstroller:
+//                                 _conformPasswordEditconstroller,
+//                             dbPasswordcontroller: _dbPasswordcontroller.text,
+//                             userModel: _userModel,
+//                             context: context);
                       }
                     },
                     child: const Text('Submit')),

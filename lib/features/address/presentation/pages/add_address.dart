@@ -1,10 +1,8 @@
 import 'package:e_commerce/core/widgets/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
-
-import '../manager/address_get.dart';
 
 class AddAddress extends StatefulWidget {
   const AddAddress({super.key});
@@ -24,7 +22,6 @@ class _AddAddressState extends State<AddAddress> {
 
   @override
   Widget build(BuildContext context) {
-    final addressGet = Get.put(AddressGet());
     return Scaffold(
       backgroundColor: Colors.grey[50], // Light background
       appBar: mainTitle(""),
@@ -141,14 +138,14 @@ class _AddAddressState extends State<AddAddress> {
                   InkWell(
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        addressGet.addAddressOnButtonClick(
-                            nameEditcontroller: _nameEditcontroller,
-                            phonenumberEditcontroller:
-                                _phonenumberEditcontroller,
-                            cityEditcontroller: _cityEditcontroller,
-                            pincodeEditcontroller: _pincodeEditcontroller,
-                            stateEditcontroller: _stateEditcontroller,
-                            context: context);
+//                         addressGet.addAddressOnButtonClick(
+//                             nameEditcontroller: _nameEditcontroller,
+//                             phonenumberEditcontroller:
+//                                 _phonenumberEditcontroller,
+//                             cityEditcontroller: _cityEditcontroller,
+//                             pincodeEditcontroller: _pincodeEditcontroller,
+//                             stateEditcontroller: _stateEditcontroller,
+//                             context: context);
                       }
                     },
                     child: Container(

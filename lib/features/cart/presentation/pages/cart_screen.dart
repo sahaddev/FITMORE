@@ -1,7 +1,7 @@
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/assets/lottie/lottie_json.dart';
@@ -9,7 +9,7 @@ import '../../../../core/models/cart_/cart_model.dart';
 import '../../../../core/widgets/appbar.dart';
 import '../widgets/calcuate_cart.dart';
 import '../../../../core/widgets/mainbutton.dart';
-import '../manager/cart_getx.dart';
+
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -28,7 +28,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     
-    final cartGet = Get.put(CartGet());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: mainTitle('My Cart'),
@@ -147,13 +147,13 @@ class _CartScreenState extends State<CartScreen> {
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    cartGet.countLessing(
-                                                      idd: data.id,
-                                                      imagee: data.image,
-                                                      pricee: data.price,
-                                                      quantityy: data.quantity,
-                                                      titlee: data.title,
-                                                    );
+                                                    // cartGet.countLessing(
+                                                    //   idd: data.id,
+                                                    //   imagee: data.image,
+                                                    //   pricee: data.price,
+                                                    //   quantityy: data.quantity,
+                                                    //   titlee: data.title,
+                                                    // );
                                                   },
                                                   child: const Icon(
                                                       Icons.remove,
@@ -165,15 +165,15 @@ class _CartScreenState extends State<CartScreen> {
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      cartGet.countAdding(
-                                                        idd: data.id,
-                                                        imagee: data.image,
-                                                        pricee: data.price,
-                                                        quantityy:
-                                                            data.quantity,
-                                                        titlee: data.title,
-                                                        context: context,
-                                                      );
+                                                      // cartGet.countAdding(
+                                                      //   idd: data.id,
+                                                      //   imagee: data.image,
+                                                      //   pricee: data.price,
+                                                      //   quantityy:
+                                                      //       data.quantity,
+                                                      //   titlee: data.title,
+                                                      //   context: context,
+                                                      // );
                                                     });
                                                   },
                                                   child: const Icon(Icons.add,
@@ -213,7 +213,7 @@ class _CartScreenState extends State<CartScreen> {
                       NavigationService.pushNamed(AppRouters.cartPayment,
                           arguments: {
                             'index': 0,
-                            'totelPrice': cartGet.totelPriceShare
+                            'totelPrice': 0
                           });
                     }),
               );

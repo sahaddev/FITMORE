@@ -6,7 +6,7 @@ import 'package:cloudinary_url_gen/transformation/gravity/gravity.dart';
 import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:sizer/sizer.dart';
 
 import 'core/widgets/bottom_navigator.dart';
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Sizer(
-      builder: (context, orientation, deviceType) => const GetMaterialApp(
+      builder: (context, orientation, deviceType) => const MaterialApp(
         title: "MenCart",
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,

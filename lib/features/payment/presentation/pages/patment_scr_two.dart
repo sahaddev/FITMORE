@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -7,7 +7,6 @@ import '../widgets/paym_last_product_del.dart';
 import '../widgets/payment_bottom_last.dart';
 import '../widgets/payment_secon_top_banner.dart';
 import '../widgets/visa_card.dart';
-import '../manager/payment_get.dart';
 import '../widgets/payment_appbar.dart';
 import 'package:e_commerce/features/payment/presentation/widgets/payment_method_selector.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -42,8 +41,6 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
 
   @override
   Widget build(BuildContext context) {
-    final paymentGet = Get.put(PaymentGet());
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: paymentTitle(context),
@@ -118,7 +115,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                     const Divider(thickness: 1),
                     SizedBox(height: 2.h),
 
-                    _buildCouponSection(context, paymentGet),
+                    _buildCouponSection(context),
 
                     SizedBox(height: 3.h),
 
@@ -164,7 +161,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
     );
   }
 
-  Widget _buildCouponSection(BuildContext context, PaymentGet paymentGet) {
+  Widget _buildCouponSection(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -173,7 +170,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
       ),
       child: ListTile(
         onTap: () {
-          _showCouponDialog(context, paymentGet);
+          _showCouponDialog(context);
         },
         leading: Container(
           padding: const EdgeInsets.all(8),
@@ -203,7 +200,7 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
     );
   }
 
-  void _showCouponDialog(BuildContext context, PaymentGet paymentGet) {
+  void _showCouponDialog(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -330,14 +327,14 @@ class _PaymentScreenTwoState extends State<PaymentScreenTwo> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          paymentGet.checkingCoupon(
-                            totelPrice: widget.price,
-                            couponController: _couponController,
-                            allow: allow,
-                            context: context,
-                          );
-                        });
+//                         setState(() {
+//                           paymentGet.checkingCoupon(
+//                             totelPrice: widget.price,
+//                             couponController: _couponController,
+//                             allow: allow,
+//                             context: context,
+//                           );
+//                         });
                         NavigationService.pop();
                       },
                       style: ElevatedButton.styleFrom(

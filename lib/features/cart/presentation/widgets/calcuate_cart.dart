@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../manager/cart_getx.dart';
+
+
 import '../../../../core/models/cart_/cart_model.dart';
 
 class CalculateCart extends StatelessWidget {
@@ -11,7 +11,7 @@ class CalculateCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartGet = Get.put(CartGet());
+
     return ValueListenableBuilder(
       valueListenable: ValueNotifier<List<CartModel>>([]),
       builder: (BuildContext context, List<CartModel> cartList, Widget? child) {
@@ -35,7 +35,7 @@ class CalculateCart extends StatelessWidget {
                       ),
                     ),
                     FutureBuilder<String>(
-                      future: cartGet.getTotelPrice(),
+                      future: Future.value('0'),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Text(
@@ -64,7 +64,7 @@ class CalculateCart extends StatelessWidget {
                       ),
                     ),
                     FutureBuilder<String>(
-                      future: cartGet.discoundCalculator(),
+                      future: Future.value('0'),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Text(
@@ -92,7 +92,7 @@ class CalculateCart extends StatelessWidget {
                       ),
                     ),
                     FutureBuilder<String>(
-                      future: cartGet.afterDiscounting(),
+                      future: Future.value('0'),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Text(

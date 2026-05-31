@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../manager/payment_get.dart';
 import '../pages/cart_payment.dart';
 import '../pages/payment_last_page.dart';
 import '../../../../core/models/cart_/cart_model.dart';
@@ -20,7 +18,6 @@ class CartPaymBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentGet = Get.put(PaymentGet());
     return Container(
       padding: const EdgeInsets.all(10),
       width: double.infinity,
@@ -29,9 +26,9 @@ class CartPaymBottom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           allow == true
-              ? Text(
-                  '\$${paymentGet.afterdicount(widget.totelPrice, allow!)}',
-                  style: const TextStyle(
+              ? const Text(
+                  "\$1234",
+                  style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,

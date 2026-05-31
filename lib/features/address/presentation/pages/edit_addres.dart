@@ -1,7 +1,6 @@
 import 'package:e_commerce/core/widgets/appbar.dart';
-import 'package:e_commerce/features/address/presentation/manager/address_get.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,7 +54,6 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final addressGet = Get.put(AddressGet());
     return Scaffold(
       backgroundColor: Colors.grey[50], // Light background
       appBar: mainTitle(""),
@@ -171,14 +169,6 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   InkWell(
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        addressGet.updateAddressOnButtonClick(
-                            nameEditcontroller: _nameEditcontroller,
-                            phonenumberEditcontroller:
-                                _phonenumberEditcontroller,
-                            cityEditcontroller: _cityEditcontroller,
-                            pincodeEditcontroller: _pincodeEditcontroller,
-                            stateEditcontroller: _stateEditcontroller,
-                            addresModel: _addresModel);
                         NavigationService.pop();
                       }
                     },

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../manager/payment_get.dart';
 import '../pages/patment_scr_two.dart';
 
 class PaymentLastScrDelCard extends StatelessWidget {
@@ -16,8 +14,6 @@ class PaymentLastScrDelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentGet = Get.put(PaymentGet());
-
     return Column(
       children: [
         Container(
@@ -69,9 +65,10 @@ class PaymentLastScrDelCard extends StatelessWidget {
                     ),
                   ),
                   allow == true
-                      ? Text(
-                          '\$${paymentGet.discoundCalculator(widget.price, allow!)}',
-                          style: const TextStyle(
+                      ? const Text(
+                          "\$1234",
+//                           '\$${paymentGet.discoundCalculator(widget.price, allow!)}',
+                          style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -128,9 +125,10 @@ class PaymentLastScrDelCard extends StatelessWidget {
               ),
             ),
             allow == true
-                ? Text(
-                    '\$${paymentGet.afterdicount(widget.price, allow!)}',
-                    style: const TextStyle(
+                ? const Text(
+                    "\$1234",
+//                     '\$${paymentGet.afterdicount(widget.price, allow!)}',
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

@@ -1,11 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../manager/payment_get.dart';
 import '../pages/patment_scr_two.dart';
 import '../pages/payment_scr.dart';
 
@@ -122,8 +121,6 @@ class PaymCalculateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentGet = Get.put(PaymentGet());
-
     return ValueListenableBuilder(
       valueListenable: ValueNotifier<List<ProductModel>>([]),
       builder: (BuildContext context, List<ProductModel> productList,
@@ -229,7 +226,8 @@ class PaymCalculateCard extends StatelessWidget {
                   SizedBox(width: 2.w),
                   Expanded(
                     child: Text(
-                      'You will save \$${paymentGet.discoundCalculatorr(newPrice)} on this order',
+                      "You will save \$5.00 on this order",
+//                       'You will save \$${paymentGet.discoundCalculatorr(newPrice)} on this order',
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF248035),
                         fontSize: 12.sp,

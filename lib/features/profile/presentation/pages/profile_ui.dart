@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../manager/profile_get.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
@@ -15,8 +14,6 @@ class ProfileUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileGet = Get.put(ProfileGet());
-
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7), // Light grey background
       body: SafeArea(
@@ -53,7 +50,7 @@ class ProfileUi extends StatelessWidget {
                     _buildCircleButton(
                       icon: Icons.logout_outlined, // Logout Icon
                       onTap: () {
-                        profileGet.signOut(context);
+//                         profileGet.signOut(context);
                       },
                     ),
                   ],
@@ -67,9 +64,10 @@ class ProfileUi extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Obx(() {
-                  final imagePath = profileGet.selectedImage.value?.path;
-                  final hasImage = imagePath != null;
+                child: Builder(builder: (context) {
+//                   final imagePath = profileGet.selectedImage.value?.path;
+                  const String? imagePath = null;
+                  const hasImage = imagePath != null;
 
                   return Row(
                     children: [
@@ -113,7 +111,8 @@ class ProfileUi extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              profileGet.userModel.name ?? "User Name",
+                              "User Name",
+//                               profileGet.userModel.name ?? "User Name",
                               style: GoogleFonts.manrope(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
@@ -123,7 +122,8 @@ class ProfileUi extends StatelessWidget {
                             ),
                             SizedBox(height: 0.5.h),
                             Text(
-                              profileGet.userModel.email ?? "email@example.com",
+                              "email@example.com",
+//                               profileGet.userModel.email ?? "email@example.com",
                               style: GoogleFonts.manrope(
                                 fontSize: 12.sp,
                                 color: Colors.grey.shade500,
@@ -131,7 +131,8 @@ class ProfileUi extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              profileGet.userModel.phoneNumber ?? "+1234567890",
+                              "+1234567890",
+//                               profileGet.userModel.phoneNumber ?? "+1234567890",
                               style: GoogleFonts.manrope(
                                 fontSize: 12.sp,
                                 color: Colors.grey.shade500,
@@ -142,8 +143,8 @@ class ProfileUi extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          NavigationService.pushNamed(AppRouters.editProfile,
-                              arguments: profileGet.userModel);
+                          NavigationService.pushNamed(AppRouters.editProfile);
+//                               arguments: profileGet.userModel);
                         },
                         child: Container(
                           padding: EdgeInsets.all(2.w),

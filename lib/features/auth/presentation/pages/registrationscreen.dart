@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-import '../manager/auth_get.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
 class RegScreen extends StatefulWidget {
@@ -25,8 +24,6 @@ class _RegScreenState extends State<RegScreen> {
 
   bool _isPasswordObscure = true;
   bool _isConfirmPasswordObscure = true;
-
-  final authGet = Get.put(AuthGet());
 
   @override
   Widget build(BuildContext context) {
