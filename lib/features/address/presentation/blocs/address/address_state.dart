@@ -6,4 +6,5 @@ abstract class AddressState with _$AddressState {
   const factory AddressState.loading() = _Loading;
   const factory AddressState.success({required String message}) = _Success;
   const factory AddressState.failure({required String message}) = _Failure;
+  const factory AddressState.loaded(List<AddressModel> addresses) = _Loaded;
 }

@@ -52,12 +52,15 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadEditAddress value)? load,
+    TResult Function(UpdateAddress value)? updateAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress() when load != null:
         return load(_that);
+      case UpdateAddress() when updateAddress != null:
+        return updateAddress(_that);
       case _:
         return orElse();
     }
@@ -79,11 +82,14 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadEditAddress value) load,
+    required TResult Function(UpdateAddress value) updateAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress():
         return load(_that);
+      case UpdateAddress():
+        return updateAddress(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +110,14 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadEditAddress value)? load,
+    TResult? Function(UpdateAddress value)? updateAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress() when load != null:
         return load(_that);
+      case UpdateAddress() when updateAddress != null:
+        return updateAddress(_that);
       case _:
         return null;
     }
@@ -129,12 +138,15 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(AddressModel address)? updateAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress() when load != null:
         return load();
+      case UpdateAddress() when updateAddress != null:
+        return updateAddress(_that.address);
       case _:
         return orElse();
     }
@@ -156,11 +168,14 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(AddressModel address) updateAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress():
         return load();
+      case UpdateAddress():
+        return updateAddress(_that.address);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +196,14 @@ extension EditAddressEventPatterns on EditAddressEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(AddressModel address)? updateAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditAddress() when load != null:
         return load();
+      case UpdateAddress() when updateAddress != null:
+        return updateAddress(_that.address);
       case _:
         return null;
     }
@@ -209,6 +227,70 @@ class LoadEditAddress implements EditAddressEvent {
   @override
   String toString() {
     return 'EditAddressEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class UpdateAddress implements EditAddressEvent {
+  const UpdateAddress(this.address);
+
+  final AddressModel address;
+
+  /// Create a copy of EditAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateAddressCopyWith<UpdateAddress> get copyWith =>
+      _$UpdateAddressCopyWithImpl<UpdateAddress>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateAddress &&
+            (identical(other.address, address) || other.address == address));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, address);
+
+  @override
+  String toString() {
+    return 'EditAddressEvent.updateAddress(address: $address)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $UpdateAddressCopyWith<$Res>
+    implements $EditAddressEventCopyWith<$Res> {
+  factory $UpdateAddressCopyWith(
+          UpdateAddress value, $Res Function(UpdateAddress) _then) =
+      _$UpdateAddressCopyWithImpl;
+  @useResult
+  $Res call({AddressModel address});
+}
+
+/// @nodoc
+class _$UpdateAddressCopyWithImpl<$Res>
+    implements $UpdateAddressCopyWith<$Res> {
+  _$UpdateAddressCopyWithImpl(this._self, this._then);
+
+  final UpdateAddress _self;
+  final $Res Function(UpdateAddress) _then;
+
+  /// Create a copy of EditAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? address = null,
+  }) {
+    return _then(UpdateAddress(
+      null == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as AddressModel,
+    ));
   }
 }
 
