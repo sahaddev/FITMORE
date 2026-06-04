@@ -5,8 +5,8 @@ import 'package:e_commerce/core/models/user/db_model.dart';
 // Feature screens
 import '../../features/splash/presentation/pages/splash_scree.dart';
 import '../../features/splash/presentation/pages/second_sp.dart';
-import '../../features/auth/presentation/pages/login_screen.dart';
-import '../../features/auth/presentation/pages/registrationscreen.dart';
+import '../../features/auth/presentation/pages/signin.dart';
+import '../../features/auth/presentation/pages/signup.dart';
 import '../../features/home/presentation/pages/home_ui.dart';
 import '../../core/widgets/bottom_navigator.dart';
 import '../../features/cart/presentation/pages/cart_screen.dart';
@@ -34,7 +34,7 @@ class AppRouter {
       case AppRouters.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case AppRouters.register:
-        return MaterialPageRoute(builder: (_) => const RegScreen());
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
       case AppRouters.home:
         return MaterialPageRoute(builder: (_) => const HomeUi());
       case AppRouters.bottomNav:

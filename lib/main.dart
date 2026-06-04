@@ -11,6 +11,8 @@ import 'package:sizer/sizer.dart';
 
 import 'core/widgets/bottom_navigator.dart';
 
+import 'core/di/bloc_provider.dart';
+
 // ignore: constant_identifier_names
 const SAVE_KEY_NAME = 'UserLoggidIn';
 
@@ -32,12 +34,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context, orientation, deviceType) => const MaterialApp(
-        title: "MenCart",
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.light,
-        home: BottomNavigator(),
+    return AppBlocProvider(
+      child: Sizer(
+        builder: (context, orientation, deviceType) => const MaterialApp(
+          title: "MenCart",
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.light,
+          home: BottomNavigator(),
+        ),
       ),
     );
   }

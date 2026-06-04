@@ -6,14 +6,14 @@ import 'package:sizer/sizer.dart';
 
 import 'package:e_commerce/core/routes/navigation_service.dart';
 
-class RegScreen extends StatefulWidget {
-  const RegScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<RegScreen> createState() => _RegScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _RegScreenState extends State<RegScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _nameController = TextEditingController();
   final _phonenumberController = TextEditingController();
   final _emailController = TextEditingController();
