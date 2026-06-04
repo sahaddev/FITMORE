@@ -52,12 +52,21 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadCartPayment value)? load,
+    TResult Function(SelectPaymentMethod value)? selectPaymentMethod,
+    TResult Function(ApplyCoupon value)? applyCoupon,
+    TResult Function(ProcessPayment value)? processPayment,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment() when load != null:
         return load(_that);
+      case SelectPaymentMethod() when selectPaymentMethod != null:
+        return selectPaymentMethod(_that);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that);
+      case ProcessPayment() when processPayment != null:
+        return processPayment(_that);
       case _:
         return orElse();
     }
@@ -79,11 +88,20 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadCartPayment value) load,
+    required TResult Function(SelectPaymentMethod value) selectPaymentMethod,
+    required TResult Function(ApplyCoupon value) applyCoupon,
+    required TResult Function(ProcessPayment value) processPayment,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment():
         return load(_that);
+      case SelectPaymentMethod():
+        return selectPaymentMethod(_that);
+      case ApplyCoupon():
+        return applyCoupon(_that);
+      case ProcessPayment():
+        return processPayment(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +122,20 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadCartPayment value)? load,
+    TResult? Function(SelectPaymentMethod value)? selectPaymentMethod,
+    TResult? Function(ApplyCoupon value)? applyCoupon,
+    TResult? Function(ProcessPayment value)? processPayment,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment() when load != null:
         return load(_that);
+      case SelectPaymentMethod() when selectPaymentMethod != null:
+        return selectPaymentMethod(_that);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that);
+      case ProcessPayment() when processPayment != null:
+        return processPayment(_that);
       case _:
         return null;
     }
@@ -129,12 +156,21 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(String method)? selectPaymentMethod,
+    TResult Function(String code)? applyCoupon,
+    TResult Function()? processPayment,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment() when load != null:
         return load();
+      case SelectPaymentMethod() when selectPaymentMethod != null:
+        return selectPaymentMethod(_that.method);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that.code);
+      case ProcessPayment() when processPayment != null:
+        return processPayment();
       case _:
         return orElse();
     }
@@ -156,11 +192,20 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(String method) selectPaymentMethod,
+    required TResult Function(String code) applyCoupon,
+    required TResult Function() processPayment,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment():
         return load();
+      case SelectPaymentMethod():
+        return selectPaymentMethod(_that.method);
+      case ApplyCoupon():
+        return applyCoupon(_that.code);
+      case ProcessPayment():
+        return processPayment();
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +226,20 @@ extension CartPaymentEventPatterns on CartPaymentEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(String method)? selectPaymentMethod,
+    TResult? Function(String code)? applyCoupon,
+    TResult? Function()? processPayment,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCartPayment() when load != null:
         return load();
+      case SelectPaymentMethod() when selectPaymentMethod != null:
+        return selectPaymentMethod(_that.method);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that.code);
+      case ProcessPayment() when processPayment != null:
+        return processPayment();
       case _:
         return null;
     }
@@ -209,6 +263,153 @@ class LoadCartPayment implements CartPaymentEvent {
   @override
   String toString() {
     return 'CartPaymentEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class SelectPaymentMethod implements CartPaymentEvent {
+  const SelectPaymentMethod(this.method);
+
+  final String method;
+
+  /// Create a copy of CartPaymentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SelectPaymentMethodCopyWith<SelectPaymentMethod> get copyWith =>
+      _$SelectPaymentMethodCopyWithImpl<SelectPaymentMethod>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SelectPaymentMethod &&
+            (identical(other.method, method) || other.method == method));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, method);
+
+  @override
+  String toString() {
+    return 'CartPaymentEvent.selectPaymentMethod(method: $method)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SelectPaymentMethodCopyWith<$Res>
+    implements $CartPaymentEventCopyWith<$Res> {
+  factory $SelectPaymentMethodCopyWith(
+          SelectPaymentMethod value, $Res Function(SelectPaymentMethod) _then) =
+      _$SelectPaymentMethodCopyWithImpl;
+  @useResult
+  $Res call({String method});
+}
+
+/// @nodoc
+class _$SelectPaymentMethodCopyWithImpl<$Res>
+    implements $SelectPaymentMethodCopyWith<$Res> {
+  _$SelectPaymentMethodCopyWithImpl(this._self, this._then);
+
+  final SelectPaymentMethod _self;
+  final $Res Function(SelectPaymentMethod) _then;
+
+  /// Create a copy of CartPaymentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? method = null,
+  }) {
+    return _then(SelectPaymentMethod(
+      null == method
+          ? _self.method
+          : method // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ApplyCoupon implements CartPaymentEvent {
+  const ApplyCoupon(this.code);
+
+  final String code;
+
+  /// Create a copy of CartPaymentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ApplyCouponCopyWith<ApplyCoupon> get copyWith =>
+      _$ApplyCouponCopyWithImpl<ApplyCoupon>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ApplyCoupon &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, code);
+
+  @override
+  String toString() {
+    return 'CartPaymentEvent.applyCoupon(code: $code)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ApplyCouponCopyWith<$Res>
+    implements $CartPaymentEventCopyWith<$Res> {
+  factory $ApplyCouponCopyWith(
+          ApplyCoupon value, $Res Function(ApplyCoupon) _then) =
+      _$ApplyCouponCopyWithImpl;
+  @useResult
+  $Res call({String code});
+}
+
+/// @nodoc
+class _$ApplyCouponCopyWithImpl<$Res> implements $ApplyCouponCopyWith<$Res> {
+  _$ApplyCouponCopyWithImpl(this._self, this._then);
+
+  final ApplyCoupon _self;
+  final $Res Function(ApplyCoupon) _then;
+
+  /// Create a copy of CartPaymentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? code = null,
+  }) {
+    return _then(ApplyCoupon(
+      null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ProcessPayment implements CartPaymentEvent {
+  const ProcessPayment();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ProcessPayment);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'CartPaymentEvent.processPayment()';
   }
 }
 
@@ -255,6 +456,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +469,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +495,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +507,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +532,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +544,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +569,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(String selectedMethod)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +582,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.selectedMethod);
       case _:
         return orElse();
     }
@@ -395,6 +608,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(String selectedMethod) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +620,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.selectedMethod);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +645,7 @@ extension CartPaymentStatePatterns on CartPaymentState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(String selectedMethod)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +657,8 @@ extension CartPaymentStatePatterns on CartPaymentState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.selectedMethod);
       case _:
         return null;
     }
@@ -605,6 +824,69 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
       message: null == message
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements CartPaymentState {
+  const _Loaded(this.selectedMethod);
+
+  final String selectedMethod;
+
+  /// Create a copy of CartPaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            (identical(other.selectedMethod, selectedMethod) ||
+                other.selectedMethod == selectedMethod));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, selectedMethod);
+
+  @override
+  String toString() {
+    return 'CartPaymentState.loaded(selectedMethod: $selectedMethod)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $CartPaymentStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({String selectedMethod});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of CartPaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? selectedMethod = null,
+  }) {
+    return _then(_Loaded(
+      null == selectedMethod
+          ? _self.selectedMethod
+          : selectedMethod // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

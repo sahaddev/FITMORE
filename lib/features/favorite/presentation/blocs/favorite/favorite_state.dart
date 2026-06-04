@@ -6,4 +6,5 @@ abstract class FavoriteState with _$FavoriteState {
   const factory FavoriteState.loading() = _Loading;
   const factory FavoriteState.success({required String message}) = _Success;
   const factory FavoriteState.failure({required String message}) = _Failure;
+  const factory FavoriteState.loaded(List<FavoriteModel> favoriteItems) = _Loaded;
 }

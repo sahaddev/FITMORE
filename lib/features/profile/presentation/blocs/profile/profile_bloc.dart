@@ -8,6 +8,7 @@ part 'profile_bloc.freezed.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(const ProfileState.initial()) {
     on<LoadProfile>(_onLoadProfile);
+    on<SignOut>(_onSignOut);
   }
 
   Future<void> _onLoadProfile(
@@ -17,8 +18,20 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(const ProfileState.loading());
     try {
       // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const ProfileState.success(message: 'Loaded successfully'));
+      emit(const ProfileState.loaded(null, null));
+    } catch (e) {
+      emit(ProfileState.failure(message: e.toString()));
+    }
+  }
+
+  Future<void> _onSignOut(
+    SignOut event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(const ProfileState.loading());
+    try {
+      // TODO: Implement logic here
+      emit(const ProfileState.success(message: 'Signed out successfully'));
     } catch (e) {
       emit(ProfileState.failure(message: e.toString()));
     }

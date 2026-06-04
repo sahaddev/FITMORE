@@ -52,12 +52,15 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadPaymentAddress value)? load,
+    TResult Function(SelectAddress value)? selectAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress() when load != null:
         return load(_that);
+      case SelectAddress() when selectAddress != null:
+        return selectAddress(_that);
       case _:
         return orElse();
     }
@@ -79,11 +82,14 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadPaymentAddress value) load,
+    required TResult Function(SelectAddress value) selectAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress():
         return load(_that);
+      case SelectAddress():
+        return selectAddress(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +110,14 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadPaymentAddress value)? load,
+    TResult? Function(SelectAddress value)? selectAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress() when load != null:
         return load(_that);
+      case SelectAddress() when selectAddress != null:
+        return selectAddress(_that);
       case _:
         return null;
     }
@@ -129,12 +138,15 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(int addressId)? selectAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress() when load != null:
         return load();
+      case SelectAddress() when selectAddress != null:
+        return selectAddress(_that.addressId);
       case _:
         return orElse();
     }
@@ -156,11 +168,14 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(int addressId) selectAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress():
         return load();
+      case SelectAddress():
+        return selectAddress(_that.addressId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +196,14 @@ extension PaymentAddressEventPatterns on PaymentAddressEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(int addressId)? selectAddress,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentAddress() when load != null:
         return load();
+      case SelectAddress() when selectAddress != null:
+        return selectAddress(_that.addressId);
       case _:
         return null;
     }
@@ -209,6 +227,71 @@ class LoadPaymentAddress implements PaymentAddressEvent {
   @override
   String toString() {
     return 'PaymentAddressEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class SelectAddress implements PaymentAddressEvent {
+  const SelectAddress(this.addressId);
+
+  final int addressId;
+
+  /// Create a copy of PaymentAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SelectAddressCopyWith<SelectAddress> get copyWith =>
+      _$SelectAddressCopyWithImpl<SelectAddress>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SelectAddress &&
+            (identical(other.addressId, addressId) ||
+                other.addressId == addressId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, addressId);
+
+  @override
+  String toString() {
+    return 'PaymentAddressEvent.selectAddress(addressId: $addressId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SelectAddressCopyWith<$Res>
+    implements $PaymentAddressEventCopyWith<$Res> {
+  factory $SelectAddressCopyWith(
+          SelectAddress value, $Res Function(SelectAddress) _then) =
+      _$SelectAddressCopyWithImpl;
+  @useResult
+  $Res call({int addressId});
+}
+
+/// @nodoc
+class _$SelectAddressCopyWithImpl<$Res>
+    implements $SelectAddressCopyWith<$Res> {
+  _$SelectAddressCopyWithImpl(this._self, this._then);
+
+  final SelectAddress _self;
+  final $Res Function(SelectAddress) _then;
+
+  /// Create a copy of PaymentAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? addressId = null,
+  }) {
+    return _then(SelectAddress(
+      null == addressId
+          ? _self.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 
@@ -255,6 +338,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +351,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +377,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +389,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +414,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +426,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +451,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(dynamic address)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +464,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.address);
       case _:
         return orElse();
     }
@@ -395,6 +490,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(dynamic address) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +502,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.address);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +527,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(dynamic address)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +539,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.address);
       case _:
         return null;
     }
@@ -606,6 +707,69 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements PaymentAddressState {
+  const _Loaded(this.address);
+
+  final dynamic address;
+
+  /// Create a copy of PaymentAddressState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality().equals(other.address, address));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+
+  @override
+  String toString() {
+    return 'PaymentAddressState.loaded(address: $address)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $PaymentAddressStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({dynamic address});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of PaymentAddressState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? address = freezed,
+  }) {
+    return _then(_Loaded(
+      freezed == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }

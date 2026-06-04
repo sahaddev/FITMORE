@@ -52,12 +52,18 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadPaymentScr value)? load,
+    TResult Function(UpdateQuantity value)? updateQuantity,
+    TResult Function(ApplyCoupon value)? applyCoupon,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr() when load != null:
         return load(_that);
+      case UpdateQuantity() when updateQuantity != null:
+        return updateQuantity(_that);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that);
       case _:
         return orElse();
     }
@@ -79,11 +85,17 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadPaymentScr value) load,
+    required TResult Function(UpdateQuantity value) updateQuantity,
+    required TResult Function(ApplyCoupon value) applyCoupon,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr():
         return load(_that);
+      case UpdateQuantity():
+        return updateQuantity(_that);
+      case ApplyCoupon():
+        return applyCoupon(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +116,17 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadPaymentScr value)? load,
+    TResult? Function(UpdateQuantity value)? updateQuantity,
+    TResult? Function(ApplyCoupon value)? applyCoupon,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr() when load != null:
         return load(_that);
+      case UpdateQuantity() when updateQuantity != null:
+        return updateQuantity(_that);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that);
       case _:
         return null;
     }
@@ -129,12 +147,18 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(int quantity)? updateQuantity,
+    TResult Function(String code)? applyCoupon,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr() when load != null:
         return load();
+      case UpdateQuantity() when updateQuantity != null:
+        return updateQuantity(_that.quantity);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that.code);
       case _:
         return orElse();
     }
@@ -156,11 +180,17 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(int quantity) updateQuantity,
+    required TResult Function(String code) applyCoupon,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr():
         return load();
+      case UpdateQuantity():
+        return updateQuantity(_that.quantity);
+      case ApplyCoupon():
+        return applyCoupon(_that.code);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +211,17 @@ extension PaymentScrEventPatterns on PaymentScrEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(int quantity)? updateQuantity,
+    TResult? Function(String code)? applyCoupon,
   }) {
     final _that = this;
     switch (_that) {
       case LoadPaymentScr() when load != null:
         return load();
+      case UpdateQuantity() when updateQuantity != null:
+        return updateQuantity(_that.quantity);
+      case ApplyCoupon() when applyCoupon != null:
+        return applyCoupon(_that.code);
       case _:
         return null;
     }
@@ -209,6 +245,134 @@ class LoadPaymentScr implements PaymentScrEvent {
   @override
   String toString() {
     return 'PaymentScrEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class UpdateQuantity implements PaymentScrEvent {
+  const UpdateQuantity(this.quantity);
+
+  final int quantity;
+
+  /// Create a copy of PaymentScrEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateQuantityCopyWith<UpdateQuantity> get copyWith =>
+      _$UpdateQuantityCopyWithImpl<UpdateQuantity>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateQuantity &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, quantity);
+
+  @override
+  String toString() {
+    return 'PaymentScrEvent.updateQuantity(quantity: $quantity)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $UpdateQuantityCopyWith<$Res>
+    implements $PaymentScrEventCopyWith<$Res> {
+  factory $UpdateQuantityCopyWith(
+          UpdateQuantity value, $Res Function(UpdateQuantity) _then) =
+      _$UpdateQuantityCopyWithImpl;
+  @useResult
+  $Res call({int quantity});
+}
+
+/// @nodoc
+class _$UpdateQuantityCopyWithImpl<$Res>
+    implements $UpdateQuantityCopyWith<$Res> {
+  _$UpdateQuantityCopyWithImpl(this._self, this._then);
+
+  final UpdateQuantity _self;
+  final $Res Function(UpdateQuantity) _then;
+
+  /// Create a copy of PaymentScrEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? quantity = null,
+  }) {
+    return _then(UpdateQuantity(
+      null == quantity
+          ? _self.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ApplyCoupon implements PaymentScrEvent {
+  const ApplyCoupon(this.code);
+
+  final String code;
+
+  /// Create a copy of PaymentScrEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ApplyCouponCopyWith<ApplyCoupon> get copyWith =>
+      _$ApplyCouponCopyWithImpl<ApplyCoupon>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ApplyCoupon &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, code);
+
+  @override
+  String toString() {
+    return 'PaymentScrEvent.applyCoupon(code: $code)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ApplyCouponCopyWith<$Res>
+    implements $PaymentScrEventCopyWith<$Res> {
+  factory $ApplyCouponCopyWith(
+          ApplyCoupon value, $Res Function(ApplyCoupon) _then) =
+      _$ApplyCouponCopyWithImpl;
+  @useResult
+  $Res call({String code});
+}
+
+/// @nodoc
+class _$ApplyCouponCopyWithImpl<$Res> implements $ApplyCouponCopyWith<$Res> {
+  _$ApplyCouponCopyWithImpl(this._self, this._then);
+
+  final ApplyCoupon _self;
+  final $Res Function(ApplyCoupon) _then;
+
+  /// Create a copy of PaymentScrEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? code = null,
+  }) {
+    return _then(ApplyCoupon(
+      null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -255,6 +419,7 @@ extension PaymentScrStatePatterns on PaymentScrState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +432,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +458,7 @@ extension PaymentScrStatePatterns on PaymentScrState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +470,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +495,7 @@ extension PaymentScrStatePatterns on PaymentScrState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +507,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +532,7 @@ extension PaymentScrStatePatterns on PaymentScrState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(dynamic product, int quantity, num totalPrice)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +545,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.product, _that.quantity, _that.totalPrice);
       case _:
         return orElse();
     }
@@ -395,6 +571,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(dynamic product, int quantity, num totalPrice)
+        loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +584,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.product, _that.quantity, _that.totalPrice);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +609,7 @@ extension PaymentScrStatePatterns on PaymentScrState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(dynamic product, int quantity, num totalPrice)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +621,8 @@ extension PaymentScrStatePatterns on PaymentScrState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.product, _that.quantity, _that.totalPrice);
       case _:
         return null;
     }
@@ -606,6 +789,85 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements PaymentScrState {
+  const _Loaded(this.product, this.quantity, this.totalPrice);
+
+  final dynamic product;
+  final int quantity;
+  final num totalPrice;
+
+  /// Create a copy of PaymentScrState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality().equals(other.product, product) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
+            (identical(other.totalPrice, totalPrice) ||
+                other.totalPrice == totalPrice));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(product), quantity, totalPrice);
+
+  @override
+  String toString() {
+    return 'PaymentScrState.loaded(product: $product, quantity: $quantity, totalPrice: $totalPrice)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $PaymentScrStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({dynamic product, int quantity, num totalPrice});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of PaymentScrState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? product = freezed,
+    Object? quantity = null,
+    Object? totalPrice = null,
+  }) {
+    return _then(_Loaded(
+      freezed == product
+          ? _self.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      null == quantity
+          ? _self.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as int,
+      null == totalPrice
+          ? _self.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as num,
     ));
   }
 }

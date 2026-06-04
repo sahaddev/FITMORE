@@ -255,6 +255,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +268,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +294,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +306,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +331,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +343,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +368,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(dynamic orderDetails)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +381,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.orderDetails);
       case _:
         return orElse();
     }
@@ -395,6 +407,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(dynamic orderDetails) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +419,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.orderDetails);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +444,7 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(dynamic orderDetails)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +456,8 @@ extension PaymentLastPageStatePatterns on PaymentLastPageState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.orderDetails);
       case _:
         return null;
     }
@@ -606,6 +624,70 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements PaymentLastPageState {
+  const _Loaded(this.orderDetails);
+
+  final dynamic orderDetails;
+
+  /// Create a copy of PaymentLastPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality()
+                .equals(other.orderDetails, orderDetails));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(orderDetails));
+
+  @override
+  String toString() {
+    return 'PaymentLastPageState.loaded(orderDetails: $orderDetails)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $PaymentLastPageStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({dynamic orderDetails});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of PaymentLastPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? orderDetails = freezed,
+  }) {
+    return _then(_Loaded(
+      freezed == orderDetails
+          ? _self.orderDetails
+          : orderDetails // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }

@@ -51,12 +51,18 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadMyOrder value)? load,
+    TResult Function(GetAllOrders value)? getAllOrders,
+    TResult Function(ReOrder value)? reOrder,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder() when load != null:
         return load(_that);
+      case GetAllOrders() when getAllOrders != null:
+        return getAllOrders(_that);
+      case ReOrder() when reOrder != null:
+        return reOrder(_that);
       case _:
         return orElse();
     }
@@ -78,11 +84,17 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadMyOrder value) load,
+    required TResult Function(GetAllOrders value) getAllOrders,
+    required TResult Function(ReOrder value) reOrder,
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder():
         return load(_that);
+      case GetAllOrders():
+        return getAllOrders(_that);
+      case ReOrder():
+        return reOrder(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -103,11 +115,17 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadMyOrder value)? load,
+    TResult? Function(GetAllOrders value)? getAllOrders,
+    TResult? Function(ReOrder value)? reOrder,
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder() when load != null:
         return load(_that);
+      case GetAllOrders() when getAllOrders != null:
+        return getAllOrders(_that);
+      case ReOrder() when reOrder != null:
+        return reOrder(_that);
       case _:
         return null;
     }
@@ -128,12 +146,18 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function()? getAllOrders,
+    TResult Function(OrderhistoryModel order)? reOrder,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder() when load != null:
         return load();
+      case GetAllOrders() when getAllOrders != null:
+        return getAllOrders();
+      case ReOrder() when reOrder != null:
+        return reOrder(_that.order);
       case _:
         return orElse();
     }
@@ -155,11 +179,17 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function() getAllOrders,
+    required TResult Function(OrderhistoryModel order) reOrder,
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder():
         return load();
+      case GetAllOrders():
+        return getAllOrders();
+      case ReOrder():
+        return reOrder(_that.order);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -180,11 +210,17 @@ extension MyOrderEventPatterns on MyOrderEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function()? getAllOrders,
+    TResult? Function(OrderhistoryModel order)? reOrder,
   }) {
     final _that = this;
     switch (_that) {
       case LoadMyOrder() when load != null:
         return load();
+      case GetAllOrders() when getAllOrders != null:
+        return getAllOrders();
+      case ReOrder() when reOrder != null:
+        return reOrder(_that.order);
       case _:
         return null;
     }
@@ -208,6 +244,88 @@ class LoadMyOrder implements MyOrderEvent {
   @override
   String toString() {
     return 'MyOrderEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class GetAllOrders implements MyOrderEvent {
+  const GetAllOrders();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is GetAllOrders);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'MyOrderEvent.getAllOrders()';
+  }
+}
+
+/// @nodoc
+
+class ReOrder implements MyOrderEvent {
+  const ReOrder(this.order);
+
+  final OrderhistoryModel order;
+
+  /// Create a copy of MyOrderEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReOrderCopyWith<ReOrder> get copyWith =>
+      _$ReOrderCopyWithImpl<ReOrder>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReOrder &&
+            (identical(other.order, order) || other.order == order));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, order);
+
+  @override
+  String toString() {
+    return 'MyOrderEvent.reOrder(order: $order)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReOrderCopyWith<$Res>
+    implements $MyOrderEventCopyWith<$Res> {
+  factory $ReOrderCopyWith(ReOrder value, $Res Function(ReOrder) _then) =
+      _$ReOrderCopyWithImpl;
+  @useResult
+  $Res call({OrderhistoryModel order});
+}
+
+/// @nodoc
+class _$ReOrderCopyWithImpl<$Res> implements $ReOrderCopyWith<$Res> {
+  _$ReOrderCopyWithImpl(this._self, this._then);
+
+  final ReOrder _self;
+  final $Res Function(ReOrder) _then;
+
+  /// Create a copy of MyOrderEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? order = null,
+  }) {
+    return _then(ReOrder(
+      null == order
+          ? _self.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as OrderhistoryModel,
+    ));
   }
 }
 
@@ -253,6 +371,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -265,6 +384,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -289,6 +410,7 @@ extension MyOrderStatePatterns on MyOrderState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -300,6 +422,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -323,6 +447,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -334,6 +459,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -357,6 +484,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(List<OrderhistoryModel> orders)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -369,6 +497,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.orders);
       case _:
         return orElse();
     }
@@ -393,6 +523,7 @@ extension MyOrderStatePatterns on MyOrderState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(List<OrderhistoryModel> orders) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -404,6 +535,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.orders);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -427,6 +560,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(List<OrderhistoryModel> orders)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -438,6 +572,8 @@ extension MyOrderStatePatterns on MyOrderState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.orders);
       case _:
         return null;
     }
@@ -604,6 +740,74 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements MyOrderState {
+  const _Loaded(final List<OrderhistoryModel> orders) : _orders = orders;
+
+  final List<OrderhistoryModel> _orders;
+  List<OrderhistoryModel> get orders {
+    if (_orders is EqualUnmodifiableListView) return _orders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_orders);
+  }
+
+  /// Create a copy of MyOrderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality().equals(other._orders, _orders));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_orders));
+
+  @override
+  String toString() {
+    return 'MyOrderState.loaded(orders: $orders)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $MyOrderStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({List<OrderhistoryModel> orders});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of MyOrderState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? orders = null,
+  }) {
+    return _then(_Loaded(
+      null == orders
+          ? _self._orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as List<OrderhistoryModel>,
     ));
   }
 }

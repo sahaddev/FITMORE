@@ -51,12 +51,15 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FetchData value)? fetchData,
+    TResult Function(RefreshData value)? refreshData,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
         return fetchData(_that);
+      case RefreshData() when refreshData != null:
+        return refreshData(_that);
       case _:
         return orElse();
     }
@@ -78,11 +81,14 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(FetchData value) fetchData,
+    required TResult Function(RefreshData value) refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData():
         return fetchData(_that);
+      case RefreshData():
+        return refreshData(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -103,11 +109,14 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(FetchData value)? fetchData,
+    TResult? Function(RefreshData value)? refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
         return fetchData(_that);
+      case RefreshData() when refreshData != null:
+        return refreshData(_that);
       case _:
         return null;
     }
@@ -128,12 +137,15 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchData,
+    TResult Function()? refreshData,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
         return fetchData();
+      case RefreshData() when refreshData != null:
+        return refreshData();
       case _:
         return orElse();
     }
@@ -155,11 +167,14 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchData,
+    required TResult Function() refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData():
         return fetchData();
+      case RefreshData():
+        return refreshData();
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -180,11 +195,14 @@ extension HomeEventPatterns on HomeEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchData,
+    TResult? Function()? refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
         return fetchData();
+      case RefreshData() when refreshData != null:
+        return refreshData();
       case _:
         return null;
     }
@@ -208,6 +226,26 @@ class FetchData implements HomeEvent {
   @override
   String toString() {
     return 'HomeEvent.fetchData()';
+  }
+}
+
+/// @nodoc
+
+class RefreshData implements HomeEvent {
+  const RefreshData();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is RefreshData);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'HomeEvent.refreshData()';
   }
 }
 
@@ -253,6 +291,7 @@ extension HomeStatePatterns on HomeState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -265,6 +304,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -289,6 +330,7 @@ extension HomeStatePatterns on HomeState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -300,6 +342,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -323,6 +367,7 @@ extension HomeStatePatterns on HomeState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -334,6 +379,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -357,6 +404,7 @@ extension HomeStatePatterns on HomeState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(List<ProductModel> popularProducts)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -369,6 +417,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.popularProducts);
       case _:
         return orElse();
     }
@@ -393,6 +443,7 @@ extension HomeStatePatterns on HomeState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(List<ProductModel> popularProducts) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -404,6 +455,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.popularProducts);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -427,6 +480,7 @@ extension HomeStatePatterns on HomeState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(List<ProductModel> popularProducts)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -438,6 +492,8 @@ extension HomeStatePatterns on HomeState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.popularProducts);
       case _:
         return null;
     }
@@ -604,6 +660,76 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements HomeState {
+  const _Loaded(final List<ProductModel> popularProducts)
+      : _popularProducts = popularProducts;
+
+  final List<ProductModel> _popularProducts;
+  List<ProductModel> get popularProducts {
+    if (_popularProducts is EqualUnmodifiableListView) return _popularProducts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_popularProducts);
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality()
+                .equals(other._popularProducts, _popularProducts));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_popularProducts));
+
+  @override
+  String toString() {
+    return 'HomeState.loaded(popularProducts: $popularProducts)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $HomeStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({List<ProductModel> popularProducts});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? popularProducts = null,
+  }) {
+    return _then(_Loaded(
+      null == popularProducts
+          ? _self._popularProducts
+          : popularProducts // ignore: cast_nullable_to_non_nullable
+              as List<ProductModel>,
     ));
   }
 }

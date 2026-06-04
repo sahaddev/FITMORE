@@ -6,4 +6,5 @@ abstract class MyOrderState with _$MyOrderState {
   const factory MyOrderState.loading() = _Loading;
   const factory MyOrderState.success({required String message}) = _Success;
   const factory MyOrderState.failure({required String message}) = _Failure;
+  const factory MyOrderState.loaded(List<OrderhistoryModel> orders) = _Loaded;
 }

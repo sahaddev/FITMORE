@@ -6,4 +6,5 @@ abstract class PaymentScrTwoState with _$PaymentScrTwoState {
   const factory PaymentScrTwoState.loading() = _Loading;
   const factory PaymentScrTwoState.success({required String message}) = _Success;
   const factory PaymentScrTwoState.failure({required String message}) = _Failure;
+  const factory PaymentScrTwoState.loaded(String selectedMethod) = _Loaded;
 }

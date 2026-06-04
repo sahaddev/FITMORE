@@ -51,12 +51,24 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadFavorite value)? load,
+    TResult Function(GetAllFavorites value)? getAllFavorites,
+    TResult Function(RemoveFromFavorites value)? removeFromFavorites,
+    TResult Function(ClearFavorites value)? clearFavorites,
+    TResult Function(AddToFavorites value)? addToFavorites,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite() when load != null:
         return load(_that);
+      case GetAllFavorites() when getAllFavorites != null:
+        return getAllFavorites(_that);
+      case RemoveFromFavorites() when removeFromFavorites != null:
+        return removeFromFavorites(_that);
+      case ClearFavorites() when clearFavorites != null:
+        return clearFavorites(_that);
+      case AddToFavorites() when addToFavorites != null:
+        return addToFavorites(_that);
       case _:
         return orElse();
     }
@@ -78,11 +90,23 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadFavorite value) load,
+    required TResult Function(GetAllFavorites value) getAllFavorites,
+    required TResult Function(RemoveFromFavorites value) removeFromFavorites,
+    required TResult Function(ClearFavorites value) clearFavorites,
+    required TResult Function(AddToFavorites value) addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite():
         return load(_that);
+      case GetAllFavorites():
+        return getAllFavorites(_that);
+      case RemoveFromFavorites():
+        return removeFromFavorites(_that);
+      case ClearFavorites():
+        return clearFavorites(_that);
+      case AddToFavorites():
+        return addToFavorites(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -103,11 +127,23 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadFavorite value)? load,
+    TResult? Function(GetAllFavorites value)? getAllFavorites,
+    TResult? Function(RemoveFromFavorites value)? removeFromFavorites,
+    TResult? Function(ClearFavorites value)? clearFavorites,
+    TResult? Function(AddToFavorites value)? addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite() when load != null:
         return load(_that);
+      case GetAllFavorites() when getAllFavorites != null:
+        return getAllFavorites(_that);
+      case RemoveFromFavorites() when removeFromFavorites != null:
+        return removeFromFavorites(_that);
+      case ClearFavorites() when clearFavorites != null:
+        return clearFavorites(_that);
+      case AddToFavorites() when addToFavorites != null:
+        return addToFavorites(_that);
       case _:
         return null;
     }
@@ -128,12 +164,24 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function()? getAllFavorites,
+    TResult Function(int id)? removeFromFavorites,
+    TResult Function()? clearFavorites,
+    TResult Function(FavoriteModel item)? addToFavorites,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite() when load != null:
         return load();
+      case GetAllFavorites() when getAllFavorites != null:
+        return getAllFavorites();
+      case RemoveFromFavorites() when removeFromFavorites != null:
+        return removeFromFavorites(_that.id);
+      case ClearFavorites() when clearFavorites != null:
+        return clearFavorites();
+      case AddToFavorites() when addToFavorites != null:
+        return addToFavorites(_that.item);
       case _:
         return orElse();
     }
@@ -155,11 +203,23 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function() getAllFavorites,
+    required TResult Function(int id) removeFromFavorites,
+    required TResult Function() clearFavorites,
+    required TResult Function(FavoriteModel item) addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite():
         return load();
+      case GetAllFavorites():
+        return getAllFavorites();
+      case RemoveFromFavorites():
+        return removeFromFavorites(_that.id);
+      case ClearFavorites():
+        return clearFavorites();
+      case AddToFavorites():
+        return addToFavorites(_that.item);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -180,11 +240,23 @@ extension FavoriteEventPatterns on FavoriteEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function()? getAllFavorites,
+    TResult? Function(int id)? removeFromFavorites,
+    TResult? Function()? clearFavorites,
+    TResult? Function(FavoriteModel item)? addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
       case LoadFavorite() when load != null:
         return load();
+      case GetAllFavorites() when getAllFavorites != null:
+        return getAllFavorites();
+      case RemoveFromFavorites() when removeFromFavorites != null:
+        return removeFromFavorites(_that.id);
+      case ClearFavorites() when clearFavorites != null:
+        return clearFavorites();
+      case AddToFavorites() when addToFavorites != null:
+        return addToFavorites(_that.item);
       case _:
         return null;
     }
@@ -208,6 +280,174 @@ class LoadFavorite implements FavoriteEvent {
   @override
   String toString() {
     return 'FavoriteEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class GetAllFavorites implements FavoriteEvent {
+  const GetAllFavorites();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is GetAllFavorites);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FavoriteEvent.getAllFavorites()';
+  }
+}
+
+/// @nodoc
+
+class RemoveFromFavorites implements FavoriteEvent {
+  const RemoveFromFavorites(this.id);
+
+  final int id;
+
+  /// Create a copy of FavoriteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $RemoveFromFavoritesCopyWith<RemoveFromFavorites> get copyWith =>
+      _$RemoveFromFavoritesCopyWithImpl<RemoveFromFavorites>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is RemoveFromFavorites &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @override
+  String toString() {
+    return 'FavoriteEvent.removeFromFavorites(id: $id)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $RemoveFromFavoritesCopyWith<$Res>
+    implements $FavoriteEventCopyWith<$Res> {
+  factory $RemoveFromFavoritesCopyWith(
+          RemoveFromFavorites value, $Res Function(RemoveFromFavorites) _then) =
+      _$RemoveFromFavoritesCopyWithImpl;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$RemoveFromFavoritesCopyWithImpl<$Res>
+    implements $RemoveFromFavoritesCopyWith<$Res> {
+  _$RemoveFromFavoritesCopyWithImpl(this._self, this._then);
+
+  final RemoveFromFavorites _self;
+  final $Res Function(RemoveFromFavorites) _then;
+
+  /// Create a copy of FavoriteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(RemoveFromFavorites(
+      null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ClearFavorites implements FavoriteEvent {
+  const ClearFavorites();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ClearFavorites);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'FavoriteEvent.clearFavorites()';
+  }
+}
+
+/// @nodoc
+
+class AddToFavorites implements FavoriteEvent {
+  const AddToFavorites(this.item);
+
+  final FavoriteModel item;
+
+  /// Create a copy of FavoriteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AddToFavoritesCopyWith<AddToFavorites> get copyWith =>
+      _$AddToFavoritesCopyWithImpl<AddToFavorites>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AddToFavorites &&
+            (identical(other.item, item) || other.item == item));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, item);
+
+  @override
+  String toString() {
+    return 'FavoriteEvent.addToFavorites(item: $item)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AddToFavoritesCopyWith<$Res>
+    implements $FavoriteEventCopyWith<$Res> {
+  factory $AddToFavoritesCopyWith(
+          AddToFavorites value, $Res Function(AddToFavorites) _then) =
+      _$AddToFavoritesCopyWithImpl;
+  @useResult
+  $Res call({FavoriteModel item});
+}
+
+/// @nodoc
+class _$AddToFavoritesCopyWithImpl<$Res>
+    implements $AddToFavoritesCopyWith<$Res> {
+  _$AddToFavoritesCopyWithImpl(this._self, this._then);
+
+  final AddToFavorites _self;
+  final $Res Function(AddToFavorites) _then;
+
+  /// Create a copy of FavoriteEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? item = null,
+  }) {
+    return _then(AddToFavorites(
+      null == item
+          ? _self.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as FavoriteModel,
+    ));
   }
 }
 
@@ -253,6 +493,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -265,6 +506,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -289,6 +532,7 @@ extension FavoriteStatePatterns on FavoriteState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -300,6 +544,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -323,6 +569,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -334,6 +581,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -357,6 +606,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(List<FavoriteModel> favoriteItems)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -369,6 +619,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.favoriteItems);
       case _:
         return orElse();
     }
@@ -393,6 +645,7 @@ extension FavoriteStatePatterns on FavoriteState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(List<FavoriteModel> favoriteItems) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -404,6 +657,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.favoriteItems);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -427,6 +682,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(List<FavoriteModel> favoriteItems)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -438,6 +694,8 @@ extension FavoriteStatePatterns on FavoriteState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.favoriteItems);
       case _:
         return null;
     }
@@ -604,6 +862,76 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements FavoriteState {
+  const _Loaded(final List<FavoriteModel> favoriteItems)
+      : _favoriteItems = favoriteItems;
+
+  final List<FavoriteModel> _favoriteItems;
+  List<FavoriteModel> get favoriteItems {
+    if (_favoriteItems is EqualUnmodifiableListView) return _favoriteItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_favoriteItems);
+  }
+
+  /// Create a copy of FavoriteState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality()
+                .equals(other._favoriteItems, _favoriteItems));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_favoriteItems));
+
+  @override
+  String toString() {
+    return 'FavoriteState.loaded(favoriteItems: $favoriteItems)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $FavoriteStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({List<FavoriteModel> favoriteItems});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of FavoriteState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? favoriteItems = null,
+  }) {
+    return _then(_Loaded(
+      null == favoriteItems
+          ? _self._favoriteItems
+          : favoriteItems // ignore: cast_nullable_to_non_nullable
+              as List<FavoriteModel>,
     ));
   }
 }

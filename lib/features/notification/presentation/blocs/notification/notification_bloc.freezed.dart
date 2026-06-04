@@ -52,12 +52,21 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadNotification value)? load,
+    TResult Function(GetAllNotifications value)? getAllNotifications,
+    TResult Function(MarkAsRead value)? markAsRead,
+    TResult Function(MarkAllAsRead value)? markAllAsRead,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification() when load != null:
         return load(_that);
+      case GetAllNotifications() when getAllNotifications != null:
+        return getAllNotifications(_that);
+      case MarkAsRead() when markAsRead != null:
+        return markAsRead(_that);
+      case MarkAllAsRead() when markAllAsRead != null:
+        return markAllAsRead(_that);
       case _:
         return orElse();
     }
@@ -79,11 +88,20 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadNotification value) load,
+    required TResult Function(GetAllNotifications value) getAllNotifications,
+    required TResult Function(MarkAsRead value) markAsRead,
+    required TResult Function(MarkAllAsRead value) markAllAsRead,
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification():
         return load(_that);
+      case GetAllNotifications():
+        return getAllNotifications(_that);
+      case MarkAsRead():
+        return markAsRead(_that);
+      case MarkAllAsRead():
+        return markAllAsRead(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +122,20 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadNotification value)? load,
+    TResult? Function(GetAllNotifications value)? getAllNotifications,
+    TResult? Function(MarkAsRead value)? markAsRead,
+    TResult? Function(MarkAllAsRead value)? markAllAsRead,
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification() when load != null:
         return load(_that);
+      case GetAllNotifications() when getAllNotifications != null:
+        return getAllNotifications(_that);
+      case MarkAsRead() when markAsRead != null:
+        return markAsRead(_that);
+      case MarkAllAsRead() when markAllAsRead != null:
+        return markAllAsRead(_that);
       case _:
         return null;
     }
@@ -129,12 +156,21 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function()? getAllNotifications,
+    TResult Function(int id)? markAsRead,
+    TResult Function()? markAllAsRead,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification() when load != null:
         return load();
+      case GetAllNotifications() when getAllNotifications != null:
+        return getAllNotifications();
+      case MarkAsRead() when markAsRead != null:
+        return markAsRead(_that.id);
+      case MarkAllAsRead() when markAllAsRead != null:
+        return markAllAsRead();
       case _:
         return orElse();
     }
@@ -156,11 +192,20 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function() getAllNotifications,
+    required TResult Function(int id) markAsRead,
+    required TResult Function() markAllAsRead,
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification():
         return load();
+      case GetAllNotifications():
+        return getAllNotifications();
+      case MarkAsRead():
+        return markAsRead(_that.id);
+      case MarkAllAsRead():
+        return markAllAsRead();
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +226,20 @@ extension NotificationEventPatterns on NotificationEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function()? getAllNotifications,
+    TResult? Function(int id)? markAsRead,
+    TResult? Function()? markAllAsRead,
   }) {
     final _that = this;
     switch (_that) {
       case LoadNotification() when load != null:
         return load();
+      case GetAllNotifications() when getAllNotifications != null:
+        return getAllNotifications();
+      case MarkAsRead() when markAsRead != null:
+        return markAsRead(_that.id);
+      case MarkAllAsRead() when markAllAsRead != null:
+        return markAllAsRead();
       case _:
         return null;
     }
@@ -209,6 +263,109 @@ class LoadNotification implements NotificationEvent {
   @override
   String toString() {
     return 'NotificationEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class GetAllNotifications implements NotificationEvent {
+  const GetAllNotifications();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is GetAllNotifications);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.getAllNotifications()';
+  }
+}
+
+/// @nodoc
+
+class MarkAsRead implements NotificationEvent {
+  const MarkAsRead(this.id);
+
+  final int id;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $MarkAsReadCopyWith<MarkAsRead> get copyWith =>
+      _$MarkAsReadCopyWithImpl<MarkAsRead>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MarkAsRead &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @override
+  String toString() {
+    return 'NotificationEvent.markAsRead(id: $id)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $MarkAsReadCopyWith<$Res>
+    implements $NotificationEventCopyWith<$Res> {
+  factory $MarkAsReadCopyWith(
+          MarkAsRead value, $Res Function(MarkAsRead) _then) =
+      _$MarkAsReadCopyWithImpl;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$MarkAsReadCopyWithImpl<$Res> implements $MarkAsReadCopyWith<$Res> {
+  _$MarkAsReadCopyWithImpl(this._self, this._then);
+
+  final MarkAsRead _self;
+  final $Res Function(MarkAsRead) _then;
+
+  /// Create a copy of NotificationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(MarkAsRead(
+      null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class MarkAllAsRead implements NotificationEvent {
+  const MarkAllAsRead();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is MarkAllAsRead);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'NotificationEvent.markAllAsRead()';
   }
 }
 
@@ -255,6 +412,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +425,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +451,7 @@ extension NotificationStatePatterns on NotificationState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +463,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +488,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +500,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +525,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(List<dynamic> notifications)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +538,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.notifications);
       case _:
         return orElse();
     }
@@ -395,6 +564,7 @@ extension NotificationStatePatterns on NotificationState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(List<dynamic> notifications) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +576,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.notifications);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +601,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(List<dynamic> notifications)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +613,8 @@ extension NotificationStatePatterns on NotificationState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.notifications);
       case _:
         return null;
     }
@@ -606,6 +781,76 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements NotificationState {
+  const _Loaded(final List<dynamic> notifications)
+      : _notifications = notifications;
+
+  final List<dynamic> _notifications;
+  List<dynamic> get notifications {
+    if (_notifications is EqualUnmodifiableListView) return _notifications;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_notifications);
+  }
+
+  /// Create a copy of NotificationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality()
+                .equals(other._notifications, _notifications));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_notifications));
+
+  @override
+  String toString() {
+    return 'NotificationState.loaded(notifications: $notifications)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $NotificationStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({List<dynamic> notifications});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of NotificationState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? notifications = null,
+  }) {
+    return _then(_Loaded(
+      null == notifications
+          ? _self._notifications
+          : notifications // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }

@@ -52,12 +52,18 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadEditProfile value)? load,
+    TResult Function(UpdateProfile value)? updateProfile,
+    TResult Function(ChangePassword value)? changePassword,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
         return load(_that);
+      case UpdateProfile() when updateProfile != null:
+        return updateProfile(_that);
+      case ChangePassword() when changePassword != null:
+        return changePassword(_that);
       case _:
         return orElse();
     }
@@ -79,11 +85,17 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadEditProfile value) load,
+    required TResult Function(UpdateProfile value) updateProfile,
+    required TResult Function(ChangePassword value) changePassword,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile():
         return load(_that);
+      case UpdateProfile():
+        return updateProfile(_that);
+      case ChangePassword():
+        return changePassword(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +116,17 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadEditProfile value)? load,
+    TResult? Function(UpdateProfile value)? updateProfile,
+    TResult? Function(ChangePassword value)? changePassword,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
         return load(_that);
+      case UpdateProfile() when updateProfile != null:
+        return updateProfile(_that);
+      case ChangePassword() when changePassword != null:
+        return changePassword(_that);
       case _:
         return null;
     }
@@ -129,12 +147,20 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(UserModel user, String name, String phone, String email)?
+        updateProfile,
+    TResult Function(UserModel user, String oldPassword, String newPassword)?
+        changePassword,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
         return load();
+      case UpdateProfile() when updateProfile != null:
+        return updateProfile(_that.user, _that.name, _that.phone, _that.email);
+      case ChangePassword() when changePassword != null:
+        return changePassword(_that.user, _that.oldPassword, _that.newPassword);
       case _:
         return orElse();
     }
@@ -156,11 +182,21 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(
+            UserModel user, String name, String phone, String email)
+        updateProfile,
+    required TResult Function(
+            UserModel user, String oldPassword, String newPassword)
+        changePassword,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile():
         return load();
+      case UpdateProfile():
+        return updateProfile(_that.user, _that.name, _that.phone, _that.email);
+      case ChangePassword():
+        return changePassword(_that.user, _that.oldPassword, _that.newPassword);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +217,19 @@ extension EditProfileEventPatterns on EditProfileEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(UserModel user, String name, String phone, String email)?
+        updateProfile,
+    TResult? Function(UserModel user, String oldPassword, String newPassword)?
+        changePassword,
   }) {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
         return load();
+      case UpdateProfile() when updateProfile != null:
+        return updateProfile(_that.user, _that.name, _that.phone, _that.email);
+      case ChangePassword() when changePassword != null:
+        return changePassword(_that.user, _that.oldPassword, _that.newPassword);
       case _:
         return null;
     }
@@ -209,6 +253,171 @@ class LoadEditProfile implements EditProfileEvent {
   @override
   String toString() {
     return 'EditProfileEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class UpdateProfile implements EditProfileEvent {
+  const UpdateProfile(this.user, this.name, this.phone, this.email);
+
+  final UserModel user;
+  final String name;
+  final String phone;
+  final String email;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UpdateProfileCopyWith<UpdateProfile> get copyWith =>
+      _$UpdateProfileCopyWithImpl<UpdateProfile>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UpdateProfile &&
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, user, name, phone, email);
+
+  @override
+  String toString() {
+    return 'EditProfileEvent.updateProfile(user: $user, name: $name, phone: $phone, email: $email)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $UpdateProfileCopyWith<$Res>
+    implements $EditProfileEventCopyWith<$Res> {
+  factory $UpdateProfileCopyWith(
+          UpdateProfile value, $Res Function(UpdateProfile) _then) =
+      _$UpdateProfileCopyWithImpl;
+  @useResult
+  $Res call({UserModel user, String name, String phone, String email});
+}
+
+/// @nodoc
+class _$UpdateProfileCopyWithImpl<$Res>
+    implements $UpdateProfileCopyWith<$Res> {
+  _$UpdateProfileCopyWithImpl(this._self, this._then);
+
+  final UpdateProfile _self;
+  final $Res Function(UpdateProfile) _then;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? user = null,
+    Object? name = null,
+    Object? phone = null,
+    Object? email = null,
+  }) {
+    return _then(UpdateProfile(
+      null == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel,
+      null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == phone
+          ? _self.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class ChangePassword implements EditProfileEvent {
+  const ChangePassword(this.user, this.oldPassword, this.newPassword);
+
+  final UserModel user;
+  final String oldPassword;
+  final String newPassword;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ChangePasswordCopyWith<ChangePassword> get copyWith =>
+      _$ChangePasswordCopyWithImpl<ChangePassword>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ChangePassword &&
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.oldPassword, oldPassword) ||
+                other.oldPassword == oldPassword) &&
+            (identical(other.newPassword, newPassword) ||
+                other.newPassword == newPassword));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, user, oldPassword, newPassword);
+
+  @override
+  String toString() {
+    return 'EditProfileEvent.changePassword(user: $user, oldPassword: $oldPassword, newPassword: $newPassword)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ChangePasswordCopyWith<$Res>
+    implements $EditProfileEventCopyWith<$Res> {
+  factory $ChangePasswordCopyWith(
+          ChangePassword value, $Res Function(ChangePassword) _then) =
+      _$ChangePasswordCopyWithImpl;
+  @useResult
+  $Res call({UserModel user, String oldPassword, String newPassword});
+}
+
+/// @nodoc
+class _$ChangePasswordCopyWithImpl<$Res>
+    implements $ChangePasswordCopyWith<$Res> {
+  _$ChangePasswordCopyWithImpl(this._self, this._then);
+
+  final ChangePassword _self;
+  final $Res Function(ChangePassword) _then;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? user = null,
+    Object? oldPassword = null,
+    Object? newPassword = null,
+  }) {
+    return _then(ChangePassword(
+      null == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel,
+      null == oldPassword
+          ? _self.oldPassword
+          : oldPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == newPassword
+          ? _self.newPassword
+          : newPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -255,6 +464,7 @@ extension EditProfileStatePatterns on EditProfileState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +477,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +503,7 @@ extension EditProfileStatePatterns on EditProfileState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +515,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +540,7 @@ extension EditProfileStatePatterns on EditProfileState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +552,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +577,7 @@ extension EditProfileStatePatterns on EditProfileState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(dynamic user)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +590,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.user);
       case _:
         return orElse();
     }
@@ -395,6 +616,7 @@ extension EditProfileStatePatterns on EditProfileState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(dynamic user) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +628,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.user);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +653,7 @@ extension EditProfileStatePatterns on EditProfileState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(dynamic user)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +665,8 @@ extension EditProfileStatePatterns on EditProfileState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.user);
       case _:
         return null;
     }
@@ -606,6 +833,69 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements EditProfileState {
+  const _Loaded(this.user);
+
+  final dynamic user;
+
+  /// Create a copy of EditProfileState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality().equals(other.user, user));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(user));
+
+  @override
+  String toString() {
+    return 'EditProfileState.loaded(user: $user)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $EditProfileStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({dynamic user});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of EditProfileState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? user = freezed,
+  }) {
+    return _then(_Loaded(
+      freezed == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }

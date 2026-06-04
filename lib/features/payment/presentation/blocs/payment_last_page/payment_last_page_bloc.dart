@@ -17,8 +17,7 @@ class PaymentLastPageBloc extends Bloc<PaymentLastPageEvent, PaymentLastPageStat
     emit(const PaymentLastPageState.loading());
     try {
       // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const PaymentLastPageState.success(message: 'Loaded successfully'));
+      emit(const PaymentLastPageState.loaded(null));
     } catch (e) {
       emit(PaymentLastPageState.failure(message: e.toString()));
     }

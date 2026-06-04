@@ -322,12 +322,11 @@ class AddAddress implements AddressEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AddAddress &&
-            const DeepCollectionEquality().equals(other.address, address));
+            (identical(other.address, address) || other.address == address));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+  int get hashCode => Object.hash(runtimeType, address);
 
   @override
   String toString() {
@@ -356,10 +355,10 @@ class _$AddAddressCopyWithImpl<$Res> implements $AddAddressCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? address = freezed,
+    Object? address = null,
   }) {
     return _then(AddAddress(
-      freezed == address
+      null == address
           ? _self.address
           : address // ignore: cast_nullable_to_non_nullable
               as AddressModel,
@@ -386,12 +385,11 @@ class UpdateAddress implements AddressEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpdateAddress &&
-            const DeepCollectionEquality().equals(other.address, address));
+            (identical(other.address, address) || other.address == address));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+  int get hashCode => Object.hash(runtimeType, address);
 
   @override
   String toString() {
@@ -421,10 +419,10 @@ class _$UpdateAddressCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? address = freezed,
+    Object? address = null,
   }) {
     return _then(UpdateAddress(
-      freezed == address
+      null == address
           ? _self.address
           : address // ignore: cast_nullable_to_non_nullable
               as AddressModel,

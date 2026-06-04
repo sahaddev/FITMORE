@@ -50,13 +50,16 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoadProfile value)? load,
+    TResult Function(LoadProfile value)? loadProfile,
+    TResult Function(SignOut value)? signOut,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case LoadProfile() when load != null:
-        return load(_that);
+      case LoadProfile() when loadProfile != null:
+        return loadProfile(_that);
+      case SignOut() when signOut != null:
+        return signOut(_that);
       case _:
         return orElse();
     }
@@ -77,12 +80,15 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoadProfile value) load,
+    required TResult Function(LoadProfile value) loadProfile,
+    required TResult Function(SignOut value) signOut,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProfile():
-        return load(_that);
+        return loadProfile(_that);
+      case SignOut():
+        return signOut(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -102,12 +108,15 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoadProfile value)? load,
+    TResult? Function(LoadProfile value)? loadProfile,
+    TResult? Function(SignOut value)? signOut,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadProfile() when load != null:
-        return load(_that);
+      case LoadProfile() when loadProfile != null:
+        return loadProfile(_that);
+      case SignOut() when signOut != null:
+        return signOut(_that);
       case _:
         return null;
     }
@@ -127,13 +136,16 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? load,
+    TResult Function()? loadProfile,
+    TResult Function()? signOut,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case LoadProfile() when load != null:
-        return load();
+      case LoadProfile() when loadProfile != null:
+        return loadProfile();
+      case SignOut() when signOut != null:
+        return signOut();
       case _:
         return orElse();
     }
@@ -154,12 +166,15 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() load,
+    required TResult Function() loadProfile,
+    required TResult Function() signOut,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProfile():
-        return load();
+        return loadProfile();
+      case SignOut():
+        return signOut();
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -179,12 +194,15 @@ extension ProfileEventPatterns on ProfileEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? load,
+    TResult? Function()? loadProfile,
+    TResult? Function()? signOut,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadProfile() when load != null:
-        return load();
+      case LoadProfile() when loadProfile != null:
+        return loadProfile();
+      case SignOut() when signOut != null:
+        return signOut();
       case _:
         return null;
     }
@@ -207,7 +225,27 @@ class LoadProfile implements ProfileEvent {
 
   @override
   String toString() {
-    return 'ProfileEvent.load()';
+    return 'ProfileEvent.loadProfile()';
+  }
+}
+
+/// @nodoc
+
+class SignOut implements ProfileEvent {
+  const SignOut();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is SignOut);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ProfileEvent.signOut()';
   }
 }
 
@@ -253,6 +291,7 @@ extension ProfileStatePatterns on ProfileState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -265,6 +304,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -289,6 +330,7 @@ extension ProfileStatePatterns on ProfileState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -300,6 +342,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -323,6 +367,7 @@ extension ProfileStatePatterns on ProfileState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -334,6 +379,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -357,6 +404,7 @@ extension ProfileStatePatterns on ProfileState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(dynamic user, String? imagePath)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -369,6 +417,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.user, _that.imagePath);
       case _:
         return orElse();
     }
@@ -393,6 +443,7 @@ extension ProfileStatePatterns on ProfileState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(dynamic user, String? imagePath) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -404,6 +455,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.user, _that.imagePath);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -427,6 +480,7 @@ extension ProfileStatePatterns on ProfileState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(dynamic user, String? imagePath)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -438,6 +492,8 @@ extension ProfileStatePatterns on ProfileState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.user, _that.imagePath);
       case _:
         return null;
     }
@@ -604,6 +660,77 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements ProfileState {
+  const _Loaded(this.user, this.imagePath);
+
+  final dynamic user;
+  final String? imagePath;
+
+  /// Create a copy of ProfileState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality().equals(other.user, user) &&
+            (identical(other.imagePath, imagePath) ||
+                other.imagePath == imagePath));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(user), imagePath);
+
+  @override
+  String toString() {
+    return 'ProfileState.loaded(user: $user, imagePath: $imagePath)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $ProfileStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({dynamic user, String? imagePath});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of ProfileState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? user = freezed,
+    Object? imagePath = freezed,
+  }) {
+    return _then(_Loaded(
+      freezed == user
+          ? _self.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      freezed == imagePath
+          ? _self.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

@@ -6,4 +6,5 @@ abstract class PaymentLastPageState with _$PaymentLastPageState {
   const factory PaymentLastPageState.loading() = _Loading;
   const factory PaymentLastPageState.success({required String message}) = _Success;
   const factory PaymentLastPageState.failure({required String message}) = _Failure;
+  const factory PaymentLastPageState.loaded(dynamic orderDetails) = _Loaded;
 }

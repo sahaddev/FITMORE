@@ -52,12 +52,21 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadProductDetails value)? load,
+    TResult Function(FetchProductList value)? fetchProductList,
+    TResult Function(ToggleFavorite value)? toggleFavorite,
+    TResult Function(AddToCart value)? addToCart,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
         return load(_that);
+      case FetchProductList() when fetchProductList != null:
+        return fetchProductList(_that);
+      case ToggleFavorite() when toggleFavorite != null:
+        return toggleFavorite(_that);
+      case AddToCart() when addToCart != null:
+        return addToCart(_that);
       case _:
         return orElse();
     }
@@ -79,11 +88,20 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadProductDetails value) load,
+    required TResult Function(FetchProductList value) fetchProductList,
+    required TResult Function(ToggleFavorite value) toggleFavorite,
+    required TResult Function(AddToCart value) addToCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails():
         return load(_that);
+      case FetchProductList():
+        return fetchProductList(_that);
+      case ToggleFavorite():
+        return toggleFavorite(_that);
+      case AddToCart():
+        return addToCart(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -104,11 +122,20 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadProductDetails value)? load,
+    TResult? Function(FetchProductList value)? fetchProductList,
+    TResult? Function(ToggleFavorite value)? toggleFavorite,
+    TResult? Function(AddToCart value)? addToCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
         return load(_that);
+      case FetchProductList() when fetchProductList != null:
+        return fetchProductList(_that);
+      case ToggleFavorite() when toggleFavorite != null:
+        return toggleFavorite(_that);
+      case AddToCart() when addToCart != null:
+        return addToCart(_that);
       case _:
         return null;
     }
@@ -129,12 +156,21 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function()? fetchProductList,
+    TResult Function(ProductModel product)? toggleFavorite,
+    TResult Function(ProductModel product)? addToCart,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
         return load();
+      case FetchProductList() when fetchProductList != null:
+        return fetchProductList();
+      case ToggleFavorite() when toggleFavorite != null:
+        return toggleFavorite(_that.product);
+      case AddToCart() when addToCart != null:
+        return addToCart(_that.product);
       case _:
         return orElse();
     }
@@ -156,11 +192,20 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function() fetchProductList,
+    required TResult Function(ProductModel product) toggleFavorite,
+    required TResult Function(ProductModel product) addToCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails():
         return load();
+      case FetchProductList():
+        return fetchProductList();
+      case ToggleFavorite():
+        return toggleFavorite(_that.product);
+      case AddToCart():
+        return addToCart(_that.product);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -181,11 +226,20 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function()? fetchProductList,
+    TResult? Function(ProductModel product)? toggleFavorite,
+    TResult? Function(ProductModel product)? addToCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
         return load();
+      case FetchProductList() when fetchProductList != null:
+        return fetchProductList();
+      case ToggleFavorite() when toggleFavorite != null:
+        return toggleFavorite(_that.product);
+      case AddToCart() when addToCart != null:
+        return addToCart(_that.product);
       case _:
         return null;
     }
@@ -209,6 +263,152 @@ class LoadProductDetails implements ProductDetailsEvent {
   @override
   String toString() {
     return 'ProductDetailsEvent.load()';
+  }
+}
+
+/// @nodoc
+
+class FetchProductList implements ProductDetailsEvent {
+  const FetchProductList();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is FetchProductList);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'ProductDetailsEvent.fetchProductList()';
+  }
+}
+
+/// @nodoc
+
+class ToggleFavorite implements ProductDetailsEvent {
+  const ToggleFavorite(this.product);
+
+  final ProductModel product;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ToggleFavoriteCopyWith<ToggleFavorite> get copyWith =>
+      _$ToggleFavoriteCopyWithImpl<ToggleFavorite>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ToggleFavorite &&
+            (identical(other.product, product) || other.product == product));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, product);
+
+  @override
+  String toString() {
+    return 'ProductDetailsEvent.toggleFavorite(product: $product)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ToggleFavoriteCopyWith<$Res>
+    implements $ProductDetailsEventCopyWith<$Res> {
+  factory $ToggleFavoriteCopyWith(
+          ToggleFavorite value, $Res Function(ToggleFavorite) _then) =
+      _$ToggleFavoriteCopyWithImpl;
+  @useResult
+  $Res call({ProductModel product});
+}
+
+/// @nodoc
+class _$ToggleFavoriteCopyWithImpl<$Res>
+    implements $ToggleFavoriteCopyWith<$Res> {
+  _$ToggleFavoriteCopyWithImpl(this._self, this._then);
+
+  final ToggleFavorite _self;
+  final $Res Function(ToggleFavorite) _then;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? product = null,
+  }) {
+    return _then(ToggleFavorite(
+      null == product
+          ? _self.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as ProductModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class AddToCart implements ProductDetailsEvent {
+  const AddToCart(this.product);
+
+  final ProductModel product;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AddToCartCopyWith<AddToCart> get copyWith =>
+      _$AddToCartCopyWithImpl<AddToCart>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AddToCart &&
+            (identical(other.product, product) || other.product == product));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, product);
+
+  @override
+  String toString() {
+    return 'ProductDetailsEvent.addToCart(product: $product)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AddToCartCopyWith<$Res>
+    implements $ProductDetailsEventCopyWith<$Res> {
+  factory $AddToCartCopyWith(AddToCart value, $Res Function(AddToCart) _then) =
+      _$AddToCartCopyWithImpl;
+  @useResult
+  $Res call({ProductModel product});
+}
+
+/// @nodoc
+class _$AddToCartCopyWithImpl<$Res> implements $AddToCartCopyWith<$Res> {
+  _$AddToCartCopyWithImpl(this._self, this._then);
+
+  final AddToCart _self;
+  final $Res Function(AddToCart) _then;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? product = null,
+  }) {
+    return _then(AddToCart(
+      null == product
+          ? _self.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as ProductModel,
+    ));
   }
 }
 
@@ -255,6 +455,7 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -267,6 +468,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return orElse();
     }
@@ -291,6 +494,7 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
+    required TResult Function(_Loaded value) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -302,6 +506,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that);
       case _Failure():
         return failure(_that);
+      case _Loaded():
+        return loaded(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -325,6 +531,7 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -336,6 +543,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that);
       case _Failure() when failure != null:
         return failure(_that);
+      case _Loaded() when loaded != null:
+        return loaded(_that);
       case _:
         return null;
     }
@@ -359,6 +568,9 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
+    TResult Function(
+            List<ProductModel> productList, bool isFavorite, bool isInCart)?
+        loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -371,6 +583,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.productList, _that.isFavorite, _that.isInCart);
       case _:
         return orElse();
     }
@@ -395,6 +609,9 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
+    required TResult Function(
+            List<ProductModel> productList, bool isFavorite, bool isInCart)
+        loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -406,6 +623,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that.message);
       case _Failure():
         return failure(_that.message);
+      case _Loaded():
+        return loaded(_that.productList, _that.isFavorite, _that.isInCart);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -429,6 +648,9 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
+    TResult? Function(
+            List<ProductModel> productList, bool isFavorite, bool isInCart)?
+        loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -440,6 +662,8 @@ extension ProductDetailsStatePatterns on ProductDetailsState {
         return success(_that.message);
       case _Failure() when failure != null:
         return failure(_that.message);
+      case _Loaded() when loaded != null:
+        return loaded(_that.productList, _that.isFavorite, _that.isInCart);
       case _:
         return null;
     }
@@ -606,6 +830,94 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _Loaded implements ProductDetailsState {
+  const _Loaded(
+      final List<ProductModel> productList, this.isFavorite, this.isInCart)
+      : _productList = productList;
+
+  final List<ProductModel> _productList;
+  List<ProductModel> get productList {
+    if (_productList is EqualUnmodifiableListView) return _productList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_productList);
+  }
+
+  final bool isFavorite;
+  final bool isInCart;
+
+  /// Create a copy of ProductDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LoadedCopyWith<_Loaded> get copyWith =>
+      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Loaded &&
+            const DeepCollectionEquality()
+                .equals(other._productList, _productList) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite) &&
+            (identical(other.isInCart, isInCart) ||
+                other.isInCart == isInCart));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_productList), isFavorite, isInCart);
+
+  @override
+  String toString() {
+    return 'ProductDetailsState.loaded(productList: $productList, isFavorite: $isFavorite, isInCart: $isInCart)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LoadedCopyWith<$Res>
+    implements $ProductDetailsStateCopyWith<$Res> {
+  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
+      __$LoadedCopyWithImpl;
+  @useResult
+  $Res call({List<ProductModel> productList, bool isFavorite, bool isInCart});
+}
+
+/// @nodoc
+class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
+  __$LoadedCopyWithImpl(this._self, this._then);
+
+  final _Loaded _self;
+  final $Res Function(_Loaded) _then;
+
+  /// Create a copy of ProductDetailsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? productList = null,
+    Object? isFavorite = null,
+    Object? isInCart = null,
+  }) {
+    return _then(_Loaded(
+      null == productList
+          ? _self._productList
+          : productList // ignore: cast_nullable_to_non_nullable
+              as List<ProductModel>,
+      null == isFavorite
+          ? _self.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      null == isInCart
+          ? _self.isInCart
+          : isInCart // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

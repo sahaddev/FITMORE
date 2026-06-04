@@ -41,7 +41,6 @@ import '../../features/address/presentation/blocs/add_address/add_address_bloc.d
 import '../../features/cart/presentation/blocs/cart/cart_bloc.dart';
 
 // Orders
-import '../../features/orders/presentation/blocs/order_details/order_details_bloc.dart';
 import '../../features/orders/presentation/blocs/my_order/my_order_bloc.dart';
 
 // Product Details
@@ -80,7 +79,6 @@ class AppBlocProvider extends StatelessWidget {
         BlocProvider(create: (context) => AddressBloc()),
         BlocProvider(create: (context) => AddAddressBloc()),
         BlocProvider(create: (context) => CartBloc()),
-        BlocProvider(create: (context) => OrderDetailsBloc()),
         BlocProvider(create: (context) => MyOrderBloc()),
         BlocProvider(create: (context) => ProductDetailsBloc()),
         BlocProvider(create: (context) => SignInBloc()),
