@@ -6,8 +6,6 @@ import '../../data/repositories_impl/profile_repo_impli.dart';
 class ProfileUsecase {
   ProfileRepositories profileRepositories = ProfileRepoImpl();
 
-  ProfileUsecase({required this.profileRepositories});
-
   Future<ProfileGetUserResEntitiy> getUserById({required int id}) {
     return profileRepositories.getUserById(id: id);
   }

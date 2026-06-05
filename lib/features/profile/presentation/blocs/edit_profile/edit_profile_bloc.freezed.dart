@@ -146,7 +146,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? load,
+    TResult Function(int id)? load,
     TResult Function(UserModel user, String name, String phone, String email)?
         updateProfile,
     TResult Function(UserModel user, String oldPassword, String newPassword)?
@@ -156,7 +156,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
-        return load();
+        return load(_that.id);
       case UpdateProfile() when updateProfile != null:
         return updateProfile(_that.user, _that.name, _that.phone, _that.email);
       case ChangePassword() when changePassword != null:
@@ -181,7 +181,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() load,
+    required TResult Function(int id) load,
     required TResult Function(
             UserModel user, String name, String phone, String email)
         updateProfile,
@@ -192,7 +192,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
     final _that = this;
     switch (_that) {
       case LoadEditProfile():
-        return load();
+        return load(_that.id);
       case UpdateProfile():
         return updateProfile(_that.user, _that.name, _that.phone, _that.email);
       case ChangePassword():
@@ -216,7 +216,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? load,
+    TResult? Function(int id)? load,
     TResult? Function(UserModel user, String name, String phone, String email)?
         updateProfile,
     TResult? Function(UserModel user, String oldPassword, String newPassword)?
@@ -225,7 +225,7 @@ extension EditProfileEventPatterns on EditProfileEvent {
     final _that = this;
     switch (_that) {
       case LoadEditProfile() when load != null:
-        return load();
+        return load(_that.id);
       case UpdateProfile() when updateProfile != null:
         return updateProfile(_that.user, _that.name, _that.phone, _that.email);
       case ChangePassword() when changePassword != null:
@@ -239,20 +239,64 @@ extension EditProfileEventPatterns on EditProfileEvent {
 /// @nodoc
 
 class LoadEditProfile implements EditProfileEvent {
-  const LoadEditProfile();
+  const LoadEditProfile({required this.id});
+
+  final int id;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $LoadEditProfileCopyWith<LoadEditProfile> get copyWith =>
+      _$LoadEditProfileCopyWithImpl<LoadEditProfile>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is LoadEditProfile);
+        (other.runtimeType == runtimeType &&
+            other is LoadEditProfile &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, id);
 
   @override
   String toString() {
-    return 'EditProfileEvent.load()';
+    return 'EditProfileEvent.load(id: $id)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $LoadEditProfileCopyWith<$Res>
+    implements $EditProfileEventCopyWith<$Res> {
+  factory $LoadEditProfileCopyWith(
+          LoadEditProfile value, $Res Function(LoadEditProfile) _then) =
+      _$LoadEditProfileCopyWithImpl;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$LoadEditProfileCopyWithImpl<$Res>
+    implements $LoadEditProfileCopyWith<$Res> {
+  _$LoadEditProfileCopyWithImpl(this._self, this._then);
+
+  final LoadEditProfile _self;
+  final $Res Function(LoadEditProfile) _then;
+
+  /// Create a copy of EditProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(LoadEditProfile(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 

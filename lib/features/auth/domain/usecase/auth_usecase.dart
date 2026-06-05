@@ -6,8 +6,6 @@ import '../../data/repositories_impl/auth_repo_impli.dart';
 class AuthUsecase {
   AuthRepositories authRepositories = AuthRepoImpl();
 
-  AuthUsecase({required this.authRepositories});
-
   Future<AuthLoginResEntitiy> login({
     required String email,
     required String password,

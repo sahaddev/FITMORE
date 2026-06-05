@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../core/models/product/db_product_model.dart';
+import '../../../domain/usecase/home_usecase.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -18,9 +19,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeState.loading());
     try {
-      // TODO: Implement home data fetching logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const HomeState.loaded([])); // Replace with actual loaded data
+      final response = await HomeUsecase().getAllProduct();
+
+      if (response.status == true && response.datas != null) {
+        final products = response.datas!.map((e) => ProductModel(
+          title: e.title ?? '',
+          discription: e.description ?? '',
+          image1: '',
+          image2: '',
+          image3: '',
+          image4: '',
+          price: e.price ?? 0,
+          category: e.category ?? '',
+          productCount: 0,
+          id: e.id,
+          active: e.active ?? true,
+        )).toList();
+        
+        emit(HomeState.loaded(products));
+      } else {
+        emit(const HomeState.failure(message: 'Failed to fetch data'));
+      }
     } catch (e) {
       emit(HomeState.failure(message: e.toString()));
     }
@@ -32,11 +51,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeState.loading());
     try {
-      // TODO: Implement refresh logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const HomeState.loaded([]));
+      final response = await HomeUsecase().getAllProduct();
+
+      if (response.status == true && response.datas != null) {
+        final products = response.datas!.map((e) => ProductModel(
+          title: e.title ?? '',
+          discription: e.description ?? '',
+          image1: '',
+          image2: '',
+          image3: '',
+          image4: '',
+          price: e.price ?? 0,
+          category: e.category ?? '',
+          productCount: 0,
+          id: e.id,
+          active: e.active ?? true,
+        )).toList();
+        
+        emit(HomeState.loaded(products));
+      } else {
+        emit(const HomeState.failure(message: 'Failed to refresh data'));
+      }
     } catch (e) {
       emit(HomeState.failure(message: e.toString()));
     }
   }
 }
+

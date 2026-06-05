@@ -155,7 +155,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? load,
+    TResult Function(int id)? load,
     TResult Function()? fetchProductList,
     TResult Function(ProductModel product)? toggleFavorite,
     TResult Function(ProductModel product)? addToCart,
@@ -164,7 +164,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
-        return load();
+        return load(_that.id);
       case FetchProductList() when fetchProductList != null:
         return fetchProductList();
       case ToggleFavorite() when toggleFavorite != null:
@@ -191,7 +191,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() load,
+    required TResult Function(int id) load,
     required TResult Function() fetchProductList,
     required TResult Function(ProductModel product) toggleFavorite,
     required TResult Function(ProductModel product) addToCart,
@@ -199,7 +199,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
     final _that = this;
     switch (_that) {
       case LoadProductDetails():
-        return load();
+        return load(_that.id);
       case FetchProductList():
         return fetchProductList();
       case ToggleFavorite():
@@ -225,7 +225,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? load,
+    TResult? Function(int id)? load,
     TResult? Function()? fetchProductList,
     TResult? Function(ProductModel product)? toggleFavorite,
     TResult? Function(ProductModel product)? addToCart,
@@ -233,7 +233,7 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
     final _that = this;
     switch (_that) {
       case LoadProductDetails() when load != null:
-        return load();
+        return load(_that.id);
       case FetchProductList() when fetchProductList != null:
         return fetchProductList();
       case ToggleFavorite() when toggleFavorite != null:
@@ -249,20 +249,64 @@ extension ProductDetailsEventPatterns on ProductDetailsEvent {
 /// @nodoc
 
 class LoadProductDetails implements ProductDetailsEvent {
-  const LoadProductDetails();
+  const LoadProductDetails({required this.id});
+
+  final int id;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $LoadProductDetailsCopyWith<LoadProductDetails> get copyWith =>
+      _$LoadProductDetailsCopyWithImpl<LoadProductDetails>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is LoadProductDetails);
+        (other.runtimeType == runtimeType &&
+            other is LoadProductDetails &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, id);
 
   @override
   String toString() {
-    return 'ProductDetailsEvent.load()';
+    return 'ProductDetailsEvent.load(id: $id)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $LoadProductDetailsCopyWith<$Res>
+    implements $ProductDetailsEventCopyWith<$Res> {
+  factory $LoadProductDetailsCopyWith(
+          LoadProductDetails value, $Res Function(LoadProductDetails) _then) =
+      _$LoadProductDetailsCopyWithImpl;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$LoadProductDetailsCopyWithImpl<$Res>
+    implements $LoadProductDetailsCopyWith<$Res> {
+  _$LoadProductDetailsCopyWithImpl(this._self, this._then);
+
+  final LoadProductDetails _self;
+  final $Res Function(LoadProductDetails) _then;
+
+  /// Create a copy of ProductDetailsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(LoadProductDetails(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 

@@ -1,12 +1,15 @@
+import 'package:e_commerce/features/home/domain/usecase/home_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../core/models/product/db_product_model.dart';
+import '../../../domain/usecase/product_details_usecase.dart';
 
 part 'product_details_event.dart';
 part 'product_details_state.dart';
 part 'product_details_bloc.freezed.dart';
 
-class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> {
+class ProductDetailsBloc
+    extends Bloc<ProductDetailsEvent, ProductDetailsState> {
   ProductDetailsBloc() : super(const ProductDetailsState.initial()) {
     on<LoadProductDetails>(_onLoadProductDetails);
     on<FetchProductList>(_onFetchProductList);
@@ -20,8 +23,28 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
   ) async {
     emit(const ProductDetailsState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const ProductDetailsState.loaded([], false, false));
+      final response = await ProductDetailsUsecase().productById(id: event.id);
+
+      if (response.status == true && response.product != null) {
+        final e = response.product!;
+        final product = ProductModel(
+          title: e.title ?? '',
+          discription: e.description ?? '',
+          image1: '',
+          image2: '',
+          image3: '',
+          image4: '',
+          price: e.price ?? 0,
+          category: e.category ?? '',
+          productCount: 0,
+          id: e.id,
+          active: e.active ?? true,
+        );
+        emit(ProductDetailsState.loaded([product], false, false));
+      } else {
+        emit(const ProductDetailsState.failure(
+            message: 'Failed to load product details'));
+      }
     } catch (e) {
       emit(ProductDetailsState.failure(message: e.toString()));
     }
@@ -31,10 +54,43 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
     FetchProductList event,
     Emitter<ProductDetailsState> emit,
   ) async {
+    bool isFav = false;
+    bool inCart = false;
+
+    state.maybeWhen(
+      loaded: (productList, isFavorite, isInCart) {
+        isFav = isFavorite;
+        inCart = isInCart;
+      },
+      orElse: () {},
+    );
+
     emit(const ProductDetailsState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const ProductDetailsState.loaded([], false, false));
+      final response = await HomeUsecase().getAllProduct();
+
+      if (response.status == true && response.datas != null) {
+        final products = response.datas!
+            .map((e) => ProductModel(
+                  title: e.title ?? '',
+                  discription: e.description ?? '',
+                  image1: '',
+                  image2: '',
+                  image3: '',
+                  image4: '',
+                  price: e.price ?? 0,
+                  category: e.category ?? '',
+                  productCount: 0,
+                  id: e.id,
+                  active: e.active ?? true,
+                ))
+            .toList();
+
+        emit(ProductDetailsState.loaded(products, isFav, inCart));
+      } else {
+        emit(const ProductDetailsState.failure(
+            message: 'Failed to fetch product list'));
+      }
     } catch (e) {
       emit(ProductDetailsState.failure(message: e.toString()));
     }
@@ -44,10 +100,25 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
     ToggleFavorite event,
     Emitter<ProductDetailsState> emit,
   ) async {
+    bool isFav = false;
+    bool inCart = false;
+    List<ProductModel> currentProducts = [];
+
+    state.maybeWhen(
+      loaded: (productList, isFavorite, isInCart) {
+        currentProducts = productList;
+        isFav = isFavorite;
+        inCart = isInCart;
+      },
+      orElse: () {},
+    );
+
     emit(const ProductDetailsState.loading());
     try {
-      // TODO: Implement logic here
+      isFav = !isFav;
+
       emit(const ProductDetailsState.success(message: 'Favorite toggled'));
+      emit(ProductDetailsState.loaded(currentProducts, isFav, inCart));
     } catch (e) {
       emit(ProductDetailsState.failure(message: e.toString()));
     }
@@ -57,10 +128,25 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
     AddToCart event,
     Emitter<ProductDetailsState> emit,
   ) async {
+    bool isFav = false;
+    bool inCart = false;
+    List<ProductModel> currentProducts = [];
+
+    state.maybeWhen(
+      loaded: (productList, isFavorite, isInCart) {
+        currentProducts = productList;
+        isFav = isFavorite;
+        inCart = isInCart;
+      },
+      orElse: () {},
+    );
+
     emit(const ProductDetailsState.loading());
     try {
-      // TODO: Implement logic here
+      inCart = true;
+
       emit(const ProductDetailsState.success(message: 'Added to cart'));
+      emit(ProductDetailsState.loaded(currentProducts, isFav, inCart));
     } catch (e) {
       emit(ProductDetailsState.failure(message: e.toString()));
     }
