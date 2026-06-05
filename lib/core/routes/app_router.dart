@@ -20,8 +20,6 @@ import '../../features/notification/presentation/pages/notification_ui.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
 import '../../features/terms/presentation/pages/terms.dart';
 import '../../features/terms/presentation/pages/about_us.dart';
-import '../../features/admin/presentation/pages/dashboard.dart';
-import '../../features/admin/presentation/pages/admin_login.dart';
 import '../../features/address/presentation/pages/edit_addres.dart';
 
 class AppRouter {
@@ -70,10 +68,6 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TermsOne());
       case AppRouters.aboutUs:
         return MaterialPageRoute(builder: (_) => const AboutUs());
-      case AppRouters.adminDashboard:
-        return MaterialPageRoute(builder: (_) => const DashboardScreen());
-      case AppRouters.adminLogin:
-        return MaterialPageRoute(builder: (_) => const AdminLogin());
 
       default:
         return MaterialPageRoute(

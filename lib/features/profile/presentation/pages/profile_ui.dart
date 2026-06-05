@@ -189,14 +189,6 @@ class ProfileUi extends StatelessWidget {
                     ),
                     _buildDivider(),
                     _buildSettingsItem(
-                      icon: Icons.admin_panel_settings_outlined,
-                      title: 'Admin Login',
-                      onTap: () {
-                        NavigationService.pushNamed(AppRouters.adminLogin);
-                      },
-                    ),
-                    _buildDivider(),
-                    _buildSettingsItem(
                       icon: Icons.lock_outline,
                       title: 'Privacy & Terms',
                       onTap: () {

@@ -17,9 +17,7 @@ class AppRouters {
   static const payment = '/payment';
   static const terms = '/terms';
   static const aboutUs = '/about_us';
-  static const adminDashboard = '/admin_dashboard';
-  static const adminLogin = '/admin_login';
-  
+
   // Routes with arguments or previously unmapped
   static const productDetails = '/product_details';
   static const orderDetails = '/order_details';

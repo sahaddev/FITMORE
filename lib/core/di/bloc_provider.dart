@@ -14,17 +14,6 @@ import '../../features/payment/presentation/blocs/cart_payment/cart_payment_bloc
 import '../../features/payment/presentation/blocs/payment_scr_two/payment_scr_two_bloc.dart';
 import '../../features/payment/presentation/blocs/payment_scr/payment_scr_bloc.dart';
 
-// Terms
-
-// Admin
-import '../../features/admin/presentation/blocs/product_edit/product_edit_bloc.dart';
-import '../../features/admin/presentation/blocs/coupon_screen/coupon_screen_bloc.dart';
-import '../../features/admin/presentation/blocs/admin_user_list/admin_user_list_bloc.dart';
-import '../../features/admin/presentation/blocs/dashboard/dashboard_bloc.dart';
-import '../../features/admin/presentation/blocs/add_product/add_product_bloc.dart';
-import '../../features/admin/presentation/blocs/admin_list/admin_list_bloc.dart';
-import '../../features/admin/presentation/blocs/admin_login/admin_login_bloc.dart';
-
 // Favorite
 import '../../features/favorite/presentation/blocs/favorite/favorite_bloc.dart';
 
@@ -65,13 +54,6 @@ class AppBlocProvider extends StatelessWidget {
         BlocProvider(create: (context) => CartPaymentBloc()),
         BlocProvider(create: (context) => PaymentScrTwoBloc()),
         BlocProvider(create: (context) => PaymentScrBloc()),
-        BlocProvider(create: (context) => ProductEditBloc()),
-        BlocProvider(create: (context) => CouponScreenBloc()),
-        BlocProvider(create: (context) => AdminUserListBloc()),
-        BlocProvider(create: (context) => DashboardBloc()),
-        BlocProvider(create: (context) => AddProductBloc()),
-        BlocProvider(create: (context) => AdminListBloc()),
-        BlocProvider(create: (context) => AdminLoginBloc()),
         BlocProvider(create: (context) => FavoriteBloc()),
         BlocProvider(create: (context) => ProfileBloc()),
         BlocProvider(create: (context) => EditProfileBloc()),
