@@ -19,9 +19,7 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
   ) async {
     emit(const MyOrderState.loading());
     try {
-      // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const MyOrderState.success(message: 'Loaded successfully'));
+      emit(const MyOrderState.loaded([]));
     } catch (e) {
       emit(MyOrderState.failure(message: e.toString()));
     }
@@ -31,10 +29,15 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
     GetAllOrders event,
     Emitter<MyOrderState> emit,
   ) async {
+    List<OrderhistoryModel> currentOrders = [];
+    state.maybeWhen(
+      loaded: (items) => currentOrders = items,
+      orElse: () {},
+    );
+
     emit(const MyOrderState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const MyOrderState.loaded([]));
+      emit(MyOrderState.loaded(currentOrders));
     } catch (e) {
       emit(MyOrderState.failure(message: e.toString()));
     }
@@ -44,10 +47,24 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
     ReOrder event,
     Emitter<MyOrderState> emit,
   ) async {
+    List<OrderhistoryModel> currentOrders = [];
+    state.maybeWhen(
+      loaded: (items) => currentOrders = List.from(items),
+      orElse: () {},
+    );
+
     emit(const MyOrderState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const MyOrderState.success(message: 'Re-order initiated'));
+      final newOrder = OrderhistoryModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        image: event.order.image,
+        title: event.order.title,
+        price: event.order.price,
+      );
+      
+      currentOrders.insert(0, newOrder);
+      emit(const MyOrderState.success(message: 'Re-ordered successfully'));
+      emit(MyOrderState.loaded(currentOrders));
     } catch (e) {
       emit(MyOrderState.failure(message: e.toString()));
     }

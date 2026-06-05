@@ -22,9 +22,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async {
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const CartState.success(message: 'Loaded successfully'));
+      // Just initialize with an empty cart
+      emit(const CartState.loaded([]));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }
@@ -34,10 +33,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     GetAllCartItems event,
     Emitter<CartState> emit,
   ) async {
+    List<CartModel> currentItems = [];
+    state.maybeWhen(
+      loaded: (items) => currentItems = items,
+      orElse: () {},
+    );
+    
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const CartState.loaded([]));
+      emit(CartState.loaded(currentItems));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }
@@ -47,10 +51,17 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     RemoveFromCart event,
     Emitter<CartState> emit,
   ) async {
+    List<CartModel> currentItems = [];
+    state.maybeWhen(
+      loaded: (items) => currentItems = List.from(items),
+      orElse: () {},
+    );
+
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
+      currentItems.removeWhere((item) => item.id == event.id);
       emit(const CartState.success(message: 'Item removed from cart'));
+      emit(CartState.loaded(currentItems));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }
@@ -60,10 +71,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     IncrementQuantity event,
     Emitter<CartState> emit,
   ) async {
+    List<CartModel> currentItems = [];
+    state.maybeWhen(
+      loaded: (items) => currentItems = List.from(items),
+      orElse: () {},
+    );
+
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const CartState.success(message: 'Quantity incremented'));
+      final index = currentItems.indexWhere((item) => item.id == event.id);
+      if (index != -1) {
+        currentItems[index].quantity += 1;
+        currentItems[index].newPrice = currentItems[index].quantity * currentItems[index].price;
+      }
+      emit(CartState.loaded(currentItems));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }
@@ -73,10 +94,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     DecrementQuantity event,
     Emitter<CartState> emit,
   ) async {
+    List<CartModel> currentItems = [];
+    state.maybeWhen(
+      loaded: (items) => currentItems = List.from(items),
+      orElse: () {},
+    );
+
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const CartState.success(message: 'Quantity decremented'));
+      final index = currentItems.indexWhere((item) => item.id == event.id);
+      if (index != -1 && currentItems[index].quantity > 1) {
+        currentItems[index].quantity -= 1;
+        currentItems[index].newPrice = currentItems[index].quantity * currentItems[index].price;
+      }
+      emit(CartState.loaded(currentItems));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }
@@ -86,10 +117,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     AddToCart event,
     Emitter<CartState> emit,
   ) async {
+    List<CartModel> currentItems = [];
+    state.maybeWhen(
+      loaded: (items) => currentItems = List.from(items),
+      orElse: () {},
+    );
+
     emit(const CartState.loading());
     try {
-      // TODO: Implement logic here
+      final existingItemIndex = currentItems.indexWhere((item) => item.id == event.item.id);
+      if (existingItemIndex != -1) {
+        currentItems[existingItemIndex].quantity += event.item.quantity;
+        currentItems[existingItemIndex].newPrice = currentItems[existingItemIndex].quantity * currentItems[existingItemIndex].price;
+      } else {
+        currentItems.add(event.item);
+      }
       emit(const CartState.success(message: 'Item added to cart'));
+      emit(CartState.loaded(currentItems));
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
     }

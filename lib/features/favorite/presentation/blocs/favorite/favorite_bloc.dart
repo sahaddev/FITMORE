@@ -21,9 +21,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   ) async {
     emit(const FavoriteState.loading());
     try {
-      // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const FavoriteState.success(message: 'Loaded successfully'));
+      // Just initialize with an empty list
+      emit(const FavoriteState.loaded([]));
     } catch (e) {
       emit(FavoriteState.failure(message: e.toString()));
     }
@@ -33,10 +32,15 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     GetAllFavorites event,
     Emitter<FavoriteState> emit,
   ) async {
+    List<FavoriteModel> currentFavorites = [];
+    state.maybeWhen(
+      loaded: (items) => currentFavorites = items,
+      orElse: () {},
+    );
+    
     emit(const FavoriteState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const FavoriteState.loaded([]));
+      emit(FavoriteState.loaded(currentFavorites));
     } catch (e) {
       emit(FavoriteState.failure(message: e.toString()));
     }
@@ -46,10 +50,17 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     RemoveFromFavorites event,
     Emitter<FavoriteState> emit,
   ) async {
+    List<FavoriteModel> currentFavorites = [];
+    state.maybeWhen(
+      loaded: (items) => currentFavorites = List.from(items),
+      orElse: () {},
+    );
+
     emit(const FavoriteState.loading());
     try {
-      // TODO: Implement logic here
+      currentFavorites.removeWhere((item) => item.id == event.id);
       emit(const FavoriteState.success(message: 'Item removed from favorites'));
+      emit(FavoriteState.loaded(currentFavorites));
     } catch (e) {
       emit(FavoriteState.failure(message: e.toString()));
     }
@@ -61,8 +72,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   ) async {
     emit(const FavoriteState.loading());
     try {
-      // TODO: Implement logic here
       emit(const FavoriteState.success(message: 'All favorites cleared'));
+      emit(const FavoriteState.loaded([]));
     } catch (e) {
       emit(FavoriteState.failure(message: e.toString()));
     }
@@ -72,10 +83,22 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     AddToFavorites event,
     Emitter<FavoriteState> emit,
   ) async {
+    List<FavoriteModel> currentFavorites = [];
+    state.maybeWhen(
+      loaded: (items) => currentFavorites = List.from(items),
+      orElse: () {},
+    );
+
     emit(const FavoriteState.loading());
     try {
-      // TODO: Implement logic here
-      emit(const FavoriteState.success(message: 'Item added to favorites'));
+      final existingIndex = currentFavorites.indexWhere((item) => item.id == event.item.id);
+      if (existingIndex == -1) {
+        currentFavorites.add(event.item);
+        emit(const FavoriteState.success(message: 'Item added to favorites'));
+      } else {
+        emit(const FavoriteState.success(message: 'Item already in favorites'));
+      }
+      emit(FavoriteState.loaded(currentFavorites));
     } catch (e) {
       emit(FavoriteState.failure(message: e.toString()));
     }
