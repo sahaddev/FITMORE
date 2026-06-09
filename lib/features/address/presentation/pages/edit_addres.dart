@@ -7,6 +7,8 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/models/address/db_address_model.dart';
 import 'add_address.dart'; // Import to reuse LabelInputContainer and AceternityInput
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/edit_address/edit_address_bloc.dart';
 
 class EditAddressScreen extends StatefulWidget {
   final int index;
@@ -54,8 +56,31 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50], // Light background
+    return BlocProvider(
+      create: (context) => EditAddressBloc(),
+      child: BlocConsumer<EditAddressBloc, EditAddressState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            success: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+              NavigationService.pop();
+            },
+            failure: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+            },
+          );
+        },
+        builder: (context, state) {
+          final isLoading = state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          );
+          return Scaffold(
+            backgroundColor: Colors.grey[50], // Light background
       appBar: mainTitle(""),
       body: SingleChildScrollView(
         child: Padding(
@@ -167,11 +192,23 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
 
                   // Gradient Button
                   InkWell(
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        NavigationService.pop();
-                      }
-                    },
+                    onTap: isLoading
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              final updatedAddress = AddressModel(
+                                id: _addresModel.id,
+                                name: _nameEditcontroller.text,
+                                phonenumber: _phonenumberEditcontroller.text,
+                                city: _cityEditcontroller.text,
+                                state: _stateEditcontroller.text,
+                                pincode: _pincodeEditcontroller.text,
+                              );
+                              context.read<EditAddressBloc>().add(
+                                    EditAddressEvent.updateAddress(updatedAddress),
+                                  );
+                            }
+                          },
                     child: Container(
                       height: 50,
                       width: double.infinity,
@@ -199,13 +236,22 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                         ],
                       ),
                       alignment: Alignment.center,
-                      child: Text(
-                        "Update Address",
-                        style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Update Address",
+                              style: GoogleFonts.inter(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -214,6 +260,9 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
             ),
           ),
         ),
+      ),
+          );
+        },
       ),
     );
   }

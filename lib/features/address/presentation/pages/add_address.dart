@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/add_address/add_address_bloc.dart';
+import '../../../../../core/models/address/db_address_model.dart';
 
 class AddAddress extends StatefulWidget {
   const AddAddress({super.key});
@@ -135,54 +138,95 @@ class _AddAddressState extends State<AddAddress> {
                   SizedBox(height: 5.h),
 
                   // Gradient Button
-                  InkWell(
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-//                         addressGet.addAddressOnButtonClick(
-//                             nameEditcontroller: _nameEditcontroller,
-//                             phonenumberEditcontroller:
-//                                 _phonenumberEditcontroller,
-//                             cityEditcontroller: _cityEditcontroller,
-//                             pincodeEditcontroller: _pincodeEditcontroller,
-//                             stateEditcontroller: _stateEditcontroller,
-//                             context: context);
-                      }
+                  BlocConsumer<AddAddressBloc, AddAddressState>(
+                    listener: (context, state) {
+                      state.whenOrNull(
+                        success: (message) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(message)),
+                          );
+                          Navigator.pop(context);
+                        },
+                        failure: (message) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(message),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        },
+                      );
                     },
-                    child: Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF18181B), // Zinc 900
-                            Color(0xFF27272A), // Zinc 800
-                          ],
+                    builder: (context, state) {
+                      final isLoading = state.maybeWhen(
+                        loading: () => true,
+                        orElse: () => false,
+                      );
+
+                      return InkWell(
+                        onTap: isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  final address = AddressModel(
+                                    name: _nameEditcontroller.text,
+                                    phonenumber: _phonenumberEditcontroller.text,
+                                    city: _cityEditcontroller.text,
+                                    state: _stateEditcontroller.text,
+                                    pincode: _pincodeEditcontroller.text,
+                                  );
+                                  context.read<AddAddressBloc>().add(
+                                        AddAddressEvent.addAddress(address),
+                                      );
+                                }
+                              },
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color(0xFF18181B), // Zinc 900
+                                Color(0xFF27272A), // Zinc 800
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withValues(alpha: 0.25),
+                                offset: const Offset(0, 1),
+                                blurRadius: 0,
+                              ),
+                              const BoxShadow(
+                                color: Color(0x00000000), // Transparent base
+                                offset: Offset(0, -1),
+                                blurRadius: 0,
+                              ),
+                            ],
+                          ),
+                          alignment: Alignment.center,
+                          child: isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Text(
+                                  "Add Address  →",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withValues(alpha: 0.25),
-                            offset: const Offset(0, 1),
-                            blurRadius: 0,
-                          ),
-                          const BoxShadow(
-                            color: Color(0x00000000), // Transparent base
-                            offset: Offset(0, -1),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Add Address  →",
-                        style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   SizedBox(height: 2.h),
                 ],

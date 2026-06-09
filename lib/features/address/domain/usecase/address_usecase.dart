@@ -5,8 +5,6 @@ import '../../data/repositories_impl/address_repo_impl.dart';
 class AddressUsecase {
   AddressRepositories addressRepositories = AddressRepoImpl();
 
-  AddressUsecase({required this.addressRepositories});
-
   Future<AddressResEntitiy> createAddress({
     required int pincode,
     required String city,

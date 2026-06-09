@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../core/models/address/db_address_model.dart';
+import '../../../domain/usecase/address_usecase.dart';
 
 part 'edit_address_event.dart';
 part 'edit_address_state.dart';
@@ -18,9 +19,7 @@ class EditAddressBloc extends Bloc<EditAddressEvent, EditAddressState> {
   ) async {
     emit(const EditAddressState.loading());
     try {
-      // TODO: Implement logic here
-      await Future.delayed(const Duration(seconds: 1));
-      emit(const EditAddressState.success(message: 'Loaded successfully'));
+      emit(const EditAddressState.success(message: 'Ready to edit address'));
     } catch (e) {
       emit(EditAddressState.failure(message: e.toString()));
     }
@@ -32,7 +31,17 @@ class EditAddressBloc extends Bloc<EditAddressEvent, EditAddressState> {
   ) async {
     emit(const EditAddressState.loading());
     try {
-      // TODO: Implement logic here
+      await AddressUsecase().updateAddress(
+        id: event.address.id ?? 0,
+        pincode: int.tryParse(event.address.pincode) ?? 0,
+        city: event.address.city,
+        state: event.address.state,
+        country: 'India',
+        buildName: event.address.name,
+        streetName: '',
+        area: '',
+        userId: 101,
+      );
       emit(const EditAddressState.success(message: 'Address updated successfully'));
     } catch (e) {
       emit(EditAddressState.failure(message: e.toString()));

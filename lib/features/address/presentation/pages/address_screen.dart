@@ -1,12 +1,14 @@
-import 'package:e_commerce/features/address/presentation/widgets/address_card.dart' show AddressCard;
-import '../../../../core/models/address/db_address_model.dart';
+import 'package:e_commerce/features/address/presentation/widgets/address_card.dart'
+    show AddressCard;
 import '../../../../core/widgets/appbar.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:e_commerce/core/assets/images/app_images.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
+import '../blocs/address/address_bloc.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -19,7 +21,9 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AddressBloc>().add(const AddressEvent.load());
+    });
   }
 
   @override
@@ -30,39 +34,42 @@ class _AddressScreenState extends State<AddressScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: ValueNotifier<List<AddressModel>>([]),
-              builder: (
-                BuildContext context,
-                List<AddressModel> addresslist,
-                Widget? child,
-              ) {
-                if (addresslist.isEmpty) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 350,
-                      width: 300,
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(AppImages.addresIsEmpty),
-                      ),
-                    ),
-                  );
-                }
-                return ListView.builder(
-                  itemCount: addresslist.length,
-                  itemBuilder: (context, index) {
-                    final data = addresslist[index];
-                    return AddressCard(
-                      index: index,
-                      id: data.id,
-                      name: data.name,
-                      phoneNumber: data.phonenumber,
-                      city: data.city,
-                      pincode: data.pincode,
-                      state: data.state,
+            child: BlocBuilder<AddressBloc, AddressState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  loaded: (addresslist) {
+                    if (addresslist.isEmpty) {
+                      return const Center(
+                        child: SizedBox(
+                          height: 350,
+                          width: 300,
+                          child: Image(
+                            fit: BoxFit.fill,
+                            image: AssetImage(AppImages.addresIsEmpty),
+                          ),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: addresslist.length,
+                      itemBuilder: (context, index) {
+                        final data = addresslist[index];
+                        return AddressCard(
+                          index: index,
+                          id: data.id,
+                          name: data.name,
+                          phoneNumber: data.phonenumber,
+                          city: data.city,
+                          pincode: data.pincode,
+                          state: data.state,
+                        );
+                      },
                     );
                   },
+                  failure: (message) => Center(child: Text(message)),
+                  orElse: () => const SizedBox.shrink(),
                 );
               },
             ),
