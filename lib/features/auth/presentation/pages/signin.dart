@@ -4,6 +4,8 @@ import 'package:sizer/sizer.dart';
 
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/sign_in/sign_in_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,9 +32,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    return BlocProvider(
+      create: (context) => SignInBloc(),
+      child: BlocConsumer<SignInBloc, SignInState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            success: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+              NavigationService.pushNamedAndRemoveUntil(AppRouters.bottomNav);
+            },
+            failure: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+            },
+          );
+        },
+        builder: (context, state) {
+          final isLoading = state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          );
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
           child: Form(
@@ -205,12 +230,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 5.5.h,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        NavigationService.pushNamedAndRemoveUntil(
-                            AppRouters.bottomNav);
-                      }
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<SignInBloc>().add(
+                                    SignInEvent.signIn(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(
                           0xFFFFC107), // Amber/Orange color from image
@@ -219,14 +250,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      'Login',
-                      style: GoogleFonts.manrope(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Login',
+                            style: GoogleFonts.manrope(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
                   ),
                 ),
                 SizedBox(height: 1.5.h),
@@ -345,6 +385,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+      ),
+          );
+        },
       ),
     );
   }

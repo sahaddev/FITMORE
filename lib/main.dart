@@ -5,11 +5,10 @@ import 'package:cloudinary_url_gen/transformation/effect/effect.dart';
 import 'package:cloudinary_url_gen/transformation/gravity/gravity.dart';
 import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
+import 'package:e_commerce/features/splash/presentation/pages/splash_scree.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
-
-import 'core/widgets/bottom_navigator.dart';
 
 import 'core/di/bloc_provider.dart';
 
@@ -40,7 +39,7 @@ class _MyAppState extends State<MyApp> {
           title: "MenCart",
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
-          home: BottomNavigator(),
+          home: SplashScreen(),
         ),
       ),
     );

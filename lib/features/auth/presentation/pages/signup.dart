@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/sign_up/sign_up_bloc.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -27,9 +29,34 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
+    return BlocProvider(
+      create: (context) => SignUpBloc(),
+      child: BlocConsumer<SignUpBloc, SignUpState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            success: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+              if (NavigationService.canPop()) {
+                NavigationService.pop();
+              }
+            },
+            failure: (message) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+            },
+          );
+        },
+        builder: (context, state) {
+          final isLoading = state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          );
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
           child: Form(
@@ -159,7 +186,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: double.infinity,
                   height: 5.5.h,
                   child: ElevatedButton(
-                    onPressed: _handleRegister,
+                    onPressed: isLoading
+                        ? null
+                        : () => _handleRegister(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFC107),
                       shape: RoundedRectangleBorder(
@@ -167,14 +196,23 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      'Continue',
-                      style: GoogleFonts.manrope(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Continue',
+                            style: GoogleFonts.manrope(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
                   ),
                 ),
                 SizedBox(height: 3.h),
@@ -206,6 +244,9 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
+      ),
+          );
+        },
       ),
     );
   }
@@ -280,7 +321,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Future<void> _handleRegister() async {
+  void _handleRegister(BuildContext context) {
     bool isEmailValid = EmailValidator.validate(_emailController.text);
     if (!isEmailValid) {
       if (!mounted) return;
@@ -303,13 +344,14 @@ class _SignupScreenState extends State<SignupScreen> {
     }
 
     if (_formKey.currentState!.validate()) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.grey,
-        margin: EdgeInsets.all(15),
-        content: Text("User Added Successfully"),
-      ));
+      context.read<SignUpBloc>().add(
+            SignUpEvent.signUp(
+              name: _nameController.text,
+              phoneNumber: _phonenumberController.text,
+              email: _emailController.text,
+              password: _passwordController.text,
+            ),
+          );
     }
   }
 }
