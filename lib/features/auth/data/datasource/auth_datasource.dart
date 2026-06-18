@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce/core/network/dio_client.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../model/auth_login_res_model.dart';
 import '../model/auth_signup_res_model.dart';
 
@@ -23,9 +25,7 @@ abstract class AuthDatasource {
 }
 
 class AuthDatasourceImpl implements AuthDatasource {
-  // Using dynamic or ignoring type for DioClient to avoid import errors if not found, 
-  // but following instructions to use DioClient.instance
-  final dynamic _dioClient = null; // Replace with: DioClient.instance;
+  final DioClient _dioClient = DioClient.instance;
 
   @override
   Future<AuthLoginResModel> login({
@@ -34,7 +34,7 @@ class AuthDatasourceImpl implements AuthDatasource {
   }) async {
     try {
       final response = await _dioClient.post(
-        'ApiEndPoint.login', // Replace with: ApiEndPoint.login
+        AppConstants.signIn,
         data: {
           "email": email,
           "password": password,
@@ -62,7 +62,7 @@ class AuthDatasourceImpl implements AuthDatasource {
   }) async {
     try {
       final response = await _dioClient.post(
-        'ApiEndPoint.signup', // Replace with: ApiEndPoint.signup
+        AppConstants.signUp, // Replace with: ApiEndPoint.signup
         data: {
           "username": username,
           "email": email,

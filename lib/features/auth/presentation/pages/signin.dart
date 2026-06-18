@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
@@ -37,10 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<SignInBloc, SignInState>(
         listener: (context, state) {
           state.whenOrNull(
-            success: (message) {
+            success: (message) async {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(message)),
               );
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('UserLoggidIn', true);
               NavigationService.pushNamedAndRemoveUntil(AppRouters.bottomNav);
             },
             failure: (message) {

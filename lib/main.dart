@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import 'core/di/bloc_provider.dart';
+import 'core/routes/navigation_service.dart';
+import 'core/routes/app_router.dart';
 
 // ignore: constant_identifier_names
 const SAVE_KEY_NAME = 'UserLoggidIn';
@@ -35,11 +37,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return AppBlocProvider(
       child: Sizer(
-        builder: (context, orientation, deviceType) => const MaterialApp(
+        builder: (context, orientation, deviceType) => MaterialApp(
           title: "MenCart",
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
-          home: SplashScreen(),
+          navigatorKey: NavigationService.navigatorKey,
+          onGenerateRoute: AppRouter.generateRoute,
+          home: const SplashScreen(),
         ),
       ),
     );
