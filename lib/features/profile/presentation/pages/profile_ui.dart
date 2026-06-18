@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -8,229 +9,270 @@ import 'package:sizer/sizer.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
+import '../../../../core/models/user/db_model.dart';
+import '../blocs/profile/profile_bloc.dart';
 
-class ProfileUi extends StatelessWidget {
+class ProfileUi extends StatefulWidget {
   const ProfileUi({super.key});
+
+  @override
+  State<ProfileUi> createState() => _ProfileUiState();
+}
+
+class _ProfileUiState extends State<ProfileUi> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(const ProfileEvent.loadProfile());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7), // Light grey background
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Padding(
-                padding: EdgeInsets.only(bottom: 3.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildCircleButton(
-                      icon: Icons.arrow_back_ios_new,
-                      onTap: () {
-                        // Navigation pop if applicable, or maybe this is a main tab so no back?
-                        // Assuming it might be nested or just for visual consistency with design.
-                        // But usually a main tab doesn't pop.
-                        // Leaving empty or Navigator.maybePop if needed.
-                        // Design shows back button.
-                        NavigationService.maybePop();
-                      },
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            success: (message) {
+              // Sign out success or other success message
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(message)));
+              // NavigationService.pushNamedAndRemoveUntil(AppRouters.login); // Uncomment if login route exists
+            },
+            failure: (message) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(message)));
+            },
+            orElse: () {},
+          );
+        },
+        builder: (context, state) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 3.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildCircleButton(
+                          icon: Icons.arrow_back_ios_new,
+                          onTap: () {
+                            // Navigation pop if applicable, or maybe this is a main tab so no back?
+                            // Assuming it might be nested or just for visual consistency with design.
+                            // But usually a main tab doesn't pop.
+                            // Leaving empty or Navigator.maybePop if needed.
+                            // Design shows back button.
+                            NavigationService.maybePop();
+                          },
+                        ),
+                        Text(
+                          'Settings',
+                          style: GoogleFonts.manrope(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
+                        ),
+                        _buildCircleButton(
+                          icon: Icons.logout_outlined, // Logout Icon
+                          onTap: () {
+                            context
+                                .read<ProfileBloc>()
+                                .add(const ProfileEvent.signOut());
+                          },
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Settings',
-                      style: GoogleFonts.manrope(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCircleButton(
-                      icon: Icons.logout_outlined, // Logout Icon
-                      onTap: () {
-//                         profileGet.signOut(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                  ),
 
-              // Profile Card
-              Container(
-                padding: EdgeInsets.all(4.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Builder(builder: (context) {
-//                   final imagePath = profileGet.selectedImage.value?.path;
-                  const String? imagePath = null;
-                  const hasImage = imagePath != null;
+                  // Profile Card
+                  Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Builder(builder: (context) {
+                      UserModel? user;
+                      String? imagePath;
+                      state.maybeWhen(
+                        loaded: (u, img) {
+                          if (u is UserModel) user = u;
+                          imagePath = img;
+                        },
+                        orElse: () {},
+                      );
+                      final hasImage = imagePath != null;
 
-                  return Row(
-                    children: [
-                      Stack(
+                      return Row(
                         children: [
-                          Container(
-                            width: 16.w,
-                            height: 16.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: hasImage
-                                    ? FileImage(File(imagePath))
-                                        as ImageProvider
-                                    : const AssetImage(AppImages
-                                        .imagesProfile), // Fixed asset path string from original
-                                fit: BoxFit.cover,
+                          Stack(
+                            children: [
+                              Container(
+                                width: 16.w,
+                                height: 16.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: hasImage
+                                        ? FileImage(File(imagePath!))
+                                            as ImageProvider
+                                        : const AssetImage(AppImages
+                                            .imagesProfile), // Fixed asset path string from original
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  width: 4.w,
+                                  height: 4.w,
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                        0xFF22C55E), // Green status dot
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.white, width: 2),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(width: 4.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user?.name ?? "User Name",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 0.5.h),
+                                Text(
+                                  user?.email ?? "email@example.com",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14.sp,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  user?.phoneNumber ?? "",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 14.sp,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
+                          InkWell(
+                            onTap: () {
+                              if (user != null) {
+                                NavigationService.pushNamed(
+                                    AppRouters.editProfile,
+                                    arguments: user);
+                              }
+                            },
                             child: Container(
-                              width: 4.w,
-                              height: 4.w,
+                              padding: EdgeInsets.all(2.w),
                               decoration: BoxDecoration(
-                                color:
-                                    const Color(0xFF22C55E), // Green status dot
+                                color: Colors.grey.shade100,
                                 shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 2),
                               ),
+                              child: Icon(Icons.edit,
+                                  size: 18.sp, color: Colors.grey.shade700),
                             ),
                           )
                         ],
-                      ),
-                      SizedBox(width: 4.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "User Name",
-//                               profileGet.userModel.name ?? "User Name",
-                              style: GoogleFonts.manrope(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Text(
-                              "email@example.com",
-//                               profileGet.userModel.email ?? "email@example.com",
-                              style: GoogleFonts.manrope(
-                                fontSize: 12.sp,
-                                color: Colors.grey.shade500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              "+1234567890",
-//                               profileGet.userModel.phoneNumber ?? "+1234567890",
-                              style: GoogleFonts.manrope(
-                                fontSize: 12.sp,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          NavigationService.pushNamed(AppRouters.editProfile);
-//                               arguments: profileGet.userModel);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(2.w),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.edit,
-                              size: 18.sp, color: Colors.grey.shade700),
-                        ),
-                      )
-                    ],
-                  );
-                }),
-              ),
-              SizedBox(height: 4.h),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 4.h),
 
-              // App Settings Section
-              _buildSectionTitle('APP SETTINGS'),
-              SizedBox(height: 1.5.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    _buildSettingsItem(
-                      icon: Icons.home_outlined,
-                      title: 'Addresses',
-                      onTap: () {
-                        NavigationService.pushNamed(AppRouters.address);
-                      },
+                  // App Settings Section
+                  _buildSectionTitle('APP SETTINGS'),
+                  SizedBox(height: 1.5.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    _buildDivider(),
-                    _buildSettingsItem(
-                      icon: Icons.shopping_bag_outlined,
-                      title: 'Order History',
-                      onTap: () {
-                        NavigationService.pushNamed(AppRouters.orders);
-                      },
+                    child: Column(
+                      children: [
+                        _buildSettingsItem(
+                          icon: Icons.home_outlined,
+                          title: 'Addresses',
+                          onTap: () {
+                            NavigationService.pushNamed(AppRouters.address);
+                          },
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          icon: Icons.shopping_bag_outlined,
+                          title: 'Order History',
+                          onTap: () {
+                            NavigationService.pushNamed(AppRouters.orders);
+                          },
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          icon: Icons.lock_outline,
+                          title: 'Privacy & Terms',
+                          onTap: () {
+                            NavigationService.pushNamed(AppRouters.terms);
+                          },
+                        ),
+                        _buildDivider(),
+                        _buildSettingsItem(
+                          icon: Icons.headset_mic_outlined,
+                          title: 'Help & Support',
+                          onTap: () {
+                            NavigationService.pushNamed(AppRouters.aboutUs);
+                          },
+                        ),
+                      ],
                     ),
-                    _buildDivider(),
-                    _buildSettingsItem(
-                      icon: Icons.lock_outline,
-                      title: 'Privacy & Terms',
-                      onTap: () {
-                        NavigationService.pushNamed(AppRouters.terms);
-                      },
-                    ),
-                    _buildDivider(),
-                    _buildSettingsItem(
-                      icon: Icons.headset_mic_outlined,
-                      title: 'Help & Support',
-                      onTap: () {
-                        NavigationService.pushNamed(AppRouters.aboutUs);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 4.h),
+                  ),
+                  SizedBox(height: 4.h),
 
-              // Popular Section (Placeholder functionality matching design structure)
-              _buildSectionTitle('POPULAR'),
-              SizedBox(height: 1.5.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    _buildSettingsItem(
-                      icon: Icons.security_outlined,
-                      title: 'Safety Preferences',
-                      onTap: () {},
+                  // Popular Section (Placeholder functionality matching design structure)
+                  _buildSectionTitle('POPULAR'),
+                  SizedBox(height: 1.5.h),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    // _buildDivider(), // No divider for single item or last item if we want
-                  ],
-                ),
+                    child: Column(
+                      children: [
+                        _buildSettingsItem(
+                          icon: Icons.security_outlined,
+                          title: 'Safety Preferences',
+                          onTap: () {},
+                        ),
+                        // _buildDivider(), // No divider for single item or last item if we want
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                ],
               ),
-              SizedBox(height: 4.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

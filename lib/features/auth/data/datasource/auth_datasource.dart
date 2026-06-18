@@ -46,7 +46,6 @@ class AuthDatasourceImpl implements AuthDatasource {
         throw Exception("Failed to login");
       }
     } on DioException catch (e) {
-      // Replace with: throw DioErrorHandler.handleDioError(e);
       throw Exception(e.toString());
     } catch (e) {
       throw Exception(e.toString());

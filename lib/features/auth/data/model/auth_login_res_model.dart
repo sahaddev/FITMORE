@@ -5,6 +5,7 @@ class AuthUserModel extends AuthUserEntity {
     required super.id,
     required super.username,
     required super.email,
+    required super.phoneNumber,
   });
 
   factory AuthUserModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +13,7 @@ class AuthUserModel extends AuthUserEntity {
       id: json['id'],
       username: json['username'],
       email: json['email'],
+      phoneNumber: json['phoneNumber'] ?? json['phone_number'] ?? json['number'],
     );
   }
 
@@ -20,6 +22,7 @@ class AuthUserModel extends AuthUserEntity {
       id: id,
       username: username,
       email: email,
+      phoneNumber: phoneNumber,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/models/user/db_model.dart';
 import '../widgets/change_password.dart';
@@ -6,6 +7,7 @@ import '../../../../core/widgets/h1_headline.dart';
 import '../../../../core/widgets/mainbutton.dart';
 import '../../../../core/widgets/text_field_reg.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import '../blocs/edit_profile/edit_profile_bloc.dart';
 
 class EditProfile extends StatefulWidget {
   final UserModel user;
@@ -107,16 +109,38 @@ class _EditProfileState extends State<EditProfile> {
               dbPasswordcontroller: _dbPasswordcontroller,
               userModel: widget.user),
           const SizedBox(height: 18),
-          Button(
-              text: 'Update',
-              onPressedCallback: () {
-//                 profileGet.updateUserdetailsOnAclike(
-//                     nameEditcontroller: _nameEditcontroller,
-//                     phonenumberEditcontroller: _phonenumberEditcontroller,
-//                     emailEditconstroller: _emailEditconstroller,
-//                     userModel: widget.user);
-                NavigationService.pop();
-              }),
+          BlocConsumer<EditProfileBloc, EditProfileState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                success: (message) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+                  NavigationService.pop();
+                },
+                failure: (message) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+                },
+                orElse: () {},
+              );
+            },
+            builder: (context, state) {
+              return state.maybeWhen(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                orElse: () => Button(
+                  text: 'Update',
+                  onPressedCallback: () {
+                    context.read<EditProfileBloc>().add(
+                      EditProfileEvent.updateProfile(
+                        widget.user,
+                        _nameEditcontroller.text,
+                        _phonenumberEditcontroller.text,
+                        _emailEditconstroller.text,
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
