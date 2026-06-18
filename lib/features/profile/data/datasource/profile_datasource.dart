@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce/core/constants/app_constants.dart';
+import 'package:e_commerce/core/network/dio_client.dart';
 import '../model/profile_get_user_res_model.dart';
 import '../model/profile_update_user_res_model.dart';
 
@@ -14,13 +16,13 @@ abstract class ProfileDatasource {
 }
 
 class ProfileDatasourceImpl implements ProfileDatasource {
-  final dynamic _dioClient = null; // Replace with: DioClient.instance;
+  final DioClient _dioClient = DioClient.instance;
 
   @override
   Future<ProfileGetUserResModel> getUserById({required int id}) async {
     try {
       final response = await _dioClient.get(
-        'ApiEndPoint.getUserById', // Replace with: ApiEndPoint.getUserById
+        AppConstants.user, // Replace with: ApiEndPoint.getUserById
         queryParameters: {
           'id': id,
         },
@@ -47,7 +49,7 @@ class ProfileDatasourceImpl implements ProfileDatasource {
   }) async {
     try {
       final response = await _dioClient.put(
-        'ApiEndPoint.updateUser', // Replace with: ApiEndPoint.updateUser
+        AppConstants.user, // Replace with: ApiEndPoint.updateUser
         queryParameters: {
           'id': id,
         },

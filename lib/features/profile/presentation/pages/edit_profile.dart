@@ -30,20 +30,15 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    _nameEditcontroller = TextEditingController();
-    _phonenumberEditcontroller = TextEditingController();
-    _emailEditconstroller = TextEditingController();
-    _dbPasswordcontroller = TextEditingController();
-
-    final userlist = ValueNotifier<List<UserModel>>([]).value;
-
-    if (userlist.isNotEmpty) {
-      _nameEditcontroller.text = widget.user.name!;
-      _phonenumberEditcontroller.text = widget.user.phoneNumber!;
-      _emailEditconstroller.text = widget.user.email!;
-      _dbPasswordcontroller.text = widget.user.password!;
-    }
     super.initState();
+    _nameEditcontroller = TextEditingController(text: widget.user.name ?? '');
+    _phonenumberEditcontroller = TextEditingController(text: widget.user.phoneNumber ?? '');
+    _emailEditconstroller = TextEditingController(text: widget.user.email ?? '');
+    _dbPasswordcontroller = TextEditingController(text: widget.user.password ?? '');
+
+    if (widget.user.id != null) {
+      context.read<EditProfileBloc>().add(EditProfileEvent.load(id: widget.user.id!));
+    }
   }
 
   @override
@@ -63,8 +58,22 @@ class _EditProfileState extends State<EditProfile> {
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [
+      body: BlocListener<EditProfileBloc, EditProfileState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            loaded: (user) {
+              if (user is UserModel) {
+                _nameEditcontroller.text = user.name ?? '';
+                _phonenumberEditcontroller.text = user.phoneNumber ?? '';
+                _emailEditconstroller.text = user.email ?? '';
+                _dbPasswordcontroller.text = user.password ?? '';
+              }
+            },
+            orElse: () {},
+          );
+        },
+        child: ListView(
+          children: [
           const SizedBox(height: 40),
           const H1headline(text: 'Edit Profile'),
           const SizedBox(height: 62),
@@ -142,6 +151,7 @@ class _EditProfileState extends State<EditProfile> {
             },
           ),
         ],
+        ),
       ),
     );
   }

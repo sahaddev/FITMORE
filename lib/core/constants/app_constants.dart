@@ -3,7 +3,7 @@ class AppConstants {
   static const String baseUrl = 'http://127.0.0.1:3000';
 
   // API Endpoints
-  static const String user = '/api/users';
+  static const String user = '/api/user';
   static const String product = '/api/product';
   static const String cart = '/api/cart';
   static const String order = '/api/order';

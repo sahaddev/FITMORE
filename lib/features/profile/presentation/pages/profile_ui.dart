@@ -84,6 +84,8 @@ class _ProfileUiState extends State<ProfileUi> {
                             context
                                 .read<ProfileBloc>()
                                 .add(const ProfileEvent.signOut());
+                            NavigationService.pushNamedAndRemoveUntil(
+                                AppRouters.login);
                           },
                         ),
                       ],
