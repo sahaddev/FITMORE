@@ -1,3 +1,5 @@
+import 'package:e_commerce/core/constants/storage_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -62,6 +64,10 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
     Emitter<AddAddressState> emit,
   ) async {
     emit(const AddAddressState.loading());
+    emit(const AddAddressState.loading());
+    final prefs = await SharedPreferences.getInstance();
+    final userIdStr = prefs.getString(StorageKeys.userId);
+    final userId = int.tryParse(userIdStr ?? '') ?? prefs.getInt('id') ?? 101;
     try {
       await AddressUsecase().createAddress(
         pincode: int.tryParse(event.address.pincode) ?? 0,
@@ -69,9 +75,9 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
         state: event.address.state,
         country: 'India', // Default country as it's missing in AddressModel
         buildName: event.address.name,
-        streetName: '',
-        area: '',
-        userId: 101, // Default user ID
+        streetName: event.address.streetName,
+        area: event.address.area,
+        userId: userId,
       );
       emit(
           const AddAddressState.success(message: 'Address added successfully'));
@@ -85,6 +91,9 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
     Emitter<AddAddressState> emit,
   ) async {
     emit(const AddAddressState.loading());
+    final prefs = await SharedPreferences.getInstance();
+    final userIdStr = prefs.getString(StorageKeys.userId);
+    final userId = int.tryParse(userIdStr ?? '') ?? prefs.getInt('id') ?? 101;
     try {
       await AddressUsecase().updateAddress(
         id: event.address.id ?? 0,
@@ -93,9 +102,9 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
         state: event.address.state,
         country: 'India',
         buildName: event.address.name,
-        streetName: '',
-        area: '',
-        userId: 101,
+        streetName: event.address.streetName,
+        area: event.address.area,
+        userId: userId,
       );
       emit(const AddAddressState.success(
           message: 'Address updated successfully'));

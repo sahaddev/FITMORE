@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:e_commerce/core/constants/storage_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/models/address/db_address_model.dart';
 import '../../../domain/usecase/address_usecase.dart';
 
@@ -35,16 +37,22 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   ) async {
     emit(const AddressState.loading());
     try {
-      final res = await AddressUsecase()
-          .getAddressByUserId(101); // Assuming current user ID is 101
+      final prefs = await SharedPreferences.getInstance();
+      final userIdStr = prefs.getString(StorageKeys.userId);
+      final userId = int.tryParse(userIdStr ?? '') ?? prefs.getInt('id') ?? 101;
+
+      final res = await AddressUsecase().getAddressByUserId(userId);
       final mappedAddresses = res.datas
               ?.map((e) => AddressModel(
-                    id: e.addressId ?? 0,
+                    id: e.addressId,
                     name: e.buildName,
                     city: e.city,
                     state: e.state,
                     pincode: e.pincode.toString(),
                     phonenumber: '',
+                    country: e.country,
+                    streetName: e.streetName,
+                    area: e.area,
                   ))
               .toList() ??
           [];
@@ -61,6 +69,10 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   ) async {
     emit(const AddressState.loading());
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final userIdStr = prefs.getString(StorageKeys.userId);
+      final userId = int.tryParse(userIdStr ?? '') ?? prefs.getInt('id') ?? 101;
+
       await AddressUsecase().createAddress(
         pincode: int.tryParse(event.address.pincode) ?? 0,
         city: event.address.city,
@@ -69,7 +81,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         buildName: event.address.name,
         streetName: '',
         area: '',
-        userId: 101,
+        userId: userId,
       );
       emit(const AddressState.success(message: 'Address added successfully'));
     } catch (e) {
@@ -83,6 +95,10 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   ) async {
     emit(const AddressState.loading());
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final userIdStr = prefs.getString(StorageKeys.userId);
+      final userId = int.tryParse(userIdStr ?? '') ?? prefs.getInt('id') ?? 101;
+
       await AddressUsecase().updateAddress(
         id: event.address.id ?? 0,
         pincode: int.tryParse(event.address.pincode) ?? 0,
@@ -92,7 +108,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         buildName: event.address.name,
         streetName: '',
         area: '',
-        userId: 101,
+        userId: userId,
       );
       emit(const AddressState.success(message: 'Address updated successfully'));
     } catch (e) {

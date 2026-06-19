@@ -38,8 +38,8 @@ class EditAddressBloc extends Bloc<EditAddressEvent, EditAddressState> {
         state: event.address.state,
         country: 'India',
         buildName: event.address.name,
-        streetName: '',
-        area: '',
+        streetName: event.address.streetName,
+        area: event.address.area,
         userId: 101,
       );
       emit(const EditAddressState.success(message: 'Address updated successfully'));

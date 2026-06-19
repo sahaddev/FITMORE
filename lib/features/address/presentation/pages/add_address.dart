@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/add_address/add_address_bloc.dart';
+import '../blocs/address/address_bloc.dart';
 import '../../../../../core/models/address/db_address_model.dart';
 
 class AddAddress extends StatefulWidget {
@@ -22,6 +23,8 @@ class _AddAddressState extends State<AddAddress> {
   final _cityEditcontroller = TextEditingController();
   final _pincodeEditcontroller = TextEditingController();
   final _stateEditcontroller = TextEditingController();
+  final _streetEditcontroller = TextEditingController();
+  final _areaEditcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +97,36 @@ class _AddAddressState extends State<AddAddress> {
                   ),
                   SizedBox(height: 2.h),
 
+                  // Street Name and Area in a Row
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LabelInputContainer(
+                          label: "Street Name",
+                          child: AceternityInput(
+                            hintText: "Enter street name",
+                            controller: _streetEditcontroller,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter street name" : null,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Expanded(
+                        child: LabelInputContainer(
+                          label: "Area",
+                          child: AceternityInput(
+                            hintText: "Enter area",
+                            controller: _areaEditcontroller,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter area" : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+
                   // City and State in a Row
                   Row(
                     children: [
@@ -145,6 +178,7 @@ class _AddAddressState extends State<AddAddress> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(message)),
                           );
+                          context.read<AddressBloc>().add(const AddressEvent.getAllAddresses());
                           Navigator.pop(context);
                         },
                         failure: (message) {
@@ -174,6 +208,8 @@ class _AddAddressState extends State<AddAddress> {
                                     city: _cityEditcontroller.text,
                                     state: _stateEditcontroller.text,
                                     pincode: _pincodeEditcontroller.text,
+                                    streetName: _streetEditcontroller.text,
+                                    area: _areaEditcontroller.text,
                                   );
                                   context.read<AddAddressBloc>().add(
                                         AddAddressEvent.addAddress(address),

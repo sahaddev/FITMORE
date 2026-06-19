@@ -12,6 +12,9 @@ class AddressCard extends StatelessWidget {
   final String? city;
   final String? pincode;
   final String? state;
+  final String? country;
+  final String? streetName;
+  final String? area;
 
   const AddressCard({
     super.key,
@@ -22,6 +25,9 @@ class AddressCard extends StatelessWidget {
     required this.city,
     required this.pincode,
     required this.state,
+    this.country,
+    this.streetName,
+    this.area,
   });
 
   @override
@@ -82,18 +88,26 @@ class AddressCard extends StatelessWidget {
           ),
           SizedBox(height: 1.5.h),
 
-          // Address Line 1 (Simulated with Phone for now or just generic text if street is missing)
-          // Since we don't have street line, we'll use Phone as a contact line visual or omit if preferred.
-          // The image has a street line "452 Pine Street". We'll try to use Name or City as line 1 if applicable,
-          // but strictly adhering to data:
-          Text(
-            phoneNumber ?? "",
-            style: GoogleFonts.inter(
-              fontSize: 16.sp,
-              color: Colors.grey[700],
-              height: 1.5,
+          if (streetName != null && streetName!.isNotEmpty || area != null && area!.isNotEmpty)
+            Text(
+              "${streetName ?? ''}${streetName != null && streetName!.isNotEmpty && area != null && area!.isNotEmpty ? ', ' : ''}${area ?? ''}",
+              style: GoogleFonts.inter(
+                fontSize: 16.sp,
+                color: Colors.grey[700],
+                height: 1.5,
+              ),
             ),
-          ),
+          
+          if (phoneNumber != null && phoneNumber!.isNotEmpty)
+            Text(
+              phoneNumber ?? "",
+              style: GoogleFonts.inter(
+                fontSize: 16.sp,
+                color: Colors.grey[700],
+                height: 1.5,
+              ),
+            ),
+
           SizedBox(height: 0.5.h),
 
           // Address Line 2 (City, State, Zip)
@@ -105,6 +119,16 @@ class AddressCard extends StatelessWidget {
               height: 1.5,
             ),
           ),
+          
+          if (country != null && country!.isNotEmpty)
+            Text(
+              country ?? "",
+              style: GoogleFonts.inter(
+                fontSize: 16.sp,
+                color: Colors.grey[600],
+                height: 1.5,
+              ),
+            ),
 
           SizedBox(height: 2.h),
 

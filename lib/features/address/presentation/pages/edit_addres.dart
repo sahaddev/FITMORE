@@ -9,6 +9,7 @@ import 'add_address.dart'; // Import to reuse LabelInputContainer and Aceternity
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/edit_address/edit_address_bloc.dart';
+import '../blocs/address/address_bloc.dart';
 
 class EditAddressScreen extends StatefulWidget {
   final int index;
@@ -24,24 +25,41 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
   late TextEditingController _cityEditcontroller;
   late TextEditingController _pincodeEditcontroller;
   late TextEditingController _stateEditcontroller;
+  late TextEditingController _streetEditcontroller;
+  late TextEditingController _areaEditcontroller;
   late AddressModel _addresModel;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    super.initState();
     _nameEditcontroller = TextEditingController();
     _phonenumberEditcontroller = TextEditingController();
     _cityEditcontroller = TextEditingController();
     _pincodeEditcontroller = TextEditingController();
     _stateEditcontroller = TextEditingController();
-    final addressList = ValueNotifier<List<AddressModel>>([]).value;
-    _addresModel = addressList[widget.index];
-    _nameEditcontroller.text = _addresModel.name;
-    _phonenumberEditcontroller.text = _addresModel.phonenumber;
-    _cityEditcontroller.text = _addresModel.city;
-    _pincodeEditcontroller.text = _addresModel.pincode;
-    _stateEditcontroller.text = _addresModel.state;
-    super.initState();
+    _streetEditcontroller = TextEditingController();
+    _areaEditcontroller = TextEditingController();
+    
+    // Fallback empty model
+    _addresModel = AddressModel(name: '', phonenumber: '', city: '', pincode: '', state: '', streetName: '', area: '');
+
+    final addressState = context.read<AddressBloc>().state;
+    addressState.maybeWhen(
+      loaded: (addressList) {
+        if (widget.index >= 0 && widget.index < addressList.length) {
+          _addresModel = addressList[widget.index];
+          _nameEditcontroller.text = _addresModel.name;
+          _phonenumberEditcontroller.text = _addresModel.phonenumber;
+          _cityEditcontroller.text = _addresModel.city;
+          _pincodeEditcontroller.text = _addresModel.pincode;
+          _stateEditcontroller.text = _addresModel.state;
+          _streetEditcontroller.text = _addresModel.streetName;
+          _areaEditcontroller.text = _addresModel.area;
+        }
+      },
+      orElse: () {},
+    );
   }
 
   @override
@@ -51,6 +69,8 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     _cityEditcontroller.dispose();
     _pincodeEditcontroller.dispose();
     _stateEditcontroller.dispose();
+    _streetEditcontroller.dispose();
+    _areaEditcontroller.dispose();
     super.dispose();
   }
 
@@ -65,6 +85,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(message)),
               );
+              context.read<AddressBloc>().add(const AddressEvent.getAllAddresses());
               NavigationService.pop();
             },
             failure: (message) {
@@ -147,6 +168,36 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                   ),
                   SizedBox(height: 2.h),
 
+                  // Street Name and Area in a Row
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LabelInputContainer(
+                          label: "Street Name",
+                          child: AceternityInput(
+                            hintText: "Enter street name",
+                            controller: _streetEditcontroller,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter your Street Name" : null,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Expanded(
+                        child: LabelInputContainer(
+                          label: "Area",
+                          child: AceternityInput(
+                            hintText: "Enter area",
+                            controller: _areaEditcontroller,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter your Area" : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+
                   // City and State in a Row
                   Row(
                     children: [
@@ -196,14 +247,16 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
                         ? null
                         : () {
                             if (_formKey.currentState!.validate()) {
-                              final updatedAddress = AddressModel(
-                                id: _addresModel.id,
-                                name: _nameEditcontroller.text,
-                                phonenumber: _phonenumberEditcontroller.text,
-                                city: _cityEditcontroller.text,
-                                state: _stateEditcontroller.text,
-                                pincode: _pincodeEditcontroller.text,
-                              );
+                                final updatedAddress = AddressModel(
+                                  id: _addresModel.id,
+                                  name: _nameEditcontroller.text,
+                                  phonenumber: _phonenumberEditcontroller.text,
+                                  city: _cityEditcontroller.text,
+                                  state: _stateEditcontroller.text,
+                                  pincode: _pincodeEditcontroller.text,
+                                  streetName: _streetEditcontroller.text,
+                                  area: _areaEditcontroller.text,
+                                );
                               context.read<EditAddressBloc>().add(
                                     EditAddressEvent.updateAddress(updatedAddress),
                                   );

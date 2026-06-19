@@ -22,7 +22,7 @@ class _AddressScreenState extends State<AddressScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AddressBloc>().add(const AddressEvent.load());
+      context.read<AddressBloc>().add(const AddressEvent.getAllAddresses());
     });
   }
 
@@ -64,6 +64,9 @@ class _AddressScreenState extends State<AddressScreen> {
                           city: data.city,
                           pincode: data.pincode,
                           state: data.state,
+                          country: data.country,
+                          streetName: data.streetName,
+                          area: data.area,
                         );
                       },
                     );
