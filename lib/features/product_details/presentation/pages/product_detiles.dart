@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +7,8 @@ import '../widgets/bottom_part.dart';
 import '../widgets/middle_part.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/product_details/product_details_bloc.dart';
 
 // ignore: must_be_immutable
 class ProductDetiles extends StatefulWidget {
@@ -32,7 +33,12 @@ class ProductDetiles extends StatefulWidget {
 
 class _ProductDetilesState extends State<ProductDetiles> {
   int selectedImage = 0;
-  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProductDetailsBloc>().add(const FetchProductList());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +62,30 @@ class _ProductDetilesState extends State<ProductDetiles> {
           ),
         ),
         actions: [
-          ValueListenableBuilder(
-            valueListenable: ValueNotifier(null),
-            builder: (context, box, child) {
+          BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+            builder: (context, state) {
+              bool isFavorite = false;
+              state.maybeWhen(
+                loaded: (_, fav, __) => isFavorite = fav,
+                orElse: () {},
+              );
               return GestureDetector(
                 onTap: () async {
                   ScaffoldMessenger.of(context).clearSnackBars();
+                  final product = ProductModel(
+                    title: widget.title,
+                    discription: widget.discription,
+                    image1: widget.image,
+                    image2: '',
+                    image3: '',
+                    image4: '',
+                    price: widget.price,
+                    category: '',
+                    productCount: 1,
+                  );
+                  context
+                      .read<ProductDetailsBloc>()
+                      .add(ToggleFavorite(product));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),
@@ -70,8 +94,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(width: 1, color: Colors.grey[300]!)),
-                  child: const Icon(
-                    Icons.heart_broken,
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
                     size: 18,
                     color: Colors.red,
                   ),
@@ -99,47 +123,41 @@ class _ProductDetilesState extends State<ProductDetiles> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            ValueListenableBuilder(
-              valueListenable: ValueNotifier<List<ProductModel>>([]),
-              builder: (BuildContext context, List<ProductModel> productList,
-                  Widget? child) {
-                final data = productList[widget.index];
-                final base64Image1 = data.image1;
-                final base64Image2 = data.image2;
-                final base64Image3 = data.image3;
-                final base64Image4 = data.image4;
-                // ignore: unused_local_variable
-                Uint8List imageBytes;
-                List<Uint8List> demoImage = [
-                  imageBytes = base64.decode(base64Image1),
-                  imageBytes = base64.decode(base64Image2),
-                  imageBytes = base64.decode(base64Image3),
-                  imageBytes = base64.decode(base64Image4),
-                ];
-                return Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: SizedBox(
-                        height: 200,
-                        width: MediaQuery.of(context).size.width * .6,
-                        child: Image(
-                          image: MemoryImage(demoImage[selectedImage]),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+              builder: (BuildContext context, state) {
+                return state.maybeWhen(
+                  loaded: (productList, isFavorite, isInCart) {
+                    return Column(
                       children: [
-                        ...List.generate(
-                          4,
-                          (index1) => imageSmallBox(index1, demoImage),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: SizedBox(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width * .6,
+                            child: widget.image.startsWith('http')
+                                ? Image.network(
+                                    widget.image,
+                                    fit: BoxFit.fill,
+                                  )
+                                : const Icon(Icons.image, size: 100),
+                          ),
                         ),
+                        const SizedBox(height: 30),
+                        // Assuming images logic will be implemented later
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: [
+                        //     ...List.generate(
+                        //       4,
+                        //       (index1) => imageSmallBox(index1, []),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
-                    ),
-                  ],
+                    );
+                  },
+                  orElse: () =>
+                      const Center(child: CircularProgressIndicator()),
                 );
               },
             ),
@@ -149,32 +167,52 @@ class _ProductDetilesState extends State<ProductDetiles> {
                 price: widget.price.toString(),
                 discription: widget.discription),
             const Spacer(),
-            ValueListenableBuilder(
-              valueListenable: ValueNotifier(null),
-              builder: (context, box, child) {
-                const isInCart = null != null;
+            BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+              builder: (context, state) {
+                bool isInCart = false;
+                state.maybeWhen(
+                  loaded: (_, __, inCart) => isInCart = inCart,
+                  orElse: () {},
+                );
                 return Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Added to Cart'),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
+                      if (!isInCart) {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        final product = ProductModel(
+                          title: widget.title,
+                          discription: widget.discription,
+                          image1: widget.image,
+                          image2: '',
+                          image3: '',
+                          image4: '',
+                          price: widget.price,
+                          category: '',
+                          productCount: 1,
+                        );
+                        context
+                            .read<ProductDetailsBloc>()
+                            .add(AddToCart(product));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Added to Cart'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
-                      backgroundColor: const Color.fromARGB(255, 92, 177, 94),
+                      backgroundColor: isInCart
+                          ? Colors.grey
+                          : const Color.fromARGB(255, 92, 177, 94),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24.0, vertical: 12.0),
                     ),
                     child: Text(
-                      isInCart == true ? 'Go to Cart' : 'Add To Cart',
+                      isInCart ? 'In Cart' : 'Add To Cart',
                       style: GoogleFonts.roboto(
                         fontSize: 14,
                         color: Colors.white,

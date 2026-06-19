@@ -21,6 +21,7 @@ import '../../features/payment/presentation/pages/payment_scr.dart';
 import '../../features/terms/presentation/pages/terms.dart';
 import '../../features/terms/presentation/pages/about_us.dart';
 import '../../features/address/presentation/pages/edit_addres.dart';
+import '../../features/product_details/presentation/pages/product_detiles.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -68,6 +69,16 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TermsOne());
       case AppRouters.aboutUs:
         return MaterialPageRoute(builder: (_) => const AboutUs());
+      case AppRouters.productDetails:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => ProductDetiles(
+                  index: args['index'],
+                  title: args['title'],
+                  price: args['price'],
+                  image: args['image'],
+                  discription: args['discription'],
+                ));
 
       default:
         return MaterialPageRoute(

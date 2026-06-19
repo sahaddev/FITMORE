@@ -10,6 +10,8 @@ import 'package:e_commerce/core/assets/images/app_images.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/home/home_bloc.dart';
+import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:e_commerce/core/routes/app_routers.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -39,11 +41,25 @@ class ProductsGrid extends StatelessWidget {
               itemCount: popularProducts.length,
               itemBuilder: (context, index) {
                 final product = popularProducts[index];
-                return ProductCard(
-                  imageUrl: product.baseImage ?? '',
-                  name: product.title ?? '',
-                  price: '₹${product.price ?? 0}',
-                  rating: 4.5, // placeholder
+                return GestureDetector(
+                  onTap: () {
+                    NavigationService.pushNamed(
+                      AppRouters.productDetails,
+                      arguments: {
+                        'index': index,
+                        'title': product.title ?? '',
+                        'price': product.price ?? 0,
+                        'image': product.baseImage ?? '',
+                        'discription': product.description ?? '',
+                      },
+                    );
+                  },
+                  child: ProductCard(
+                    imageUrl: product.baseImage ?? '',
+                    name: product.title ?? '',
+                    price: '₹${product.price ?? 0}',
+                    rating: 4.5, // placeholder
+                  ),
                 );
               },
             );
