@@ -8,10 +8,23 @@ import '../widgets/home_gride.dart';
 import '../widgets/search_bar.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/home/home_bloc.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
-class HomeUi extends StatelessWidget {
+class HomeUi extends StatefulWidget {
   const HomeUi({super.key});
+
+  @override
+  State<HomeUi> createState() => _HomeUiState();
+}
+
+class _HomeUiState extends State<HomeUi> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(const FetchData());
+  }
 
   @override
   Widget build(BuildContext context) {

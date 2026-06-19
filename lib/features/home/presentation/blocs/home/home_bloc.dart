@@ -1,6 +1,6 @@
+import 'package:e_commerce/features/home/data/model/home_res_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../core/models/product/db_product_model.dart';
 import '../../../domain/usecase/home_usecase.dart';
 
 part 'home_event.dart';
@@ -22,20 +22,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final response = await HomeUsecase().getAllProduct();
 
       if (response.status == true && response.datas != null) {
-        final products = response.datas!.map((e) => ProductModel(
-          title: e.title ?? '',
-          discription: e.description ?? '',
-          image1: '',
-          image2: '',
-          image3: '',
-          image4: '',
-          price: e.price ?? 0,
-          category: e.category ?? '',
-          productCount: 0,
-          id: e.id,
-          active: e.active ?? true,
-        )).toList();
-        
+        final products = response.datas!
+            .map((e) => HomeProductModel(
+                  sId: e.sId,
+                  id: e.id,
+                  title: e.title ?? '',
+                  subTitle: e.subTitle ?? '',
+                  description: e.description ?? '',
+                  price: e.price ?? 0,
+                  category: e.category ?? '',
+                  active: e.active ?? true,
+                  createdAt: e.createdAt,
+                  updatedAt: e.updatedAt,
+                  baseImage: e.baseImage,
+                  iV: e.iV,
+                ))
+            .toList();
+
         emit(HomeState.loaded(products));
       } else {
         emit(const HomeState.failure(message: 'Failed to fetch data'));
@@ -54,20 +57,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final response = await HomeUsecase().getAllProduct();
 
       if (response.status == true && response.datas != null) {
-        final products = response.datas!.map((e) => ProductModel(
-          title: e.title ?? '',
-          discription: e.description ?? '',
-          image1: '',
-          image2: '',
-          image3: '',
-          image4: '',
-          price: e.price ?? 0,
-          category: e.category ?? '',
-          productCount: 0,
-          id: e.id,
-          active: e.active ?? true,
-        )).toList();
-        
+        final products = response.datas!
+            .map((e) => HomeProductModel(
+                  sId: e.sId,
+                  id: e.id,
+                  title: e.title ?? '',
+                  subTitle: e.subTitle ?? '',
+                  description: e.description ?? '',
+                  price: e.price ?? 0,
+                  category: e.category ?? '',
+                  active: e.active ?? true,
+                  createdAt: e.createdAt,
+                  updatedAt: e.updatedAt,
+                  baseImage: e.baseImage,
+                  iV: e.iV,
+                ))
+            .toList();
+
         emit(HomeState.loaded(products));
       } else {
         emit(const HomeState.failure(message: 'Failed to refresh data'));
@@ -77,4 +83,3 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 }
-

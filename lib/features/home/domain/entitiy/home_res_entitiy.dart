@@ -12,6 +12,7 @@ class HomeProductEntity extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final int? iV;
+  final String? baseImage;
 
   const HomeProductEntity({
     required this.sId,
@@ -22,6 +23,7 @@ class HomeProductEntity extends Equatable {
     required this.price,
     required this.category,
     required this.active,
+    required this.baseImage,
     required this.createdAt,
     required this.updatedAt,
     required this.iV,
@@ -37,6 +39,7 @@ class HomeProductEntity extends Equatable {
         price,
         category,
         active,
+        baseImage,
         createdAt,
         updatedAt,
         iV,

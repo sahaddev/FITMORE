@@ -12,6 +12,7 @@ class HomeProductModel extends HomeProductEntity {
     required super.active,
     required super.createdAt,
     required super.updatedAt,
+    required super.baseImage,
     required super.iV,
   });
 
@@ -24,6 +25,7 @@ class HomeProductModel extends HomeProductEntity {
       description: json['description'],
       price: json['price'],
       category: json['category'],
+      baseImage: json['image_one'],
       active: json['active'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
@@ -37,6 +39,7 @@ class HomeProductModel extends HomeProductEntity {
       id: id,
       title: title,
       subTitle: subTitle,
+      baseImage: baseImage,
       description: description,
       price: price,
       category: category,

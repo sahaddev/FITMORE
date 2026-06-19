@@ -404,7 +404,7 @@ extension HomeStatePatterns on HomeState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(List<ProductModel> popularProducts)? loaded,
+    TResult Function(List<HomeProductModel> popularProducts)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -443,7 +443,7 @@ extension HomeStatePatterns on HomeState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(List<ProductModel> popularProducts) loaded,
+    required TResult Function(List<HomeProductModel> popularProducts) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -480,7 +480,7 @@ extension HomeStatePatterns on HomeState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(List<ProductModel> popularProducts)? loaded,
+    TResult? Function(List<HomeProductModel> popularProducts)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -667,11 +667,11 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements HomeState {
-  const _Loaded(final List<ProductModel> popularProducts)
+  const _Loaded(final List<HomeProductModel> popularProducts)
       : _popularProducts = popularProducts;
 
-  final List<ProductModel> _popularProducts;
-  List<ProductModel> get popularProducts {
+  final List<HomeProductModel> _popularProducts;
+  List<HomeProductModel> get popularProducts {
     if (_popularProducts is EqualUnmodifiableListView) return _popularProducts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_popularProducts);
@@ -709,7 +709,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({List<ProductModel> popularProducts});
+  $Res call({List<HomeProductModel> popularProducts});
 }
 
 /// @nodoc
@@ -729,7 +729,7 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
       null == popularProducts
           ? _self._popularProducts
           : popularProducts // ignore: cast_nullable_to_non_nullable
-              as List<ProductModel>,
+              as List<HomeProductModel>,
     ));
   }
 }
