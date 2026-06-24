@@ -157,7 +157,7 @@ extension NotificationEventPatterns on NotificationEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function()? getAllNotifications,
-    TResult Function(int id)? markAsRead,
+    TResult Function(String id)? markAsRead,
     TResult Function()? markAllAsRead,
     required TResult orElse(),
   }) {
@@ -193,7 +193,7 @@ extension NotificationEventPatterns on NotificationEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function() getAllNotifications,
-    required TResult Function(int id) markAsRead,
+    required TResult Function(String id) markAsRead,
     required TResult Function() markAllAsRead,
   }) {
     final _that = this;
@@ -227,7 +227,7 @@ extension NotificationEventPatterns on NotificationEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
     TResult? Function()? getAllNotifications,
-    TResult? Function(int id)? markAsRead,
+    TResult? Function(String id)? markAsRead,
     TResult? Function()? markAllAsRead,
   }) {
     final _that = this;
@@ -291,7 +291,7 @@ class GetAllNotifications implements NotificationEvent {
 class MarkAsRead implements NotificationEvent {
   const MarkAsRead(this.id);
 
-  final int id;
+  final String id;
 
   /// Create a copy of NotificationEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -324,7 +324,7 @@ abstract mixin class $MarkAsReadCopyWith<$Res>
           MarkAsRead value, $Res Function(MarkAsRead) _then) =
       _$MarkAsReadCopyWithImpl;
   @useResult
-  $Res call({int id});
+  $Res call({String id});
 }
 
 /// @nodoc
@@ -344,7 +344,7 @@ class _$MarkAsReadCopyWithImpl<$Res> implements $MarkAsReadCopyWith<$Res> {
       null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -525,7 +525,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(List<dynamic> notifications)? loaded,
+    TResult Function(List<NotificationEntity> notifications)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -564,7 +564,7 @@ extension NotificationStatePatterns on NotificationState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(List<dynamic> notifications) loaded,
+    required TResult Function(List<NotificationEntity> notifications) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -601,7 +601,7 @@ extension NotificationStatePatterns on NotificationState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(List<dynamic> notifications)? loaded,
+    TResult? Function(List<NotificationEntity> notifications)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -788,11 +788,11 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements NotificationState {
-  const _Loaded(final List<dynamic> notifications)
+  const _Loaded(final List<NotificationEntity> notifications)
       : _notifications = notifications;
 
-  final List<dynamic> _notifications;
-  List<dynamic> get notifications {
+  final List<NotificationEntity> _notifications;
+  List<NotificationEntity> get notifications {
     if (_notifications is EqualUnmodifiableListView) return _notifications;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_notifications);
@@ -830,7 +830,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({List<dynamic> notifications});
+  $Res call({List<NotificationEntity> notifications});
 }
 
 /// @nodoc
@@ -850,7 +850,7 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
       null == notifications
           ? _self._notifications
           : notifications // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<NotificationEntity>,
     ));
   }
 }

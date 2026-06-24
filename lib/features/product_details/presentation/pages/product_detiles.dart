@@ -39,7 +39,9 @@ class _ProductDetilesState extends State<ProductDetiles> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductDetailsBloc>().add(LoadProductDetails(id: widget.index));
+    context
+        .read<ProductDetailsBloc>()
+        .add(LoadProductDetails(id: widget.index));
   }
 
   @override
@@ -105,19 +107,6 @@ class _ProductDetilesState extends State<ProductDetiles> {
               );
             },
           ),
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            height: 33,
-            width: 32,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Colors.grey[300]!)),
-            child: const Icon(
-              Icons.card_travel_outlined,
-              size: 18,
-              color: Colors.black,
-            ),
-          ),
         ],
       ),
       body: Padding(
@@ -129,7 +118,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
               builder: (BuildContext context, state) {
                 return state.maybeWhen(
                   loaded: (productList, isFavorite, isInCart) {
-                    final product = productList.isNotEmpty ? productList.first : null;
+                    final product =
+                        productList.isNotEmpty ? productList.first : null;
                     final images = <String>[];
                     if (product != null) {
                       if (product.image1.isNotEmpty) images.add(product.image1);
@@ -157,7 +147,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
                                 if (img.startsWith('data:image')) {
                                   cleanImg = img.split(',').last;
                                 }
-                                cleanImg = cleanImg.replaceAll(RegExp(r'\s+'), '');
+                                cleanImg =
+                                    cleanImg.replaceAll(RegExp(r'\s+'), '');
                               }
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
@@ -166,13 +157,17 @@ class _ProductDetilesState extends State<ProductDetiles> {
                                         img,
                                         fit: BoxFit.fill,
                                         width: double.infinity,
-                                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 100),
+                                        errorBuilder: (_, __, ___) =>
+                                            const Icon(Icons.broken_image,
+                                                size: 100),
                                       )
                                     : Image.memory(
                                         base64Decode(cleanImg),
                                         fit: BoxFit.fill,
                                         width: double.infinity,
-                                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 100),
+                                        errorBuilder: (_, __, ___) =>
+                                            const Icon(Icons.broken_image,
+                                                size: 100),
                                       ),
                               );
                             }).toList(),
@@ -187,7 +182,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
                     );
                   },
                   failure: (message) => Center(
-                    child: Text('Error: $message', style: const TextStyle(color: Colors.red)),
+                    child: Text('Error: $message',
+                        style: const TextStyle(color: Colors.red)),
                   ),
                   orElse: () =>
                       const Center(child: CircularProgressIndicator()),

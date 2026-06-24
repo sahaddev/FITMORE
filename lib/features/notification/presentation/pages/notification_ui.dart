@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/notification/notification_bloc.dart';
 
 int notificationCount = 1;
 
-class ListOfNotification extends StatelessWidget {
+class ListOfNotification extends StatefulWidget {
   const ListOfNotification({super.key});
+
+  @override
+  State<ListOfNotification> createState() => _ListOfNotificationState();
+}
+
+class _ListOfNotificationState extends State<ListOfNotification> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationBloc>().add(const GetAllNotifications());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,90 +42,74 @@ class ListOfNotification extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings, color: Colors.black),
-          ),
-        ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionHeader('Today'),
-              SizedBox(height: 1.5.h),
-              const NotificationCard(
-                title: 'FitMore Store',
-                messagePrefix: 'Hi Caitlyn Margusity, your pickup order is ',
-                highlightedMessage: 'now ready!',
-                orderDetails: 'Order #48291 • Ready for pickup',
-                time: '10m ago',
-                isUnread: true,
+      body: BlocBuilder<NotificationBloc, NotificationState>(
+        builder: (context, state) {
+          return state.when(
+            initial: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            success: (_) => const SizedBox.shrink(),
+            failure: (message) => Center(
+              child: Text(
+                'Error: $message',
+                style: const TextStyle(color: Colors.red),
               ),
-              const NotificationCard(
-                title: 'FitMore Store',
-                messagePrefix: 'Hi sahad Mp, your pickup order is ',
-                highlightedMessage: 'now ready!',
-                orderDetails: 'Order #48290 • Ready for pickup',
-                time: '10m ago',
-                isUnread: true,
-              ),
-              const NotificationCard(
-                title: 'FitMore Store',
-                messagePrefix: 'Hi jhon Mathew, your pickup order is ',
-                highlightedMessage: 'now ready!',
-                orderDetails: 'Order #48289 • Ready for pickup',
-                time: '10m ago',
-                isUnread: true,
-              ),
-              SizedBox(height: 3.h),
-              _buildSectionHeader('Previously'),
-              SizedBox(height: 1.5.h),
-              const NotificationCard(
-                title: 'FitMore Store',
-                messagePrefix: 'Hi Spider Man, your pickup order is ',
-                highlightedMessage: 'now ready!',
-                orderDetails:
-                    'Order #48100 • Pickup completed', // Inferred or dummy
-                time: 'Yesterday',
-                isUnread: false,
-                hideStatusDot: true,
-              ),
-              SizedBox(height: 4.h),
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Missing notifications?',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(height: 0.5.h),
-                    GestureDetector(
-                      onTap: () {
-                        // Navigate to historical
-                      },
-                      child: Text(
-                        'Go to historical notifications.',
-                        style: GoogleFonts.poppins(
-                          fontSize: 13.sp,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w600,
+            ),
+            loaded: (notifications) {
+              if (notifications.isEmpty) {
+                return const Center(child: Text('No notifications'));
+              }
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSectionHeader('All Notifications'),
+                      SizedBox(height: 1.5.h),
+                      ...notifications.map((notif) {
+                        return NotificationCard(
+                          title: notif.title,
+                          message: notif.message,
+                          orderDetails: notif.subText ?? '',
+                          time: notif.timeString ?? '',
+                          isUnread: !notif.isRead,
+                        );
+                      }),
+                      SizedBox(height: 4.h),
+                      Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Missing notifications?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13.sp,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            SizedBox(height: 0.5.h),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                'Go to historical notifications.',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13.sp,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 4.h),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 4.h),
-            ],
-          ),
-        ),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -131,8 +128,7 @@ class ListOfNotification extends StatelessWidget {
 
 class NotificationCard extends StatelessWidget {
   final String title;
-  final String messagePrefix;
-  final String highlightedMessage;
+  final String message;
   final String orderDetails;
   final String time;
   final bool isUnread;
@@ -141,8 +137,7 @@ class NotificationCard extends StatelessWidget {
   const NotificationCard({
     super.key,
     required this.title,
-    required this.messagePrefix,
-    required this.highlightedMessage,
+    required this.message,
     required this.orderDetails,
     required this.time,
     this.isUnread = false,
@@ -237,14 +232,7 @@ class NotificationCard extends StatelessWidget {
                       height: 1.4,
                     ),
                     children: [
-                      TextSpan(text: messagePrefix),
-                      TextSpan(
-                        text: highlightedMessage,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
-                        ),
-                      ),
+                      TextSpan(text: message),
                     ],
                   ),
                 ),
