@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sizer/sizer.dart';
 
-class RotatingCarousel extends StatefulWidget {
-  final List<String> images;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/home/home_bloc.dart';
 
-  const RotatingCarousel({super.key, required this.images});
+class RotatingCarousel extends StatefulWidget {
+  const RotatingCarousel({super.key});
 
   @override
   State<RotatingCarousel> createState() => _RotatingCarouselState();
@@ -43,66 +46,111 @@ class _RotatingCarouselState extends State<RotatingCarousel>
     // 250px roughly.
     final double radius = 35.w + 10.w; // A bit arbitrary, adjustable.
 
-    return SizedBox(
-      height: 30.h, // Container height including perspective
-      width: 100.w,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          final double rotationValue = _controller.value * 2 * math.pi;
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        List<String> images = [];
+        state.maybeWhen(
+          loaded: (products, banners) {
+            for (var banner in banners) {
+              if (banner.image1 != null && banner.image1!.isNotEmpty) {
+                images.add(banner.image1!);
+              }
+              if (banner.image2 != null && banner.image2!.isNotEmpty) {
+                images.add(banner.image2!);
+              }
+              if (banner.image3 != null && banner.image3!.isNotEmpty) {
+                images.add(banner.image3!);
+              }
+              if (banner.image4 != null && banner.image4!.isNotEmpty) {
+                images.add(banner.image4!);
+              }
+              if (banner.image5 != null && banner.image5!.isNotEmpty) {
+                images.add(banner.image5!);
+              }
+            }
+            if (images.length > 5) {
+              images = images.sublist(0, 5);
+            }
+          },
+          orElse: () {},
+        );
 
-          // Calculate items with their transform data
-          final List<_CarouselItem> items = [];
-          final int count = widget.images.length;
-          final double anglePerItem = 2 * math.pi / count;
-
-          for (int i = 0; i < count; i++) {
-            final double baseAngle = i * anglePerItem;
-            // The CSS animates 'rotating' which rotates the whole container.
-            // Equivalent to adding rotation to each item's base angle in the ring.
-            final double currentAngle = baseAngle + rotationValue;
-
-            // Calculate z-depth for sorting.
-            // In a standard ring:
-            // x = r * sin(a)
-            // z = r * cos(a)
-            // We want to draw back items first.
-            // Closest to viewer is usually when cos(a) is max (if viewing from +Z?)
-            // Let's assume simplest: cos(currentAngle)
-            // 1.0 is front, -1.0 is back.
-            final double zDepth = math.cos(currentAngle);
-
-            items.add(_CarouselItem(
-              index: i,
-              image: widget.images[i],
-              angle: currentAngle,
-              zDepth: zDepth,
-            ));
-          }
-
-          // Sort: draw lowest zDepth (back) first, highest zDepth (front) last.
-          items.sort((a, b) => a.zDepth.compareTo(b.zDepth));
-
-          return Stack(
-            alignment: Alignment.center,
-            children: items.map((item) {
-              return Transform(
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001) // Perspective
-                  ..translateByDouble(0.0, 0.0, 0.0, 1.0) // Center of rotation
-                  ..rotateY(item.angle)
-                  ..translateByDouble(0.0, 0.0, radius, 1.0), // Move out to radius
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: itemWidth,
-                  height: itemHeight,
-                  child: _buildCard(item.image),
-                ),
-              );
-            }).toList(),
+        if (images.isEmpty) {
+          return SizedBox(
+            height: 30.h,
+            width: 100.w,
+            child: const Center(child: CircularProgressIndicator()),
           );
-        },
-      ),
+        }
+
+        final List<Widget> prebuiltCards =
+            images.map((img) => _buildCard(img)).toList();
+
+        return SizedBox(
+          height: 30.h, // Container height including perspective
+          width: 100.w,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final double rotationValue = _controller.value * 2 * math.pi;
+
+              // Calculate items with their transform data
+              final List<_CarouselItem> items = [];
+              final int count = images.length;
+              final double anglePerItem = 2 * math.pi / count;
+
+              for (int i = 0; i < count; i++) {
+                final double baseAngle = i * anglePerItem;
+                // The CSS animates 'rotating' which rotates the whole container.
+                // Equivalent to adding rotation to each item's base angle in the ring.
+                final double currentAngle = baseAngle + rotationValue;
+
+                // Calculate z-depth for sorting.
+                // In a standard ring:
+                // x = r * sin(a)
+                // z = r * cos(a)
+                // We want to draw back items first.
+                // Closest to viewer is usually when cos(a) is max (if viewing from +Z?)
+                // Let's assume simplest: cos(currentAngle)
+                // 1.0 is front, -1.0 is back.
+                final double zDepth = math.cos(currentAngle);
+
+                items.add(_CarouselItem(
+                  index: i,
+                  image: images[i],
+                  cardWidget: prebuiltCards[i],
+                  angle: currentAngle,
+                  zDepth: zDepth,
+                ));
+              }
+
+              // Sort: draw lowest zDepth (back) first, highest zDepth (front) last.
+              items.sort((a, b) => a.zDepth.compareTo(b.zDepth));
+
+              return Stack(
+                alignment: Alignment.center,
+                children: items.map((item) {
+                  return Transform(
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001) // Perspective
+                      ..translateByDouble(
+                          0.0, 0.0, 0.0, 1.0) // Center of rotation
+                      ..rotateY(item.angle)
+                      ..translateByDouble(
+                          0.0, 0.0, radius, 1.0), // Move out to radius
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: itemWidth,
+                      height: itemHeight,
+                      child: item.cardWidget,
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -110,6 +158,44 @@ class _RotatingCarouselState extends State<RotatingCarousel>
     // Replicating the CSS card style if possible
     // .card { border: 2px solid rgba(var(--color-card)); border-radius: 12px; ... }
     // .img { radial-gradient overlay ... }
+
+    Widget imageWidget;
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      imageWidget = Image.network(
+        imagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            const Icon(Icons.broken_image),
+      );
+    } else if (imagePath.startsWith('assets/')) {
+      imageWidget = Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            const Icon(Icons.broken_image),
+      );
+    } else {
+      imageWidget = FutureBuilder<Uint8List?>(
+        future: compute(decodeBase64InIsolate, imagePath),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData &&
+              snapshot.data != null &&
+              snapshot.data!.isNotEmpty) {
+            return Image.memory(
+              snapshot.data!,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.broken_image),
+            );
+          } else {
+            return const Icon(Icons.broken_image);
+          }
+        },
+      );
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -129,10 +215,7 @@ class _RotatingCarouselState extends State<RotatingCarousel>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-            ),
+            imageWidget,
             // The radial gradient overlay from CSS
             Container(
               decoration: BoxDecoration(
@@ -158,13 +241,28 @@ class _RotatingCarouselState extends State<RotatingCarousel>
 class _CarouselItem {
   final int index;
   final String image;
+  final Widget cardWidget;
   final double angle;
   final double zDepth;
 
   _CarouselItem({
     required this.index,
     required this.image,
+    required this.cardWidget,
     required this.angle,
     required this.zDepth,
   });
+}
+
+Uint8List? decodeBase64InIsolate(String base64Str) {
+  try {
+    if (base64Str.startsWith('data:image')) {
+      base64Str = base64Str.split(',').last;
+    }
+    // Remove whitespaces just in case
+    base64Str = base64Str.replaceAll(RegExp(r'\s+'), '');
+    return base64Decode(base64Str);
+  } catch (e) {
+    return null;
+  }
 }

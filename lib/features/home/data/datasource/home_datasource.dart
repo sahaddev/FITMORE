@@ -3,11 +3,13 @@ import 'package:e_commerce/core/constants/app_constants.dart';
 import 'package:e_commerce/core/network/dio_client.dart';
 import 'package:e_commerce/core/network/dio_error_handler.dart';
 import '../model/home_res_model.dart';
+import '../model/banner_res_model.dart';
 
 // Assuming DioClient, ApiEndPoint, and DioErrorHandler are available in your project.
 
 abstract class HomeDatasource {
   Future<HomeResModel> getAllProduct({String? search, String? category});
+  Future<BannerResModel> getBanner();
 }
 
 class HomeDatasourceImpl implements HomeDatasource {
@@ -32,6 +34,22 @@ class HomeDatasourceImpl implements HomeDatasource {
         return HomeResModel.fromJson(response.data);
       } else {
         throw Exception("Failed to fetch products");
+      }
+    } on DioException catch (e) {
+      throw DioErrorHandler.handleDioError(e);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<BannerResModel> getBanner() async {
+    try {
+      final response = await _dioClient.get(AppConstants.banner);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return BannerResModel.fromJson(response.data);
+      } else {
+        throw Exception("Failed to fetch banners");
       }
     } on DioException catch (e) {
       throw DioErrorHandler.handleDioError(e);

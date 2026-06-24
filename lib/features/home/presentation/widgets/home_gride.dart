@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class ProductsGrid extends StatelessWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           success: (message) => const SizedBox(),
           failure: (message) => Center(child: Text(message)),
-          loaded: (popularProducts) {
+          loaded: (popularProducts, banners) {
             if (popularProducts.isEmpty) {
               return const Expanded(
                   child: Center(child: Text('No products available')));
@@ -91,7 +90,6 @@ class ProductCard extends StatelessWidget {
         source,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          log(error.toString());
           return const Icon(Icons.broken_image);
         },
       );
@@ -105,7 +103,6 @@ class ProductCard extends StatelessWidget {
     }
     return Image(
       errorBuilder: (context, error, stackTrace) {
-        log(error.toString());
         return const Icon(Icons.broken_image);
       },
       fit: BoxFit.cover,

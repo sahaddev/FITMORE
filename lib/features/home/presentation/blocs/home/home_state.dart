@@ -6,6 +6,5 @@ abstract class HomeState with _$HomeState {
   const factory HomeState.loading() = _Loading;
   const factory HomeState.success({required String message}) = _Success;
   const factory HomeState.failure({required String message}) = _Failure;
-  const factory HomeState.loaded(List<HomeProductModel> popularProducts) =
-      _Loaded;
+  const factory HomeState.loaded(List<HomeProductModel> popularProducts, List<BannerEntity> banners) = _Loaded;
 }

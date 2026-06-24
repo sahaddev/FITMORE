@@ -1,9 +1,9 @@
+import 'package:e_commerce/features/home/presentation/widgets/rotating_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widgets/category_section.dart';
-import '../widgets/rotating_carousel.dart';
 import '../widgets/home_gride.dart';
 import '../widgets/search_bar.dart';
 import 'package:e_commerce/core/assets/images/app_images.dart';
@@ -28,14 +28,6 @@ class _HomeUiState extends State<HomeUi> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> imageList = [
-      AppImages.chatgptImageJan182026030134Pm,
-      AppImages.chatgptImageJan182026030446Pm,
-      AppImages.chatgptImageJan182026030134Pm,
-      AppImages.chatgptImageJan182026030446Pm,
-      AppImages.chatgptImageJan182026030134Pm,
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -112,8 +104,7 @@ class _HomeUiState extends State<HomeUi> {
                 SizedBox(height: 3.h),
 
                 // Banner
-                // Banner
-                RotatingCarousel(images: imageList),
+                const RotatingCarousel(),
                 SizedBox(height: 3.h),
 
                 // Popular Product Header
@@ -171,21 +162,3 @@ class _HomeUiState extends State<HomeUi> {
     );
   }
 }
-
-// class BottomNavBar extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       backgroundColor: Colors.white,
-//       items: [
-//         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//         BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-//         BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-//         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-//       ],
-//       selectedItemColor: Colors.green,
-//       unselectedItemColor: Colors.grey,
-//       type: BottomNavigationBarType.fixed,
-//     );
-//   }
-// }

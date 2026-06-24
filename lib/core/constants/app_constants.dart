@@ -11,4 +11,5 @@ class AppConstants {
   static const String favorite = '/api/favorites';
   static const String signUp = '/api/signup';
   static const String signIn = '/api/login';
+  static const String banner = '/api/banner';
 }
