@@ -5,7 +5,7 @@ import '../../data/repositories_impl/home_repo_impli.dart';
 class HomeUsecase {
   HomeRepositories homeRepositories = HomeRepoImpl();
 
-  Future<HomeResEntitiy> getAllProduct() {
-    return homeRepositories.getAllProduct();
+  Future<HomeResEntitiy> getAllProduct({String? search, String? category}) {
+    return homeRepositories.getAllProduct(search: search, category: category);
   }
 }

@@ -33,4 +33,5 @@ class AppRouters {
   static const adminBottomNav = '/admin_bottom_nav';
   static const search = '/search';
   static const categoryList = '/category_list';
+  static const productListing = '/product_listing';
 }

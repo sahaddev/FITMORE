@@ -104,12 +104,7 @@ class _HomeUiState extends State<HomeUi> {
                 SizedBox(height: 3.h),
 
                 // Search Bar
-                GestureDetector(
-                  onTap: () {
-                    NavigationService.pushNamed(AppRouters.search);
-                  },
-                  child: const CusSearchBar(),
-                ),
+                const CusSearchBar(),
                 SizedBox(height: 3.h),
 
                 // Categories
@@ -135,7 +130,7 @@ class _HomeUiState extends State<HomeUi> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        NavigationService.pushNamed(AppRouters.search);
+                        NavigationService.pushNamed(AppRouters.productListing);
                       },
                       child: Text(
                         "See All",

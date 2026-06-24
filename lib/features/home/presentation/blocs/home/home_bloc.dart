@@ -19,7 +19,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeState.loading());
     try {
-      final response = await HomeUsecase().getAllProduct();
+      final response = await HomeUsecase().getAllProduct(
+        search: event.search,
+        category: event.category,
+      );
 
       if (response.status == true && response.datas != null) {
         final products = response.datas!
@@ -54,7 +57,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeState.loading());
     try {
-      final response = await HomeUsecase().getAllProduct();
+      final response = await HomeUsecase().getAllProduct(
+        search: event.search,
+        category: event.category,
+      );
 
       if (response.status == true && response.datas != null) {
         final products = response.datas!

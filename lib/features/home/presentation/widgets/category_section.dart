@@ -1,5 +1,3 @@
-import 'package:e_commerce/core/routes/navigation_service.dart';
-import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -19,33 +17,18 @@ class _CategoriesSectionState extends State<CategoriesSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Categories",
-                style: GoogleFonts.roboto(
-                  fontSize: 18.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Text(
+              "Categories",
+              style: GoogleFonts.roboto(
+                fontSize: 18.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
               ),
-              GestureDetector(
-                onTap: () {
-                  NavigationService.pushNamed(AppRouters.search);
-                },
-                child: Text(
-                  "See All",
-                  style: GoogleFonts.roboto(
-                    fontSize: 14.sp,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
         SizedBox(height: 2.h),

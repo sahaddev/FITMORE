@@ -27,7 +27,8 @@ class ProductsGrid extends StatelessWidget {
           failure: (message) => Center(child: Text(message)),
           loaded: (popularProducts) {
             if (popularProducts.isEmpty) {
-              return const Center(child: Text('No products available'));
+              return const Expanded(
+                  child: Center(child: Text('No products available')));
             }
             return GridView.builder(
               shrinkWrap: true,

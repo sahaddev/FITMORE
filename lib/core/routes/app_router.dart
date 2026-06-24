@@ -8,6 +8,7 @@ import '../../features/splash/presentation/pages/second_sp.dart';
 import '../../features/auth/presentation/pages/signin.dart';
 import '../../features/auth/presentation/pages/signup.dart';
 import '../../features/home/presentation/pages/home_ui.dart';
+import '../../features/home/presentation/pages/product_listing_ui.dart';
 import '../../core/widgets/bottom_navigator.dart';
 import '../../features/cart/presentation/pages/cart_screen.dart';
 import '../../features/favorite/presentation/pages/favorite_screen.dart';
@@ -79,6 +80,8 @@ class AppRouter {
                   image: args['image'],
                   discription: args['discription'],
                 ));
+      case AppRouters.productListing:
+        return MaterialPageRoute(builder: (_) => const ProductListingUi());
 
       default:
         return MaterialPageRoute(

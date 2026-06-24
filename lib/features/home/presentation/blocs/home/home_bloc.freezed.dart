@@ -14,24 +14,69 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$HomeEvent {
+  String? get search;
+  String? get category;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $HomeEventCopyWith<HomeEvent> get copyWith =>
+      _$HomeEventCopyWithImpl<HomeEvent>(this as HomeEvent, _$identity);
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is HomeEvent);
+        (other.runtimeType == runtimeType &&
+            other is HomeEvent &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, search, category);
 
   @override
   String toString() {
-    return 'HomeEvent()';
+    return 'HomeEvent(search: $search, category: $category)';
   }
 }
 
 /// @nodoc
-class $HomeEventCopyWith<$Res> {
-  $HomeEventCopyWith(HomeEvent _, $Res Function(HomeEvent) __);
+abstract mixin class $HomeEventCopyWith<$Res> {
+  factory $HomeEventCopyWith(HomeEvent value, $Res Function(HomeEvent) _then) =
+      _$HomeEventCopyWithImpl;
+  @useResult
+  $Res call({String? search, String? category});
+}
+
+/// @nodoc
+class _$HomeEventCopyWithImpl<$Res> implements $HomeEventCopyWith<$Res> {
+  _$HomeEventCopyWithImpl(this._self, this._then);
+
+  final HomeEvent _self;
+  final $Res Function(HomeEvent) _then;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? search = freezed,
+    Object? category = freezed,
+  }) {
+    return _then(_self.copyWith(
+      search: freezed == search
+          ? _self.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// Adds pattern-matching-related methods to [HomeEvent].
@@ -136,16 +181,16 @@ extension HomeEventPatterns on HomeEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fetchData,
-    TResult Function()? refreshData,
+    TResult Function(String? search, String? category)? fetchData,
+    TResult Function(String? search, String? category)? refreshData,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
-        return fetchData();
+        return fetchData(_that.search, _that.category);
       case RefreshData() when refreshData != null:
-        return refreshData();
+        return refreshData(_that.search, _that.category);
       case _:
         return orElse();
     }
@@ -166,15 +211,15 @@ extension HomeEventPatterns on HomeEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() fetchData,
-    required TResult Function() refreshData,
+    required TResult Function(String? search, String? category) fetchData,
+    required TResult Function(String? search, String? category) refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData():
-        return fetchData();
+        return fetchData(_that.search, _that.category);
       case RefreshData():
-        return refreshData();
+        return refreshData(_that.search, _that.category);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -194,15 +239,15 @@ extension HomeEventPatterns on HomeEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fetchData,
-    TResult? Function()? refreshData,
+    TResult? Function(String? search, String? category)? fetchData,
+    TResult? Function(String? search, String? category)? refreshData,
   }) {
     final _that = this;
     switch (_that) {
       case FetchData() when fetchData != null:
-        return fetchData();
+        return fetchData(_that.search, _that.category);
       case RefreshData() when refreshData != null:
-        return refreshData();
+        return refreshData(_that.search, _that.category);
       case _:
         return null;
     }
@@ -212,40 +257,151 @@ extension HomeEventPatterns on HomeEvent {
 /// @nodoc
 
 class FetchData implements HomeEvent {
-  const FetchData();
+  const FetchData({this.search, this.category});
+
+  @override
+  final String? search;
+  @override
+  final String? category;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FetchDataCopyWith<FetchData> get copyWith =>
+      _$FetchDataCopyWithImpl<FetchData>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is FetchData);
+        (other.runtimeType == runtimeType &&
+            other is FetchData &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, search, category);
 
   @override
   String toString() {
-    return 'HomeEvent.fetchData()';
+    return 'HomeEvent.fetchData(search: $search, category: $category)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FetchDataCopyWith<$Res>
+    implements $HomeEventCopyWith<$Res> {
+  factory $FetchDataCopyWith(FetchData value, $Res Function(FetchData) _then) =
+      _$FetchDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? search, String? category});
+}
+
+/// @nodoc
+class _$FetchDataCopyWithImpl<$Res> implements $FetchDataCopyWith<$Res> {
+  _$FetchDataCopyWithImpl(this._self, this._then);
+
+  final FetchData _self;
+  final $Res Function(FetchData) _then;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? search = freezed,
+    Object? category = freezed,
+  }) {
+    return _then(FetchData(
+      search: freezed == search
+          ? _self.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class RefreshData implements HomeEvent {
-  const RefreshData();
+  const RefreshData({this.search, this.category});
+
+  @override
+  final String? search;
+  @override
+  final String? category;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $RefreshDataCopyWith<RefreshData> get copyWith =>
+      _$RefreshDataCopyWithImpl<RefreshData>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is RefreshData);
+        (other.runtimeType == runtimeType &&
+            other is RefreshData &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, search, category);
 
   @override
   String toString() {
-    return 'HomeEvent.refreshData()';
+    return 'HomeEvent.refreshData(search: $search, category: $category)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $RefreshDataCopyWith<$Res>
+    implements $HomeEventCopyWith<$Res> {
+  factory $RefreshDataCopyWith(
+          RefreshData value, $Res Function(RefreshData) _then) =
+      _$RefreshDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? search, String? category});
+}
+
+/// @nodoc
+class _$RefreshDataCopyWithImpl<$Res> implements $RefreshDataCopyWith<$Res> {
+  _$RefreshDataCopyWithImpl(this._self, this._then);
+
+  final RefreshData _self;
+  final $Res Function(RefreshData) _then;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? search = freezed,
+    Object? category = freezed,
+  }) {
+    return _then(RefreshData(
+      search: freezed == search
+          ? _self.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 

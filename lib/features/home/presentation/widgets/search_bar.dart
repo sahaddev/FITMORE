@@ -1,9 +1,34 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import '../blocs/home/home_bloc.dart';
 
-class CusSearchBar extends StatelessWidget {
+class CusSearchBar extends StatefulWidget {
   const CusSearchBar({super.key});
+
+  @override
+  State<CusSearchBar> createState() => _CusSearchBarState();
+}
+
+class _CusSearchBarState extends State<CusSearchBar> {
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        context.read<HomeBloc>().add(FetchData(search: query));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +42,11 @@ class CusSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
-              enabled: false,
+              onChanged: _onSearchChanged,
+              onSubmitted: (value) {
+                _debounce?.cancel();
+                context.read<HomeBloc>().add(FetchData(search: value));
+              },
               decoration: InputDecoration(
                 hintText: 'Search..',
                 hintStyle: GoogleFonts.poppins(

@@ -6,9 +6,9 @@ class HomeRepoImpl implements HomeRepositories {
   HomeDatasource homeDatasource = HomeDatasourceImpl();
 
   @override
-  Future<HomeResEntitiy> getAllProduct() {
+  Future<HomeResEntitiy> getAllProduct({String? search, String? category}) {
     return homeDatasource
-        .getAllProduct()
+        .getAllProduct(search: search, category: category)
         .then((value) => value.toEntity());
   }
 }
