@@ -46,7 +46,7 @@ class ProductsGrid extends StatelessWidget {
                     NavigationService.pushNamed(
                       AppRouters.productDetails,
                       arguments: {
-                        'index': index,
+                        'index': product.id ?? 0,
                         'title': product.title ?? '',
                         'price': product.price ?? 0,
                         'image': product.baseImage ?? '',

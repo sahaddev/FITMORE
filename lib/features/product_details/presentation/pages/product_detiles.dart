@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
 import '../widgets/bottom_part.dart';
@@ -37,7 +39,7 @@ class _ProductDetilesState extends State<ProductDetiles> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductDetailsBloc>().add(const FetchProductList());
+    context.read<ProductDetailsBloc>().add(LoadProductDetails(id: widget.index));
   }
 
   @override
@@ -127,35 +129,66 @@ class _ProductDetilesState extends State<ProductDetiles> {
               builder: (BuildContext context, state) {
                 return state.maybeWhen(
                   loaded: (productList, isFavorite, isInCart) {
+                    final product = productList.isNotEmpty ? productList.first : null;
+                    final images = <String>[];
+                    if (product != null) {
+                      if (product.image1.isNotEmpty) images.add(product.image1);
+                      if (product.image2.isNotEmpty) images.add(product.image2);
+                      if (product.image3.isNotEmpty) images.add(product.image3);
+                      if (product.image4.isNotEmpty) images.add(product.image4);
+                    }
+                    if (images.isEmpty && widget.image.isNotEmpty) {
+                      images.add(widget.image);
+                    }
+
                     return Column(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: SizedBox(
+                        if (images.isNotEmpty)
+                          CarouselSlider(
+                            options: CarouselOptions(
+                              height: 250,
+                              enlargeCenterPage: true,
+                              enableInfiniteScroll: images.length > 1,
+                              viewportFraction: 0.8,
+                            ),
+                            items: images.map((img) {
+                              String cleanImg = img;
+                              if (!img.startsWith('http')) {
+                                if (img.startsWith('data:image')) {
+                                  cleanImg = img.split(',').last;
+                                }
+                                cleanImg = cleanImg.replaceAll(RegExp(r'\s+'), '');
+                              }
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: img.startsWith('http')
+                                    ? Image.network(
+                                        img,
+                                        fit: BoxFit.fill,
+                                        width: double.infinity,
+                                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 100),
+                                      )
+                                    : Image.memory(
+                                        base64Decode(cleanImg),
+                                        fit: BoxFit.fill,
+                                        width: double.infinity,
+                                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image, size: 100),
+                                      ),
+                              );
+                            }).toList(),
+                          )
+                        else
+                          SizedBox(
                             height: 200,
-                            width: MediaQuery.of(context).size.width * .6,
-                            child: widget.image.startsWith('http')
-                                ? Image.network(
-                                    widget.image,
-                                    fit: BoxFit.fill,
-                                  )
-                                : const Icon(Icons.image, size: 100),
+                            child: const Icon(Icons.image, size: 100),
                           ),
-                        ),
                         const SizedBox(height: 30),
-                        // Assuming images logic will be implemented later
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   children: [
-                        //     ...List.generate(
-                        //       4,
-                        //       (index1) => imageSmallBox(index1, []),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     );
                   },
+                  failure: (message) => Center(
+                    child: Text('Error: $message', style: const TextStyle(color: Colors.red)),
+                  ),
                   orElse: () =>
                       const Center(child: CircularProgressIndicator()),
                 );

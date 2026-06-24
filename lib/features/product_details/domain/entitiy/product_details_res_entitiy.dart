@@ -6,6 +6,10 @@ class ProductEntity extends Equatable {
   final String? title;
   final String? subTitle;
   final String? description;
+  final String? image1;
+  final String? image2;
+  final String? image3;
+  final String? image4;
   final int? price;
   final String? category;
   final bool? active;
@@ -19,6 +23,10 @@ class ProductEntity extends Equatable {
     required this.title,
     required this.subTitle,
     required this.description,
+    required this.image1,
+    required this.image2,
+    required this.image3,
+    required this.image4,
     required this.price,
     required this.category,
     required this.active,
@@ -34,6 +42,10 @@ class ProductEntity extends Equatable {
         title,
         subTitle,
         description,
+        image1,
+        image2,
+        image3,
+        image4,
         price,
         category,
         active,

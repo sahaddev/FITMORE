@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce/features/home/domain/usecase/home_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -21,6 +23,7 @@ class ProductDetailsBloc
     LoadProductDetails event,
     Emitter<ProductDetailsState> emit,
   ) async {
+    print('---------- _onLoadProductDetails triggered for id: ${event.id} ----------');
     emit(const ProductDetailsState.loading());
     try {
       final response = await ProductDetailsUsecase().productById(id: event.id);
@@ -30,22 +33,28 @@ class ProductDetailsBloc
         final product = ProductModel(
           title: e.title ?? '',
           discription: e.description ?? '',
-          image1: '',
-          image2: '',
-          image3: '',
-          image4: '',
+          image1: e.image1 ?? '',
+          image2: e.image2 ?? '',
+          image3: e.image3 ?? '',
+          image4: e.image4 ?? '',
           price: e.price ?? 0,
           category: e.category ?? '',
           productCount: 0,
           id: e.id,
           active: e.active ?? true,
         );
+        log(product.image1);
+        log(product.image2);
+        log(product.image3);
+        log(product.image4);
         emit(ProductDetailsState.loaded([product], false, false));
       } else {
         emit(const ProductDetailsState.failure(
             message: 'Failed to load product details'));
       }
-    } catch (e) {
+    } catch (e, stack) {
+      print('---------- Error in _onLoadProductDetails: $e ----------');
+      print('---------- StackTrace: $stack ----------');
       emit(ProductDetailsState.failure(message: e.toString()));
     }
   }
@@ -119,7 +128,9 @@ class ProductDetailsBloc
 
       emit(const ProductDetailsState.success(message: 'Favorite toggled'));
       emit(ProductDetailsState.loaded(currentProducts, isFav, inCart));
-    } catch (e) {
+    } catch (e, stacktrace) {
+      print('---------- Error in _onLoadProductDetails: $e ----------');
+      print('---------- Stacktrace: $stacktrace ----------');
       emit(ProductDetailsState.failure(message: e.toString()));
     }
   }

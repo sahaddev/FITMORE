@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce/core/network/dio_client.dart';
 import '../model/product_details_res_model.dart';
 
 // Assuming DioClient, ApiEndPoint, and DioErrorHandler are available in your project.
@@ -8,13 +9,13 @@ abstract class ProductDetailsDatasource {
 }
 
 class ProductDetailsDatasourceImpl implements ProductDetailsDatasource {
-  final dynamic _dioClient = null; // Replace with: DioClient.instance;
+  final DioClient _dioClient = DioClient.instance;
 
   @override
   Future<ProductDetailsResModel> productById({required int id}) async {
     try {
       final response = await _dioClient.get(
-        'ApiEndPoint.productById', // Replace with: ApiEndPoint.productById
+        '/api/product',
         queryParameters: {
           'id': id,
         },
@@ -25,7 +26,6 @@ class ProductDetailsDatasourceImpl implements ProductDetailsDatasource {
         throw Exception("Failed to fetch product details");
       }
     } on DioException catch (e) {
-      // Replace with: throw DioErrorHandler.handleDioError(e);
       throw Exception(e.toString());
     } catch (e) {
       throw Exception(e.toString());

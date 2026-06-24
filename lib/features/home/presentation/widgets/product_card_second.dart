@@ -32,7 +32,7 @@ class ProductSecondCard extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => ProductDetiles(
                             discription: data.discription,
-                            index: data.id!,
+                            index: data.id ?? 0,
                             title: data.title,
                             price: data.price,
                             image: data.image1),
