@@ -95,7 +95,7 @@ class _HomeUiState extends State<HomeUi> {
                         SizedBox(width: 2.w),
                         _buildHeaderIcon(Icons.shopping_bag_outlined,
                             onTap: () {
-                          // Navigate to Cart or Bag
+                          NavigationService.pushNamed(AppRouters.cart);
                         }),
                       ],
                     )

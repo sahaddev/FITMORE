@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../features/cart/presentation/pages/cart_screen.dart';
 import '../../features/favorite/presentation/pages/favorite_screen.dart';
 import '../../features/home/presentation/pages/home_ui.dart';
 import '../../features/notification/presentation/pages/notification_ui.dart';
@@ -20,7 +19,6 @@ class _BottomNavigator extends State<BottomNavigator> {
     const HomeUi(),
     const FavoriteScreen(),
     const ListOfNotification(),
-    const CartScreen(),
     const ProfileUi()
   ];
   @override
@@ -48,10 +46,6 @@ class _BottomNavigator extends State<BottomNavigator> {
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inbox_rounded),
-            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
