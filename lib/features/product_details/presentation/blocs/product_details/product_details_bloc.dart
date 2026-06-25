@@ -40,6 +40,7 @@ class ProductDetailsBloc
           category: e.category ?? '',
           productCount: 0,
           id: e.id,
+          sId: e.sId,
           active: e.active ?? true,
         );
         emit(ProductDetailsState.loaded([product], false, false));
@@ -86,6 +87,7 @@ class ProductDetailsBloc
                   category: e.category ?? '',
                   productCount: 0,
                   id: e.id,
+                  sId: e.sId,
                   active: e.active ?? true,
                 ))
             .toList();

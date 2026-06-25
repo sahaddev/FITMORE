@@ -11,6 +11,7 @@ import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/product_details/product_details_bloc.dart';
+import '../../../../features/cart/presentation/blocs/cart/cart_bloc.dart' as cart_bloc;
 
 // ignore: must_be_immutable
 class ProductDetiles extends StatefulWidget {
@@ -199,30 +200,28 @@ class _ProductDetilesState extends State<ProductDetiles> {
             BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
               builder: (context, state) {
                 bool isInCart = false;
+                ProductModel? currentProduct;
                 state.maybeWhen(
-                  loaded: (_, __, inCart) => isInCart = inCart,
+                  loaded: (productList, __, inCart) {
+                    isInCart = inCart;
+                    if (productList.isNotEmpty) currentProduct = productList.first;
+                  },
                   orElse: () {},
                 );
                 return Align(
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (!isInCart) {
+                      if (!isInCart && currentProduct != null && currentProduct!.sId != null) {
                         ScaffoldMessenger.of(context).clearSnackBars();
-                        final product = ProductModel(
-                          title: widget.title,
-                          discription: widget.discription,
-                          image1: widget.image,
-                          image2: '',
-                          image3: '',
-                          image4: '',
-                          price: widget.price,
-                          category: '',
-                          productCount: 1,
-                        );
                         context
                             .read<ProductDetailsBloc>()
-                            .add(AddToCart(product));
+                            .add(AddToCart(currentProduct!));
+                        
+                        context.read<cart_bloc.CartBloc>().add(
+                           cart_bloc.AddToCart(currentProduct!.sId!, quantity: 1),
+                        );
+                        
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Added to Cart'),

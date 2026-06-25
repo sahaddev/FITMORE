@@ -28,6 +28,9 @@ import '../../features/address/presentation/blocs/add_address/add_address_bloc.d
 
 // Cart
 import '../../features/cart/presentation/blocs/cart/cart_bloc.dart';
+import '../../features/cart/data/datasource/cart_datasource.dart';
+import '../../features/cart/data/repositories_impl/cart_repo_impl.dart';
+import '../../features/cart/domain/usecase/cart_usecase.dart';
 
 // Orders
 import '../../features/orders/presentation/blocs/my_order/my_order_bloc.dart';
@@ -60,7 +63,16 @@ class AppBlocProvider extends StatelessWidget {
         BlocProvider(create: (context) => EditAddressBloc()),
         BlocProvider(create: (context) => AddressBloc()),
         BlocProvider(create: (context) => AddAddressBloc()),
-        BlocProvider(create: (context) => CartBloc()),
+        BlocProvider(create: (context) {
+          final cartDatasource = CartDatasourceImpl();
+          final cartRepo = CartRepoImpl(cartDatasource);
+          return CartBloc(
+            addToCartUseCase: AddToCartUseCase(cartRepo),
+            getCartUseCase: GetCartUseCase(cartRepo),
+            removeFromCartUseCase: RemoveFromCartUseCase(cartRepo),
+            clearCartUseCase: ClearCartUseCase(cartRepo),
+          );
+        }),
         BlocProvider(create: (context) => MyOrderBloc()),
         BlocProvider(create: (context) => ProductDetailsBloc()),
         BlocProvider(create: (context) => SignInBloc()),

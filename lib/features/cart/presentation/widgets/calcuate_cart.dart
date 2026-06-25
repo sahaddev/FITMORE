@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
-
-
-
-import '../../../../core/models/cart_/cart_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/cart/cart_bloc.dart';
 
 class CalculateCart extends StatelessWidget {
-  const CalculateCart({
-    super.key,
-  });
+  const CalculateCart({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        bool isVisible = false;
+        double subTotal = 0.0;
 
-    return ValueListenableBuilder(
-      valueListenable: ValueNotifier<List<CartModel>>([]),
-      builder: (BuildContext context, List<CartModel> cartList, Widget? child) {
+        state.maybeWhen(
+          loaded: (cart) {
+            isVisible = cart.products.isNotEmpty;
+            for (var item in cart.products) {
+              final productMap = item.productId is Map
+                  ? item.productId as Map<String, dynamic>
+                  : {};
+              final price = (productMap['price'] as num?)?.toDouble() ?? 0.0;
+              subTotal += price * item.quantity;
+            }
+          },
+          orElse: () {},
+        );
+
         return Visibility(
-          // ignore: prefer_is_empty
-          visible: cartList.length > 0 ? true : false,
+          visible: isVisible,
           child: Container(
             padding: const EdgeInsets.all(15),
             width: double.infinity,
@@ -28,56 +38,37 @@ class CalculateCart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Sub Totel',
+                      'Sub Total',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    FutureBuilder<String>(
-                      future: Future.value('0'),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!, // Use the null-aware operator here.
-                            style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else {
-                          return const Text(
-                              'No data'); // Handle the case when there's no data.
-                        }
-                      },
+                    Text(
+                      '\$${subTotal.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Coupon discount',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    FutureBuilder<String>(
-                      future: Future.value('0'),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!,
-                            style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else {
-                          return const Text('No data');
-                        }
-                      },
+                    Text(
+                      '\$0.00',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),
@@ -85,28 +76,18 @@ class CalculateCart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Totel',
+                      'Total',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    FutureBuilder<String>(
-                      future: Future.value('0'),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!, // Use the null-aware operator here.
-                            style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else {
-                          return const Text(
-                              'No data'); // Handle the case when there's no data.
-                        }
-                      },
+                    Text(
+                      '\$${subTotal.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ],
                 ),

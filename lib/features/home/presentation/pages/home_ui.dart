@@ -1,4 +1,5 @@
 import 'package:e_commerce/features/home/presentation/widgets/rotating_carousel.dart';
+import 'package:e_commerce/features/profile/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -11,6 +12,7 @@ import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/home/home_bloc.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
+import '../../../../core/models/user/db_model.dart';
 
 class HomeUi extends StatefulWidget {
   const HomeUi({super.key});
@@ -24,6 +26,18 @@ class _HomeUiState extends State<HomeUi> {
   void initState() {
     super.initState();
     context.read<HomeBloc>().add(const FetchData());
+    context.read<ProfileBloc>().add(const ProfileEvent.loadProfile());
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning!';
+    } else if (hour < 17) {
+      return 'Good Afternoon!';
+    } else {
+      return 'Good Evening!';
+    }
   }
 
   @override
@@ -59,15 +73,30 @@ class _HomeUiState extends State<HomeUi> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Hello Alex',
-                              style: GoogleFonts.poppins(
-                                fontSize: 14.sp,
-                                color: Colors.grey,
-                              ),
+                            BlocBuilder<ProfileBloc, ProfileState>(
+                              builder: (context, state) {
+                                String name = "Hello User";
+                                state.maybeWhen(
+                                  loaded: (user, _) {
+                                    if (user is UserModel) {
+                                      final firstName =
+                                          user.name?.split(' ').first ?? 'User';
+                                      name = "Hello $firstName";
+                                    }
+                                  },
+                                  orElse: () {},
+                                );
+                                return Text(
+                                  name,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14.sp,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
                             ),
                             Text(
-                              'Good Morning!',
+                              _getGreeting(),
                               style: GoogleFonts.poppins(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,

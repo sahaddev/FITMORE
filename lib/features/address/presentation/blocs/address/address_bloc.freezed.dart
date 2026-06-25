@@ -50,23 +50,14 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(LoadAddress value)? load,
     TResult Function(GetAllAddresses value)? getAllAddresses,
-    TResult Function(AddAddress value)? addAddress,
-    TResult Function(UpdateAddress value)? updateAddress,
     TResult Function(DeleteAddress value)? deleteAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress() when load != null:
-        return load(_that);
       case GetAllAddresses() when getAllAddresses != null:
         return getAllAddresses(_that);
-      case AddAddress() when addAddress != null:
-        return addAddress(_that);
-      case UpdateAddress() when updateAddress != null:
-        return updateAddress(_that);
       case DeleteAddress() when deleteAddress != null:
         return deleteAddress(_that);
       case _:
@@ -89,22 +80,13 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(LoadAddress value) load,
     required TResult Function(GetAllAddresses value) getAllAddresses,
-    required TResult Function(AddAddress value) addAddress,
-    required TResult Function(UpdateAddress value) updateAddress,
     required TResult Function(DeleteAddress value) deleteAddress,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress():
-        return load(_that);
       case GetAllAddresses():
         return getAllAddresses(_that);
-      case AddAddress():
-        return addAddress(_that);
-      case UpdateAddress():
-        return updateAddress(_that);
       case DeleteAddress():
         return deleteAddress(_that);
       case _:
@@ -126,22 +108,13 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(LoadAddress value)? load,
     TResult? Function(GetAllAddresses value)? getAllAddresses,
-    TResult? Function(AddAddress value)? addAddress,
-    TResult? Function(UpdateAddress value)? updateAddress,
     TResult? Function(DeleteAddress value)? deleteAddress,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress() when load != null:
-        return load(_that);
       case GetAllAddresses() when getAllAddresses != null:
         return getAllAddresses(_that);
-      case AddAddress() when addAddress != null:
-        return addAddress(_that);
-      case UpdateAddress() when updateAddress != null:
-        return updateAddress(_that);
       case DeleteAddress() when deleteAddress != null:
         return deleteAddress(_that);
       case _:
@@ -163,23 +136,14 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? load,
     TResult Function()? getAllAddresses,
-    TResult Function(AddressModel address)? addAddress,
-    TResult Function(AddressModel address)? updateAddress,
     TResult Function(int id)? deleteAddress,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress() when load != null:
-        return load();
       case GetAllAddresses() when getAllAddresses != null:
         return getAllAddresses();
-      case AddAddress() when addAddress != null:
-        return addAddress(_that.address);
-      case UpdateAddress() when updateAddress != null:
-        return updateAddress(_that.address);
       case DeleteAddress() when deleteAddress != null:
         return deleteAddress(_that.id);
       case _:
@@ -202,22 +166,13 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() load,
     required TResult Function() getAllAddresses,
-    required TResult Function(AddressModel address) addAddress,
-    required TResult Function(AddressModel address) updateAddress,
     required TResult Function(int id) deleteAddress,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress():
-        return load();
       case GetAllAddresses():
         return getAllAddresses();
-      case AddAddress():
-        return addAddress(_that.address);
-      case UpdateAddress():
-        return updateAddress(_that.address);
       case DeleteAddress():
         return deleteAddress(_that.id);
       case _:
@@ -239,47 +194,18 @@ extension AddressEventPatterns on AddressEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? load,
     TResult? Function()? getAllAddresses,
-    TResult? Function(AddressModel address)? addAddress,
-    TResult? Function(AddressModel address)? updateAddress,
     TResult? Function(int id)? deleteAddress,
   }) {
     final _that = this;
     switch (_that) {
-      case LoadAddress() when load != null:
-        return load();
       case GetAllAddresses() when getAllAddresses != null:
         return getAllAddresses();
-      case AddAddress() when addAddress != null:
-        return addAddress(_that.address);
-      case UpdateAddress() when updateAddress != null:
-        return updateAddress(_that.address);
       case DeleteAddress() when deleteAddress != null:
         return deleteAddress(_that.id);
       case _:
         return null;
     }
-  }
-}
-
-/// @nodoc
-
-class LoadAddress implements AddressEvent {
-  const LoadAddress();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is LoadAddress);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'AddressEvent.load()';
   }
 }
 
@@ -300,133 +226,6 @@ class GetAllAddresses implements AddressEvent {
   @override
   String toString() {
     return 'AddressEvent.getAllAddresses()';
-  }
-}
-
-/// @nodoc
-
-class AddAddress implements AddressEvent {
-  const AddAddress(this.address);
-
-  final AddressModel address;
-
-  /// Create a copy of AddressEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $AddAddressCopyWith<AddAddress> get copyWith =>
-      _$AddAddressCopyWithImpl<AddAddress>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AddAddress &&
-            (identical(other.address, address) || other.address == address));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, address);
-
-  @override
-  String toString() {
-    return 'AddressEvent.addAddress(address: $address)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $AddAddressCopyWith<$Res>
-    implements $AddressEventCopyWith<$Res> {
-  factory $AddAddressCopyWith(
-          AddAddress value, $Res Function(AddAddress) _then) =
-      _$AddAddressCopyWithImpl;
-  @useResult
-  $Res call({AddressModel address});
-}
-
-/// @nodoc
-class _$AddAddressCopyWithImpl<$Res> implements $AddAddressCopyWith<$Res> {
-  _$AddAddressCopyWithImpl(this._self, this._then);
-
-  final AddAddress _self;
-  final $Res Function(AddAddress) _then;
-
-  /// Create a copy of AddressEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? address = null,
-  }) {
-    return _then(AddAddress(
-      null == address
-          ? _self.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as AddressModel,
-    ));
-  }
-}
-
-/// @nodoc
-
-class UpdateAddress implements AddressEvent {
-  const UpdateAddress(this.address);
-
-  final AddressModel address;
-
-  /// Create a copy of AddressEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $UpdateAddressCopyWith<UpdateAddress> get copyWith =>
-      _$UpdateAddressCopyWithImpl<UpdateAddress>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is UpdateAddress &&
-            (identical(other.address, address) || other.address == address));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, address);
-
-  @override
-  String toString() {
-    return 'AddressEvent.updateAddress(address: $address)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $UpdateAddressCopyWith<$Res>
-    implements $AddressEventCopyWith<$Res> {
-  factory $UpdateAddressCopyWith(
-          UpdateAddress value, $Res Function(UpdateAddress) _then) =
-      _$UpdateAddressCopyWithImpl;
-  @useResult
-  $Res call({AddressModel address});
-}
-
-/// @nodoc
-class _$UpdateAddressCopyWithImpl<$Res>
-    implements $UpdateAddressCopyWith<$Res> {
-  _$UpdateAddressCopyWithImpl(this._self, this._then);
-
-  final UpdateAddress _self;
-  final $Res Function(UpdateAddress) _then;
-
-  /// Create a copy of AddressEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? address = null,
-  }) {
-    return _then(UpdateAddress(
-      null == address
-          ? _self.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as AddressModel,
-    ));
   }
 }
 

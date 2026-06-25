@@ -1,6 +1,7 @@
 
 class ProductModel {
     int? id;
+    String? sId;
     final String title;
     final String discription;
     final String image1;
@@ -23,6 +24,7 @@ class ProductModel {
     required this.category,
     required this.productCount,
     this.id,
+    this.sId,
     this.active = true,
   });
 }

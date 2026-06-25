@@ -51,19 +51,17 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoadCart value)? load,
-    TResult Function(GetAllCartItems value)? getAllCartItems,
     TResult Function(RemoveFromCart value)? removeFromCart,
     TResult Function(IncrementQuantity value)? incrementQuantity,
     TResult Function(DecrementQuantity value)? decrementQuantity,
     TResult Function(AddToCart value)? addToCart,
+    TResult Function(ClearCart value)? clearCart,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart() when load != null:
         return load(_that);
-      case GetAllCartItems() when getAllCartItems != null:
-        return getAllCartItems(_that);
       case RemoveFromCart() when removeFromCart != null:
         return removeFromCart(_that);
       case IncrementQuantity() when incrementQuantity != null:
@@ -72,6 +70,8 @@ extension CartEventPatterns on CartEvent {
         return decrementQuantity(_that);
       case AddToCart() when addToCart != null:
         return addToCart(_that);
+      case ClearCart() when clearCart != null:
+        return clearCart(_that);
       case _:
         return orElse();
     }
@@ -93,18 +93,16 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoadCart value) load,
-    required TResult Function(GetAllCartItems value) getAllCartItems,
     required TResult Function(RemoveFromCart value) removeFromCart,
     required TResult Function(IncrementQuantity value) incrementQuantity,
     required TResult Function(DecrementQuantity value) decrementQuantity,
     required TResult Function(AddToCart value) addToCart,
+    required TResult Function(ClearCart value) clearCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart():
         return load(_that);
-      case GetAllCartItems():
-        return getAllCartItems(_that);
       case RemoveFromCart():
         return removeFromCart(_that);
       case IncrementQuantity():
@@ -113,6 +111,8 @@ extension CartEventPatterns on CartEvent {
         return decrementQuantity(_that);
       case AddToCart():
         return addToCart(_that);
+      case ClearCart():
+        return clearCart(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -133,18 +133,16 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoadCart value)? load,
-    TResult? Function(GetAllCartItems value)? getAllCartItems,
     TResult? Function(RemoveFromCart value)? removeFromCart,
     TResult? Function(IncrementQuantity value)? incrementQuantity,
     TResult? Function(DecrementQuantity value)? decrementQuantity,
     TResult? Function(AddToCart value)? addToCart,
+    TResult? Function(ClearCart value)? clearCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart() when load != null:
         return load(_that);
-      case GetAllCartItems() when getAllCartItems != null:
-        return getAllCartItems(_that);
       case RemoveFromCart() when removeFromCart != null:
         return removeFromCart(_that);
       case IncrementQuantity() when incrementQuantity != null:
@@ -153,6 +151,8 @@ extension CartEventPatterns on CartEvent {
         return decrementQuantity(_that);
       case AddToCart() when addToCart != null:
         return addToCart(_that);
+      case ClearCart() when clearCart != null:
+        return clearCart(_that);
       case _:
         return null;
     }
@@ -173,27 +173,27 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
-    TResult Function()? getAllCartItems,
-    TResult Function(int id)? removeFromCart,
-    TResult Function(int id)? incrementQuantity,
-    TResult Function(int id)? decrementQuantity,
-    TResult Function(CartModel item)? addToCart,
+    TResult Function(String productId)? removeFromCart,
+    TResult Function(String productId)? incrementQuantity,
+    TResult Function(String productId)? decrementQuantity,
+    TResult Function(String productId, int? quantity)? addToCart,
+    TResult Function()? clearCart,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart() when load != null:
         return load();
-      case GetAllCartItems() when getAllCartItems != null:
-        return getAllCartItems();
       case RemoveFromCart() when removeFromCart != null:
-        return removeFromCart(_that.id);
+        return removeFromCart(_that.productId);
       case IncrementQuantity() when incrementQuantity != null:
-        return incrementQuantity(_that.id);
+        return incrementQuantity(_that.productId);
       case DecrementQuantity() when decrementQuantity != null:
-        return decrementQuantity(_that.id);
+        return decrementQuantity(_that.productId);
       case AddToCart() when addToCart != null:
-        return addToCart(_that.item);
+        return addToCart(_that.productId, _that.quantity);
+      case ClearCart() when clearCart != null:
+        return clearCart();
       case _:
         return orElse();
     }
@@ -215,26 +215,26 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
-    required TResult Function() getAllCartItems,
-    required TResult Function(int id) removeFromCart,
-    required TResult Function(int id) incrementQuantity,
-    required TResult Function(int id) decrementQuantity,
-    required TResult Function(CartModel item) addToCart,
+    required TResult Function(String productId) removeFromCart,
+    required TResult Function(String productId) incrementQuantity,
+    required TResult Function(String productId) decrementQuantity,
+    required TResult Function(String productId, int? quantity) addToCart,
+    required TResult Function() clearCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart():
         return load();
-      case GetAllCartItems():
-        return getAllCartItems();
       case RemoveFromCart():
-        return removeFromCart(_that.id);
+        return removeFromCart(_that.productId);
       case IncrementQuantity():
-        return incrementQuantity(_that.id);
+        return incrementQuantity(_that.productId);
       case DecrementQuantity():
-        return decrementQuantity(_that.id);
+        return decrementQuantity(_that.productId);
       case AddToCart():
-        return addToCart(_that.item);
+        return addToCart(_that.productId, _that.quantity);
+      case ClearCart():
+        return clearCart();
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -255,26 +255,26 @@ extension CartEventPatterns on CartEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
-    TResult? Function()? getAllCartItems,
-    TResult? Function(int id)? removeFromCart,
-    TResult? Function(int id)? incrementQuantity,
-    TResult? Function(int id)? decrementQuantity,
-    TResult? Function(CartModel item)? addToCart,
+    TResult? Function(String productId)? removeFromCart,
+    TResult? Function(String productId)? incrementQuantity,
+    TResult? Function(String productId)? decrementQuantity,
+    TResult? Function(String productId, int? quantity)? addToCart,
+    TResult? Function()? clearCart,
   }) {
     final _that = this;
     switch (_that) {
       case LoadCart() when load != null:
         return load();
-      case GetAllCartItems() when getAllCartItems != null:
-        return getAllCartItems();
       case RemoveFromCart() when removeFromCart != null:
-        return removeFromCart(_that.id);
+        return removeFromCart(_that.productId);
       case IncrementQuantity() when incrementQuantity != null:
-        return incrementQuantity(_that.id);
+        return incrementQuantity(_that.productId);
       case DecrementQuantity() when decrementQuantity != null:
-        return decrementQuantity(_that.id);
+        return decrementQuantity(_that.productId);
       case AddToCart() when addToCart != null:
-        return addToCart(_that.item);
+        return addToCart(_that.productId, _that.quantity);
+      case ClearCart() when clearCart != null:
+        return clearCart();
       case _:
         return null;
     }
@@ -303,30 +303,10 @@ class LoadCart implements CartEvent {
 
 /// @nodoc
 
-class GetAllCartItems implements CartEvent {
-  const GetAllCartItems();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is GetAllCartItems);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'CartEvent.getAllCartItems()';
-  }
-}
-
-/// @nodoc
-
 class RemoveFromCart implements CartEvent {
-  const RemoveFromCart(this.id);
+  const RemoveFromCart(this.productId);
 
-  final int id;
+  final String productId;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -340,15 +320,16 @@ class RemoveFromCart implements CartEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RemoveFromCart &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.productId, productId) ||
+                other.productId == productId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(runtimeType, productId);
 
   @override
   String toString() {
-    return 'CartEvent.removeFromCart(id: $id)';
+    return 'CartEvent.removeFromCart(productId: $productId)';
   }
 }
 
@@ -359,7 +340,7 @@ abstract mixin class $RemoveFromCartCopyWith<$Res>
           RemoveFromCart value, $Res Function(RemoveFromCart) _then) =
       _$RemoveFromCartCopyWithImpl;
   @useResult
-  $Res call({int id});
+  $Res call({String productId});
 }
 
 /// @nodoc
@@ -374,13 +355,13 @@ class _$RemoveFromCartCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
+    Object? productId = null,
   }) {
     return _then(RemoveFromCart(
-      null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      null == productId
+          ? _self.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -388,9 +369,9 @@ class _$RemoveFromCartCopyWithImpl<$Res>
 /// @nodoc
 
 class IncrementQuantity implements CartEvent {
-  const IncrementQuantity(this.id);
+  const IncrementQuantity(this.productId);
 
-  final int id;
+  final String productId;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -404,15 +385,16 @@ class IncrementQuantity implements CartEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is IncrementQuantity &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.productId, productId) ||
+                other.productId == productId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(runtimeType, productId);
 
   @override
   String toString() {
-    return 'CartEvent.incrementQuantity(id: $id)';
+    return 'CartEvent.incrementQuantity(productId: $productId)';
   }
 }
 
@@ -423,7 +405,7 @@ abstract mixin class $IncrementQuantityCopyWith<$Res>
           IncrementQuantity value, $Res Function(IncrementQuantity) _then) =
       _$IncrementQuantityCopyWithImpl;
   @useResult
-  $Res call({int id});
+  $Res call({String productId});
 }
 
 /// @nodoc
@@ -438,13 +420,13 @@ class _$IncrementQuantityCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
+    Object? productId = null,
   }) {
     return _then(IncrementQuantity(
-      null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      null == productId
+          ? _self.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -452,9 +434,9 @@ class _$IncrementQuantityCopyWithImpl<$Res>
 /// @nodoc
 
 class DecrementQuantity implements CartEvent {
-  const DecrementQuantity(this.id);
+  const DecrementQuantity(this.productId);
 
-  final int id;
+  final String productId;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -468,15 +450,16 @@ class DecrementQuantity implements CartEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is DecrementQuantity &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.productId, productId) ||
+                other.productId == productId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id);
+  int get hashCode => Object.hash(runtimeType, productId);
 
   @override
   String toString() {
-    return 'CartEvent.decrementQuantity(id: $id)';
+    return 'CartEvent.decrementQuantity(productId: $productId)';
   }
 }
 
@@ -487,7 +470,7 @@ abstract mixin class $DecrementQuantityCopyWith<$Res>
           DecrementQuantity value, $Res Function(DecrementQuantity) _then) =
       _$DecrementQuantityCopyWithImpl;
   @useResult
-  $Res call({int id});
+  $Res call({String productId});
 }
 
 /// @nodoc
@@ -502,13 +485,13 @@ class _$DecrementQuantityCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
+    Object? productId = null,
   }) {
     return _then(DecrementQuantity(
-      null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
+      null == productId
+          ? _self.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -516,9 +499,10 @@ class _$DecrementQuantityCopyWithImpl<$Res>
 /// @nodoc
 
 class AddToCart implements CartEvent {
-  const AddToCart(this.item);
+  const AddToCart(this.productId, {this.quantity});
 
-  final CartModel item;
+  final String productId;
+  final int? quantity;
 
   /// Create a copy of CartEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -532,15 +516,18 @@ class AddToCart implements CartEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AddToCart &&
-            (identical(other.item, item) || other.item == item));
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, item);
+  int get hashCode => Object.hash(runtimeType, productId, quantity);
 
   @override
   String toString() {
-    return 'CartEvent.addToCart(item: $item)';
+    return 'CartEvent.addToCart(productId: $productId, quantity: $quantity)';
   }
 }
 
@@ -550,7 +537,7 @@ abstract mixin class $AddToCartCopyWith<$Res>
   factory $AddToCartCopyWith(AddToCart value, $Res Function(AddToCart) _then) =
       _$AddToCartCopyWithImpl;
   @useResult
-  $Res call({CartModel item});
+  $Res call({String productId, int? quantity});
 }
 
 /// @nodoc
@@ -564,14 +551,39 @@ class _$AddToCartCopyWithImpl<$Res> implements $AddToCartCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? item = null,
+    Object? productId = null,
+    Object? quantity = freezed,
   }) {
     return _then(AddToCart(
-      null == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as CartModel,
+      null == productId
+          ? _self.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as String,
+      quantity: freezed == quantity
+          ? _self.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
+  }
+}
+
+/// @nodoc
+
+class ClearCart implements CartEvent {
+  const ClearCart();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ClearCart);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'CartEvent.clearCart()';
   }
 }
 
@@ -730,7 +742,7 @@ extension CartStatePatterns on CartState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(List<CartModel> cartItems)? loaded,
+    TResult Function(CartEntity cart)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -744,7 +756,7 @@ extension CartStatePatterns on CartState {
       case _Failure() when failure != null:
         return failure(_that.message);
       case _Loaded() when loaded != null:
-        return loaded(_that.cartItems);
+        return loaded(_that.cart);
       case _:
         return orElse();
     }
@@ -769,7 +781,7 @@ extension CartStatePatterns on CartState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(List<CartModel> cartItems) loaded,
+    required TResult Function(CartEntity cart) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -782,7 +794,7 @@ extension CartStatePatterns on CartState {
       case _Failure():
         return failure(_that.message);
       case _Loaded():
-        return loaded(_that.cartItems);
+        return loaded(_that.cart);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -806,7 +818,7 @@ extension CartStatePatterns on CartState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(List<CartModel> cartItems)? loaded,
+    TResult? Function(CartEntity cart)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -819,7 +831,7 @@ extension CartStatePatterns on CartState {
       case _Failure() when failure != null:
         return failure(_that.message);
       case _Loaded() when loaded != null:
-        return loaded(_that.cartItems);
+        return loaded(_that.cart);
       case _:
         return null;
     }
@@ -993,14 +1005,9 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements CartState {
-  const _Loaded(final List<CartModel> cartItems) : _cartItems = cartItems;
+  const _Loaded(this.cart);
 
-  final List<CartModel> _cartItems;
-  List<CartModel> get cartItems {
-    if (_cartItems is EqualUnmodifiableListView) return _cartItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cartItems);
-  }
+  final CartEntity cart;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -1014,17 +1021,15 @@ class _Loaded implements CartState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Loaded &&
-            const DeepCollectionEquality()
-                .equals(other._cartItems, _cartItems));
+            (identical(other.cart, cart) || other.cart == cart));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_cartItems));
+  int get hashCode => Object.hash(runtimeType, cart);
 
   @override
   String toString() {
-    return 'CartState.loaded(cartItems: $cartItems)';
+    return 'CartState.loaded(cart: $cart)';
   }
 }
 
@@ -1034,7 +1039,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({List<CartModel> cartItems});
+  $Res call({CartEntity cart});
 }
 
 /// @nodoc
@@ -1048,13 +1053,13 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? cartItems = null,
+    Object? cart = null,
   }) {
     return _then(_Loaded(
-      null == cartItems
-          ? _self._cartItems
-          : cartItems // ignore: cast_nullable_to_non_nullable
-              as List<CartModel>,
+      null == cart
+          ? _self.cart
+          : cart // ignore: cast_nullable_to_non_nullable
+              as CartEntity,
     ));
   }
 }
