@@ -23,4 +23,16 @@ class ProfileUsecase {
       password: password,
     );
   }
+
+  Future<ProfileUpdateUserResEntitiy> updatePassword({
+    required int id,
+    required String oldPassword,
+    required String newPassword,
+  }) {
+    return profileRepositories.updatePassword(
+      id: id,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    );
+  }
 }

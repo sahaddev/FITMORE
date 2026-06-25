@@ -4,6 +4,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../core/models/user/db_model.dart';
 import '../pages/edit_profile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/edit_profile/edit_profile_bloc.dart';
 
 class ChangePasswordWidget extends StatelessWidget {
   const ChangePasswordWidget({
@@ -17,14 +19,12 @@ class ChangePasswordWidget extends StatelessWidget {
   })  : _oldPasswordEditcontroller = oldPasswordEditcontroller,
         _newPasswordEditcontroller = newPasswordEditcontroller,
         _conformPasswordEditconstroller = conformPasswordEditconstroller,
-        _dbPasswordcontroller = dbPasswordcontroller,
         _userModel = userModel;
 
   final GlobalKey<FormState> foemKey;
   final TextEditingController _oldPasswordEditcontroller;
   final TextEditingController _newPasswordEditcontroller;
   final TextEditingController _conformPasswordEditconstroller;
-  final TextEditingController _dbPasswordcontroller;
   final UserModel _userModel;
 
   @override
@@ -147,45 +147,63 @@ class ChangePasswordWidget extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 if (foemKey.currentState!.validate()) {
-                                  // profileGet.changingPassword(
-                                  //     oldPasswordEditcontroller: _oldPasswordEditcontroller,
-                                  //     newPasswordEditcontroller: _newPasswordEditcontroller,
-                                  //     conformPasswordEditconstroller: _conformPasswordEditconstroller,
-                                  //     dbPasswordcontroller: _dbPasswordcontroller.text,
-                                  //     userModel: _userModel,
-                                  //     context: context);
+                                  context.read<EditProfileBloc>().add(
+                                        EditProfileEvent.changePassword(
+                                          _userModel,
+                                          _oldPasswordEditcontroller.text,
+                                          _newPasswordEditcontroller.text,
+                                        ),
+                                      );
                                 }
                               },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6.w, vertical: 1.5.h),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  gradient: const LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Color(0xFF18181B), // Zinc 900
-                                      Color(0xFF27272A), // Zinc 800
-                                    ],
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.1),
-                                      offset: const Offset(0, 2),
-                                      blurRadius: 4,
+                              child: BlocBuilder<EditProfileBloc,
+                                  EditProfileState>(
+                                builder: (context, state) {
+                                  final isLoading = state.maybeWhen(
+                                    loading: () => true,
+                                    orElse: () => false,
+                                  );
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w, vertical: 1.5.h),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      gradient: const LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color(0xFF18181B), // Zinc 900
+                                          Color(0xFF27272A), // Zinc 800
+                                        ],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black
+                                              .withValues(alpha: 0.1),
+                                          offset: const Offset(0, 2),
+                                          blurRadius: 4,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: Text(
-                                  "Submit",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                    child: isLoading
+                                        ? const SizedBox(
+                                            height: 18,
+                                            width: 18,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                            ),
+                                          )
+                                        : Text(
+                                            "Submit",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                  );
+                                },
                               ),
                             ),
                           ],

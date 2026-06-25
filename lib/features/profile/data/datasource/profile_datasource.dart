@@ -13,6 +13,12 @@ abstract class ProfileDatasource {
     required String email,
     required String password,
   });
+
+  Future<ProfileUpdateUserResModel> updatePassword({
+    required int id,
+    required String oldPassword,
+    required String newPassword,
+  });
 }
 
 class ProfileDatasourceImpl implements ProfileDatasource {
@@ -66,6 +72,38 @@ class ProfileDatasourceImpl implements ProfileDatasource {
       }
     } on DioException catch (e) {
       // Replace with: throw DioErrorHandler.handleDioError(e);
+      throw Exception(e.toString());
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<ProfileUpdateUserResModel> updatePassword({
+    required int id,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await _dioClient.patch(
+        AppConstants.user, 
+        queryParameters: {
+          'id': id,
+        },
+        data: {
+          'old_password': oldPassword,
+          'new_password': newPassword,
+        },
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return ProfileUpdateUserResModel.fromJson(response.data);
+      } else {
+        throw Exception(response.data['message'] ?? "Failed to update password");
+      }
+    } on DioException catch (e) {
+      if (e.response?.data != null && e.response?.data['message'] != null) {
+         throw Exception(e.response!.data['message']);
+      }
       throw Exception(e.toString());
     } catch (e) {
       throw Exception(e.toString());

@@ -29,4 +29,19 @@ class ProfileRepoImpl implements ProfileRepositories {
         )
         .then((value) => value.toEntity());
   }
+
+  @override
+  Future<ProfileUpdateUserResEntitiy> updatePassword({
+    required int id,
+    required String oldPassword,
+    required String newPassword,
+  }) {
+    return profileDatasource
+        .updatePassword(
+          id: id,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        )
+        .then((value) => value.toEntity());
+  }
 }

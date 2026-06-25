@@ -71,16 +71,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   ) async {
     emit(const EditProfileState.loading());
     try {
-      if (event.user.password != event.oldPassword) {
-        emit(const EditProfileState.failure(message: 'Incorrect old password'));
-        return;
-      }
-      
-      final response = await ProfileUsecase().updateUser(
+      final response = await ProfileUsecase().updatePassword(
         id: event.user.id ?? 0,
-        username: event.user.name ?? '',
-        email: event.user.email ?? '',
-        password: event.newPassword,
+        oldPassword: event.oldPassword,
+        newPassword: event.newPassword,
       );
 
       if (response.status == true) {

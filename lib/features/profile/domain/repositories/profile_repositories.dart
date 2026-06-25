@@ -10,4 +10,10 @@ abstract class ProfileRepositories {
     required String email,
     required String password,
   });
+
+  Future<ProfileUpdateUserResEntitiy> updatePassword({
+    required int id,
+    required String oldPassword,
+    required String newPassword,
+  });
 }
