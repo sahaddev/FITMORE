@@ -130,21 +130,6 @@ class _ProfileUiState extends State<ProfileUi> {
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  width: 4.w,
-                                  height: 4.w,
-                                  decoration: BoxDecoration(
-                                    color: const Color(
-                                        0xFF22C55E), // Green status dot
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.white, width: 2),
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                           SizedBox(width: 4.w),

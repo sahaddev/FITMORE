@@ -8,6 +8,7 @@ class AddressEntitiy extends Equatable {
   final String state;
   final String country;
   final String buildName;
+  final String phonenumber;
   final String streetName;
   final String area;
   final int userId;
@@ -20,6 +21,7 @@ class AddressEntitiy extends Equatable {
     required this.pincode,
     required this.city,
     required this.state,
+    required this.phonenumber,
     required this.country,
     required this.buildName,
     required this.streetName,
@@ -37,6 +39,7 @@ class AddressEntitiy extends Equatable {
         city,
         state,
         country,
+        phonenumber,
         buildName,
         streetName,
         area,

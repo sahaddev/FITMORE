@@ -13,6 +13,7 @@ class AddressRepoImpl implements AddressRepositories {
     required String country,
     required String buildName,
     required String streetName,
+    required String phonenumber,
     required String area,
     required int userId,
   }) {
@@ -22,6 +23,7 @@ class AddressRepoImpl implements AddressRepositories {
           city: city,
           state: state,
           country: country,
+          phonenumber: phonenumber,
           buildName: buildName,
           streetName: streetName,
           area: area,
@@ -38,6 +40,7 @@ class AddressRepoImpl implements AddressRepositories {
     required String state,
     required String country,
     required String buildName,
+    required String phonenumber,
     required String streetName,
     required String area,
     required int userId,
@@ -46,6 +49,7 @@ class AddressRepoImpl implements AddressRepositories {
         .updateAddress(
           id: id,
           pincode: pincode,
+          phonenumber: phonenumber,
           city: city,
           state: state,
           country: country,
@@ -59,11 +63,15 @@ class AddressRepoImpl implements AddressRepositories {
 
   @override
   Future<AddressResEntitiy> deleteAddress(int id) {
-    return addressDatasource.deleteAddress(id).then((value) => value.toEntity());
+    return addressDatasource
+        .deleteAddress(id)
+        .then((value) => value.toEntity());
   }
 
   @override
   Future<AddressResEntitiy> getAddressByUserId(int userId) {
-    return addressDatasource.getAddressByUserId(userId).then((value) => value.toEntity());
+    return addressDatasource
+        .getAddressByUserId(userId)
+        .then((value) => value.toEntity());
   }
 }

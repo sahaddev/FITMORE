@@ -10,6 +10,7 @@ class AddressModel extends AddressEntitiy {
     required super.country,
     required super.buildName,
     required super.streetName,
+    required super.phonenumber,
     required super.area,
     required super.userId,
     super.createdAt,
@@ -24,6 +25,7 @@ class AddressModel extends AddressEntitiy {
       city: json['city'] ?? '',
       state: json['state'] ?? '',
       country: json['country'] ?? '',
+      phonenumber: json['phonenumber'] ?? '',
       buildName: json['build_name'] ?? '',
       streetName: json['street_name'] ?? '',
       area: json['area'] ?? '',
@@ -42,6 +44,7 @@ class AddressModel extends AddressEntitiy {
       state: state,
       country: country,
       buildName: buildName,
+      phonenumber: phonenumber,
       streetName: streetName,
       area: area,
       userId: userId,
@@ -63,7 +66,9 @@ class AddressResModel extends AddressResEntitiy {
     return AddressResModel(
       status: json['status'] ?? false,
       message: json['message'],
-      address: json['address'] != null ? AddressModel.fromJson(json['address']) : null,
+      address: json['address'] != null
+          ? AddressModel.fromJson(json['address'])
+          : null,
       datas: json['datas'] != null
           ? List<AddressEntitiy>.from(
               (json['datas'] as List).map((x) => AddressModel.fromJson(x)))

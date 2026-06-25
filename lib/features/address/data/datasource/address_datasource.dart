@@ -12,6 +12,7 @@ abstract class AddressDatasource {
     required String country,
     required String buildName,
     required String streetName,
+    required String phonenumber,
     required String area,
     required int userId,
   });
@@ -24,6 +25,7 @@ abstract class AddressDatasource {
     required String country,
     required String buildName,
     required String streetName,
+    required String phonenumber,
     required String area,
     required int userId,
   });
@@ -44,6 +46,7 @@ class AddressDatasourceImpl implements AddressDatasource {
     required String country,
     required String buildName,
     required String streetName,
+    required String phonenumber,
     required String area,
     required int userId,
   }) async {
@@ -54,6 +57,7 @@ class AddressDatasourceImpl implements AddressDatasource {
         "state": state,
         "country": country,
         "build_name": buildName,
+        "phonenumber": phonenumber,
         "street_name": streetName,
         "area": area,
         "user_id": userId,
@@ -85,6 +89,7 @@ class AddressDatasourceImpl implements AddressDatasource {
     required String country,
     required String buildName,
     required String streetName,
+    required String phonenumber,
     required String area,
     required int userId,
   }) async {
@@ -95,11 +100,11 @@ class AddressDatasourceImpl implements AddressDatasource {
         "state": state,
         "country": country,
         "build_name": buildName,
+        "phonenumber": phonenumber,
         "street_name": streetName,
         "area": area,
         "user_id": userId,
       };
-
       final response = await _dioClient.put(
         '${AppConstants.address}?id=$id',
         data: data,

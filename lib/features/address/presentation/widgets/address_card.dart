@@ -1,4 +1,6 @@
+import 'package:e_commerce/features/address/presentation/blocs/address/address_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
@@ -88,7 +90,8 @@ class AddressCard extends StatelessWidget {
           ),
           SizedBox(height: 1.5.h),
 
-          if (streetName != null && streetName!.isNotEmpty || area != null && area!.isNotEmpty)
+          if (streetName != null && streetName!.isNotEmpty ||
+              area != null && area!.isNotEmpty)
             Text(
               "${streetName ?? ''}${streetName != null && streetName!.isNotEmpty && area != null && area!.isNotEmpty ? ', ' : ''}${area ?? ''}",
               style: GoogleFonts.inter(
@@ -97,7 +100,7 @@ class AddressCard extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-          
+
           if (phoneNumber != null && phoneNumber!.isNotEmpty)
             Text(
               phoneNumber ?? "",
@@ -119,7 +122,7 @@ class AddressCard extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          
+
           if (country != null && country!.isNotEmpty)
             Text(
               country ?? "",
@@ -139,7 +142,7 @@ class AddressCard extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => EditAddressScreen(index),
+                    builder: (ctx) => EditAddressScreen(index, id: id ?? 0),
                   ));
                 },
                 child: Padding(
@@ -156,7 +159,11 @@ class AddressCard extends StatelessWidget {
               ),
               SizedBox(width: 2.w),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  context
+                      .read<AddressBloc>()
+                      .add(AddressEvent.deleteAddress(id ?? 0));
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
                   child: Text(

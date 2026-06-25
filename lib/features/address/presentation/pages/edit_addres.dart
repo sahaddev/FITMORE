@@ -13,7 +13,8 @@ import '../blocs/address/address_bloc.dart';
 
 class EditAddressScreen extends StatefulWidget {
   final int index;
-  const EditAddressScreen(this.index, {super.key});
+  final int id;
+  const EditAddressScreen(this.index, {required this.id, super.key});
 
   @override
   State<EditAddressScreen> createState() => _EditAddressScreenState();
@@ -40,9 +41,16 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     _stateEditcontroller = TextEditingController();
     _streetEditcontroller = TextEditingController();
     _areaEditcontroller = TextEditingController();
-    
+
     // Fallback empty model
-    _addresModel = AddressModel(name: '', phonenumber: '', city: '', pincode: '', state: '', streetName: '', area: '');
+    _addresModel = AddressModel(
+        name: '',
+        phonenumber: '',
+        city: '',
+        pincode: '',
+        state: '',
+        streetName: '',
+        area: '');
 
     final addressState = context.read<AddressBloc>().state;
     addressState.maybeWhen(
@@ -85,7 +93,9 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(message)),
               );
-              context.read<AddressBloc>().add(const AddressEvent.getAllAddresses());
+              context
+                  .read<AddressBloc>()
+                  .add(const AddressEvent.getAllAddresses());
               NavigationService.pop();
             },
             failure: (message) {
@@ -102,218 +112,224 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
           );
           return Scaffold(
             backgroundColor: Colors.grey[50], // Light background
-      appBar: mainTitle(""),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-          child: Container(
-            width: 100.w,
-            padding: EdgeInsets.all(6.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Edit Address", // Changed title
-                    style: GoogleFonts.inter(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  SizedBox(height: 1.h),
-                  Text(
-                    "Update your address details below.", // Changed description
-                    style: GoogleFonts.inter(
-                      fontSize: 14.sp,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-
-                  // Name Field
-                  LabelInputContainer(
-                    label: "Name",
-                    child: AceternityInput(
-                      hintText: "Enter your name",
-                      controller: _nameEditcontroller,
-                      validator: (value) =>
-                          value!.isEmpty ? "Please enter your name" : null,
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-
-                  // Phone Number Field
-                  LabelInputContainer(
-                    label: "Phone Number",
-                    child: AceternityInput(
-                      hintText: "Enter your phone number",
-                      controller: _phonenumberEditcontroller,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) =>
-                          value!.isEmpty ? "Enter your phone number" : null,
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-
-                  // Street Name and Area in a Row
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LabelInputContainer(
-                          label: "Street Name",
-                          child: AceternityInput(
-                            hintText: "Enter street name",
-                            controller: _streetEditcontroller,
-                            validator: (value) =>
-                                value!.isEmpty ? "Enter your Street Name" : null,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Expanded(
-                        child: LabelInputContainer(
-                          label: "Area",
-                          child: AceternityInput(
-                            hintText: "Enter area",
-                            controller: _areaEditcontroller,
-                            validator: (value) =>
-                                value!.isEmpty ? "Enter your Area" : null,
-                          ),
-                        ),
+            appBar: mainTitle(""),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                child: Container(
+                  width: 100.w,
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
-                  SizedBox(height: 2.h),
-
-                  // City and State in a Row
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LabelInputContainer(
-                          label: "City",
-                          child: AceternityInput(
-                            hintText: "City",
-                            controller: _cityEditcontroller,
-                            validator: (value) =>
-                                value!.isEmpty ? "Enter your City" : null,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Edit Address", // Changed title
+                          style: GoogleFonts.inter(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
                           ),
                         ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Expanded(
-                        child: LabelInputContainer(
-                          label: "State",
-                          child: AceternityInput(
-                            hintText: "State",
-                            controller: _stateEditcontroller,
-                            validator: (value) =>
-                                value!.isEmpty ? "Enter your State" : null,
+                        SizedBox(height: 1.h),
+                        Text(
+                          "Update your address details below.", // Changed description
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            color: Colors.grey[600],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 2.h),
+                        SizedBox(height: 4.h),
 
-                  // Pincode Field
-                  LabelInputContainer(
-                    label: "Pincode",
-                    child: AceternityInput(
-                      hintText: "Enter pincode",
-                      controller: _pincodeEditcontroller,
-                      keyboardType: TextInputType.number,
-                      validator: (value) =>
-                          value!.isEmpty ? "Enter your Pincode" : null,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
+                        // Name Field
+                        LabelInputContainer(
+                          label: "Name",
+                          child: AceternityInput(
+                            hintText: "Enter your name",
+                            controller: _nameEditcontroller,
+                            validator: (value) => value!.isEmpty
+                                ? "Please enter your name"
+                                : null,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
 
-                  // Gradient Button
-                  InkWell(
-                    onTap: isLoading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                                final updatedAddress = AddressModel(
-                                  id: _addresModel.id,
-                                  name: _nameEditcontroller.text,
-                                  phonenumber: _phonenumberEditcontroller.text,
-                                  city: _cityEditcontroller.text,
-                                  state: _stateEditcontroller.text,
-                                  pincode: _pincodeEditcontroller.text,
-                                  streetName: _streetEditcontroller.text,
-                                  area: _areaEditcontroller.text,
-                                );
-                              context.read<EditAddressBloc>().add(
-                                    EditAddressEvent.updateAddress(updatedAddress),
-                                  );
-                            }
-                          },
-                    child: Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF18181B), // Zinc 900
-                            Color(0xFF27272A), // Zinc 800
+                        // Phone Number Field
+                        LabelInputContainer(
+                          label: "Phone Number",
+                          child: AceternityInput(
+                            hintText: "Enter your phone number",
+                            controller: _phonenumberEditcontroller,
+                            keyboardType: TextInputType.phone,
+                            validator: (value) => value!.isEmpty
+                                ? "Enter your phone number"
+                                : null,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+
+                        // Street Name and Area in a Row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: LabelInputContainer(
+                                label: "Street Name",
+                                child: AceternityInput(
+                                  hintText: "Enter street name",
+                                  controller: _streetEditcontroller,
+                                  validator: (value) => value!.isEmpty
+                                      ? "Enter your Street Name"
+                                      : null,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Expanded(
+                              child: LabelInputContainer(
+                                label: "Area",
+                                child: AceternityInput(
+                                  hintText: "Enter area",
+                                  controller: _areaEditcontroller,
+                                  validator: (value) =>
+                                      value!.isEmpty ? "Enter your Area" : null,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withValues(alpha: 0.25),
-                            offset: const Offset(0, 1),
-                            blurRadius: 0,
-                          ),
-                          const BoxShadow(
-                            color: Color(0x00000000), // Transparent base
-                            offset: Offset(0, -1),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                      child: isLoading
-                          ? const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
+                        SizedBox(height: 2.h),
+
+                        // City and State in a Row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: LabelInputContainer(
+                                label: "City",
+                                child: AceternityInput(
+                                  hintText: "City",
+                                  controller: _cityEditcontroller,
+                                  validator: (value) =>
+                                      value!.isEmpty ? "Enter your City" : null,
+                                ),
                               ),
-                            )
-                          : Text(
-                              "Update Address",
-                              style: GoogleFonts.inter(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
                             ),
+                            SizedBox(width: 4.w),
+                            Expanded(
+                              child: LabelInputContainer(
+                                label: "State",
+                                child: AceternityInput(
+                                  hintText: "State",
+                                  controller: _stateEditcontroller,
+                                  validator: (value) => value!.isEmpty
+                                      ? "Enter your State"
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h),
+
+                        // Pincode Field
+                        LabelInputContainer(
+                          label: "Pincode",
+                          child: AceternityInput(
+                            hintText: "Enter pincode",
+                            controller: _pincodeEditcontroller,
+                            keyboardType: TextInputType.number,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter your Pincode" : null,
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+
+                        // Gradient Button
+                        InkWell(
+                          onTap: isLoading
+                              ? null
+                              : () {
+                                  if (_formKey.currentState!.validate()) {
+                                    final updatedAddress = AddressModel(
+                                      id: widget.id,
+                                      name: _nameEditcontroller.text,
+                                      phonenumber:
+                                          _phonenumberEditcontroller.text,
+                                      city: _cityEditcontroller.text,
+                                      state: _stateEditcontroller.text,
+                                      pincode: _pincodeEditcontroller.text,
+                                      streetName: _streetEditcontroller.text,
+                                      area: _areaEditcontroller.text,
+                                    );
+                                    context.read<EditAddressBloc>().add(
+                                          EditAddressEvent.updateAddress(
+                                              updatedAddress),
+                                        );
+                                  }
+                                },
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFF18181B), // Zinc 900
+                                  Color(0xFF27272A), // Zinc 800
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withValues(alpha: 0.25),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 0,
+                                ),
+                                const BoxShadow(
+                                  color: Color(0x00000000), // Transparent base
+                                  offset: Offset(0, -1),
+                                  blurRadius: 0,
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: isLoading
+                                ? const SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    "Update Address",
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 2.h),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
           );
         },
       ),

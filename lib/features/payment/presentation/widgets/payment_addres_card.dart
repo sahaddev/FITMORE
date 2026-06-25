@@ -102,7 +102,7 @@ class PaymentAddrescard extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      EditAddressScreen(index),
+                                      EditAddressScreen(index, id: 0),
                                 ));
                               },
                               child: Text(

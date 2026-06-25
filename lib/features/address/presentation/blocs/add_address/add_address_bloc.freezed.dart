@@ -165,7 +165,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
-    TResult Function()? getAllAddresses,
+    TResult Function(int id)? getAllAddresses,
     TResult Function(AddressModel address)? addAddress,
     TResult Function(AddressModel address)? updateAddress,
     TResult Function(int id)? deleteAddress,
@@ -176,7 +176,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
       case LoadAddAddress() when load != null:
         return load();
       case GetAllAddresses() when getAllAddresses != null:
-        return getAllAddresses();
+        return getAllAddresses(_that.id);
       case AddAddress() when addAddress != null:
         return addAddress(_that.address);
       case UpdateAddress() when updateAddress != null:
@@ -204,7 +204,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
-    required TResult Function() getAllAddresses,
+    required TResult Function(int id) getAllAddresses,
     required TResult Function(AddressModel address) addAddress,
     required TResult Function(AddressModel address) updateAddress,
     required TResult Function(int id) deleteAddress,
@@ -214,7 +214,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
       case LoadAddAddress():
         return load();
       case GetAllAddresses():
-        return getAllAddresses();
+        return getAllAddresses(_that.id);
       case AddAddress():
         return addAddress(_that.address);
       case UpdateAddress():
@@ -241,7 +241,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
-    TResult? Function()? getAllAddresses,
+    TResult? Function(int id)? getAllAddresses,
     TResult? Function(AddressModel address)? addAddress,
     TResult? Function(AddressModel address)? updateAddress,
     TResult? Function(int id)? deleteAddress,
@@ -251,7 +251,7 @@ extension AddAddressEventPatterns on AddAddressEvent {
       case LoadAddAddress() when load != null:
         return load();
       case GetAllAddresses() when getAllAddresses != null:
-        return getAllAddresses();
+        return getAllAddresses(_that.id);
       case AddAddress() when addAddress != null:
         return addAddress(_that.address);
       case UpdateAddress() when updateAddress != null:
@@ -287,20 +287,64 @@ class LoadAddAddress implements AddAddressEvent {
 /// @nodoc
 
 class GetAllAddresses implements AddAddressEvent {
-  const GetAllAddresses();
+  const GetAllAddresses({required this.id});
+
+  final int id;
+
+  /// Create a copy of AddAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $GetAllAddressesCopyWith<GetAllAddresses> get copyWith =>
+      _$GetAllAddressesCopyWithImpl<GetAllAddresses>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is GetAllAddresses);
+        (other.runtimeType == runtimeType &&
+            other is GetAllAddresses &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, id);
 
   @override
   String toString() {
-    return 'AddAddressEvent.getAllAddresses()';
+    return 'AddAddressEvent.getAllAddresses(id: $id)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $GetAllAddressesCopyWith<$Res>
+    implements $AddAddressEventCopyWith<$Res> {
+  factory $GetAllAddressesCopyWith(
+          GetAllAddresses value, $Res Function(GetAllAddresses) _then) =
+      _$GetAllAddressesCopyWithImpl;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$GetAllAddressesCopyWithImpl<$Res>
+    implements $GetAllAddressesCopyWith<$Res> {
+  _$GetAllAddressesCopyWithImpl(this._self, this._then);
+
+  final GetAllAddresses _self;
+  final $Res Function(GetAllAddresses) _then;
+
+  /// Create a copy of AddAddressEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(GetAllAddresses(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 

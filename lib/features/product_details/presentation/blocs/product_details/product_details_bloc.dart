@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:e_commerce/features/home/domain/usecase/home_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -23,7 +21,8 @@ class ProductDetailsBloc
     LoadProductDetails event,
     Emitter<ProductDetailsState> emit,
   ) async {
-    print('---------- _onLoadProductDetails triggered for id: ${event.id} ----------');
+    print(
+        '---------- _onLoadProductDetails triggered for id: ${event.id} ----------');
     emit(const ProductDetailsState.loading());
     try {
       final response = await ProductDetailsUsecase().productById(id: event.id);
@@ -43,10 +42,6 @@ class ProductDetailsBloc
           id: e.id,
           active: e.active ?? true,
         );
-        log(product.image1);
-        log(product.image2);
-        log(product.image3);
-        log(product.image4);
         emit(ProductDetailsState.loaded([product], false, false));
       } else {
         emit(const ProductDetailsState.failure(

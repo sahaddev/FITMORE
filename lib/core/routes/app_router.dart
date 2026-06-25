@@ -53,8 +53,10 @@ class AppRouter {
       case AppRouters.addAddress:
         return MaterialPageRoute(builder: (_) => const AddAddress());
       case AppRouters.editAddress:
-        final index = settings.arguments as int;
-        return MaterialPageRoute(builder: (_) => EditAddressScreen(index));
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) =>
+                EditAddressScreen(args['index'], id: args['id'] as int));
       case AppRouters.orders:
         return MaterialPageRoute(builder: (_) => const MyOrderScreen());
       case AppRouters.notification:
