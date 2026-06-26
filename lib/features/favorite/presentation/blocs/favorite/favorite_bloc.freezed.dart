@@ -53,7 +53,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
     TResult Function(LoadFavorite value)? load,
     TResult Function(GetAllFavorites value)? getAllFavorites,
     TResult Function(RemoveFromFavorites value)? removeFromFavorites,
-    TResult Function(ClearFavorites value)? clearFavorites,
     TResult Function(AddToFavorites value)? addToFavorites,
     required TResult orElse(),
   }) {
@@ -65,8 +64,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites(_that);
       case RemoveFromFavorites() when removeFromFavorites != null:
         return removeFromFavorites(_that);
-      case ClearFavorites() when clearFavorites != null:
-        return clearFavorites(_that);
       case AddToFavorites() when addToFavorites != null:
         return addToFavorites(_that);
       case _:
@@ -92,7 +89,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
     required TResult Function(LoadFavorite value) load,
     required TResult Function(GetAllFavorites value) getAllFavorites,
     required TResult Function(RemoveFromFavorites value) removeFromFavorites,
-    required TResult Function(ClearFavorites value) clearFavorites,
     required TResult Function(AddToFavorites value) addToFavorites,
   }) {
     final _that = this;
@@ -103,8 +99,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites(_that);
       case RemoveFromFavorites():
         return removeFromFavorites(_that);
-      case ClearFavorites():
-        return clearFavorites(_that);
       case AddToFavorites():
         return addToFavorites(_that);
       case _:
@@ -129,7 +123,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
     TResult? Function(LoadFavorite value)? load,
     TResult? Function(GetAllFavorites value)? getAllFavorites,
     TResult? Function(RemoveFromFavorites value)? removeFromFavorites,
-    TResult? Function(ClearFavorites value)? clearFavorites,
     TResult? Function(AddToFavorites value)? addToFavorites,
   }) {
     final _that = this;
@@ -140,8 +133,6 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites(_that);
       case RemoveFromFavorites() when removeFromFavorites != null:
         return removeFromFavorites(_that);
-      case ClearFavorites() when clearFavorites != null:
-        return clearFavorites(_that);
       case AddToFavorites() when addToFavorites != null:
         return addToFavorites(_that);
       case _:
@@ -165,9 +156,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function()? getAllFavorites,
-    TResult Function(int id)? removeFromFavorites,
-    TResult Function()? clearFavorites,
-    TResult Function(FavoriteModel item)? addToFavorites,
+    TResult Function(String id)? removeFromFavorites,
+    TResult Function(String productId)? addToFavorites,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -178,10 +168,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites();
       case RemoveFromFavorites() when removeFromFavorites != null:
         return removeFromFavorites(_that.id);
-      case ClearFavorites() when clearFavorites != null:
-        return clearFavorites();
       case AddToFavorites() when addToFavorites != null:
-        return addToFavorites(_that.item);
+        return addToFavorites(_that.productId);
       case _:
         return orElse();
     }
@@ -204,9 +192,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function() getAllFavorites,
-    required TResult Function(int id) removeFromFavorites,
-    required TResult Function() clearFavorites,
-    required TResult Function(FavoriteModel item) addToFavorites,
+    required TResult Function(String id) removeFromFavorites,
+    required TResult Function(String productId) addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
@@ -216,10 +203,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites();
       case RemoveFromFavorites():
         return removeFromFavorites(_that.id);
-      case ClearFavorites():
-        return clearFavorites();
       case AddToFavorites():
-        return addToFavorites(_that.item);
+        return addToFavorites(_that.productId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -241,9 +226,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
     TResult? Function()? getAllFavorites,
-    TResult? Function(int id)? removeFromFavorites,
-    TResult? Function()? clearFavorites,
-    TResult? Function(FavoriteModel item)? addToFavorites,
+    TResult? Function(String id)? removeFromFavorites,
+    TResult? Function(String productId)? addToFavorites,
   }) {
     final _that = this;
     switch (_that) {
@@ -253,10 +237,8 @@ extension FavoriteEventPatterns on FavoriteEvent {
         return getAllFavorites();
       case RemoveFromFavorites() when removeFromFavorites != null:
         return removeFromFavorites(_that.id);
-      case ClearFavorites() when clearFavorites != null:
-        return clearFavorites();
       case AddToFavorites() when addToFavorites != null:
-        return addToFavorites(_that.item);
+        return addToFavorites(_that.productId);
       case _:
         return null;
     }
@@ -308,7 +290,7 @@ class GetAllFavorites implements FavoriteEvent {
 class RemoveFromFavorites implements FavoriteEvent {
   const RemoveFromFavorites(this.id);
 
-  final int id;
+  final String id;
 
   /// Create a copy of FavoriteEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -341,7 +323,7 @@ abstract mixin class $RemoveFromFavoritesCopyWith<$Res>
           RemoveFromFavorites value, $Res Function(RemoveFromFavorites) _then) =
       _$RemoveFromFavoritesCopyWithImpl;
   @useResult
-  $Res call({int id});
+  $Res call({String id});
 }
 
 /// @nodoc
@@ -362,37 +344,17 @@ class _$RemoveFromFavoritesCopyWithImpl<$Res>
       null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class ClearFavorites implements FavoriteEvent {
-  const ClearFavorites();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ClearFavorites);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'FavoriteEvent.clearFavorites()';
-  }
-}
-
-/// @nodoc
-
 class AddToFavorites implements FavoriteEvent {
-  const AddToFavorites(this.item);
+  const AddToFavorites(this.productId);
 
-  final FavoriteModel item;
+  final String productId;
 
   /// Create a copy of FavoriteEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -406,15 +368,16 @@ class AddToFavorites implements FavoriteEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AddToFavorites &&
-            (identical(other.item, item) || other.item == item));
+            (identical(other.productId, productId) ||
+                other.productId == productId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, item);
+  int get hashCode => Object.hash(runtimeType, productId);
 
   @override
   String toString() {
-    return 'FavoriteEvent.addToFavorites(item: $item)';
+    return 'FavoriteEvent.addToFavorites(productId: $productId)';
   }
 }
 
@@ -425,7 +388,7 @@ abstract mixin class $AddToFavoritesCopyWith<$Res>
           AddToFavorites value, $Res Function(AddToFavorites) _then) =
       _$AddToFavoritesCopyWithImpl;
   @useResult
-  $Res call({FavoriteModel item});
+  $Res call({String productId});
 }
 
 /// @nodoc
@@ -440,13 +403,13 @@ class _$AddToFavoritesCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? item = null,
+    Object? productId = null,
   }) {
     return _then(AddToFavorites(
-      null == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as FavoriteModel,
+      null == productId
+          ? _self.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -606,7 +569,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(List<FavoriteModel> favoriteItems)? loaded,
+    TResult Function(List<FavoriteProductEntity> favoriteItems)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -645,7 +608,7 @@ extension FavoriteStatePatterns on FavoriteState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(List<FavoriteModel> favoriteItems) loaded,
+    required TResult Function(List<FavoriteProductEntity> favoriteItems) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -682,7 +645,7 @@ extension FavoriteStatePatterns on FavoriteState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(List<FavoriteModel> favoriteItems)? loaded,
+    TResult? Function(List<FavoriteProductEntity> favoriteItems)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -869,11 +832,11 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements FavoriteState {
-  const _Loaded(final List<FavoriteModel> favoriteItems)
+  const _Loaded(final List<FavoriteProductEntity> favoriteItems)
       : _favoriteItems = favoriteItems;
 
-  final List<FavoriteModel> _favoriteItems;
-  List<FavoriteModel> get favoriteItems {
+  final List<FavoriteProductEntity> _favoriteItems;
+  List<FavoriteProductEntity> get favoriteItems {
     if (_favoriteItems is EqualUnmodifiableListView) return _favoriteItems;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_favoriteItems);
@@ -911,7 +874,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({List<FavoriteModel> favoriteItems});
+  $Res call({List<FavoriteProductEntity> favoriteItems});
 }
 
 /// @nodoc
@@ -931,7 +894,7 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
       null == favoriteItems
           ? _self._favoriteItems
           : favoriteItems // ignore: cast_nullable_to_non_nullable
-              as List<FavoriteModel>,
+              as List<FavoriteProductEntity>,
     ));
   }
 }

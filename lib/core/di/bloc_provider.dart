@@ -1,3 +1,4 @@
+import 'package:e_commerce/features/favorite/domain/usecase/favorite_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,7 +58,9 @@ class AppBlocProvider extends StatelessWidget {
         BlocProvider(create: (context) => CartPaymentBloc()),
         BlocProvider(create: (context) => PaymentScrTwoBloc()),
         BlocProvider(create: (context) => PaymentScrBloc()),
-        BlocProvider(create: (context) => FavoriteBloc()),
+        BlocProvider(
+            create: (context) =>
+                FavoriteBloc(favoriteUsecase: FavoriteUsecase())),
         BlocProvider(create: (context) => ProfileBloc()),
         BlocProvider(create: (context) => EditProfileBloc()),
         BlocProvider(create: (context) => EditAddressBloc()),

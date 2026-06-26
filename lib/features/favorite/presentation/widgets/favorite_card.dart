@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-
-import '../../../../core/models/favorite/favorite_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/favorite/favorite_bloc.dart';
+import '../../domain/entitiy/favorite_res_entitiy.dart';
 
 class FavoriteCard extends StatelessWidget {
   const FavoriteCard({
@@ -13,7 +14,7 @@ class FavoriteCard extends StatelessWidget {
   });
 
   final String image;
-  final FavoriteModel data;
+  final FavoriteProductEntity data;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class FavoriteCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        data.title,
+                        data.product?.title ?? '',
                         style: GoogleFonts.inter(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -114,7 +115,7 @@ class FavoriteCard extends StatelessWidget {
                 ),
                 SizedBox(height: 1.h),
                 Text(
-                  "A magical competition between two young illusionists unfolds in a mysterious traveling circus.",
+                  data.product?.description ?? '',
                   style: GoogleFonts.inter(
                     fontSize: 12.sp,
                     color: Colors.grey[600],
@@ -125,7 +126,7 @@ class FavoriteCard extends StatelessWidget {
                 ),
                 SizedBox(height: 1.5.h),
                 Text(
-                  "N${data.price}.999", // Appending .999 to match image style purely for visual if price is integer
+                  "N${data.product?.price ?? ''}.999", // Appending .999 to match image style purely for visual if price is integer
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -143,7 +144,10 @@ class FavoriteCard extends StatelessWidget {
                       .h), // Push it down a bit to center vertically relative to logic or top aligned? Image shows it vertically centered relative to block usually.
               GestureDetector(
                 onTap: () {
-                  
+                  final id = data.product?.sId ?? data.id ?? '';
+                  if (id.isNotEmpty) {
+                    context.read<FavoriteBloc>().add(FavoriteEvent.removeFromFavorites(id));
+                  }
                 },
                 child: Container(
                   padding: EdgeInsets.all(2.w),

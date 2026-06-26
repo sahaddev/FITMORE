@@ -11,7 +11,9 @@ import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/product_details/product_details_bloc.dart';
-import '../../../../features/cart/presentation/blocs/cart/cart_bloc.dart' as cart_bloc;
+import '../../../../features/cart/presentation/blocs/cart/cart_bloc.dart'
+    as cart_bloc;
+import '../../../../features/favorite/presentation/blocs/favorite/favorite_bloc.dart';
 
 // ignore: must_be_immutable
 class ProductDetiles extends StatefulWidget {
@@ -70,41 +72,65 @@ class _ProductDetilesState extends State<ProductDetiles> {
           BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
             builder: (context, state) {
               bool isFavorite = false;
+              ProductModel? currentProduct;
               state.maybeWhen(
-                loaded: (_, fav, __) => isFavorite = fav,
+                loaded: (productList, fav, __) {
+                  isFavorite = fav;
+                  if (productList.isNotEmpty)
+                    currentProduct = productList.first;
+                },
                 orElse: () {},
               );
-              return GestureDetector(
-                onTap: () async {
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  final product = ProductModel(
-                    title: widget.title,
-                    discription: widget.discription,
-                    image1: widget.image,
-                    image2: '',
-                    image3: '',
-                    image4: '',
-                    price: widget.price,
-                    category: '',
-                    productCount: 1,
+
+              return BlocBuilder<FavoriteBloc, FavoriteState>(
+                builder: (context, favState) {
+                  bool isReallyFav = isFavorite; // default to local state
+                  favState.maybeWhen(
+                    loaded: (favorites) {
+                      if (currentProduct != null &&
+                          currentProduct!.sId != null) {
+                        isReallyFav = favorites.any((f) =>
+                            f.product?.sId == currentProduct!.sId ||
+                            f.id == currentProduct!.sId);
+                      }
+                    },
+                    orElse: () {},
                   );
-                  context
-                      .read<ProductDetailsBloc>()
-                      .add(ToggleFavorite(product));
+
+                  return GestureDetector(
+                    onTap: () async {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      if (currentProduct != null) {
+                        if (isReallyFav) {
+                          context.read<FavoriteBloc>().add(
+                              FavoriteEvent.removeFromFavorites(
+                                  currentProduct!.sId ?? ''));
+                        } else {
+                          context.read<FavoriteBloc>().add(
+                              FavoriteEvent.addToFavorites(
+                                  currentProduct!.sId ?? ''));
+                        }
+                        context
+                            .read<ProductDetailsBloc>()
+                            .add(ToggleFavorite(currentProduct!));
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      height: 33,
+                      width: 32,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border:
+                              Border.all(width: 1, color: Colors.grey[300]!)),
+                      child: Icon(
+                        isReallyFav ? Icons.favorite : Icons.favorite_border,
+                        size: 18,
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
                 },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  height: 33,
-                  width: 32,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(width: 1, color: Colors.grey[300]!)),
-                  child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    size: 18,
-                    color: Colors.red,
-                  ),
-                ),
               );
             },
           ),
@@ -174,9 +200,9 @@ class _ProductDetilesState extends State<ProductDetiles> {
                             }).toList(),
                           )
                         else
-                          SizedBox(
+                          const SizedBox(
                             height: 200,
-                            child: const Icon(Icons.image, size: 100),
+                            child: Icon(Icons.image, size: 100),
                           ),
                         const SizedBox(height: 30),
                       ],
@@ -204,7 +230,8 @@ class _ProductDetilesState extends State<ProductDetiles> {
                 state.maybeWhen(
                   loaded: (productList, __, inCart) {
                     isInCart = inCart;
-                    if (productList.isNotEmpty) currentProduct = productList.first;
+                    if (productList.isNotEmpty)
+                      currentProduct = productList.first;
                   },
                   orElse: () {},
                 );
@@ -212,16 +239,19 @@ class _ProductDetilesState extends State<ProductDetiles> {
                   alignment: Alignment.bottomRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (!isInCart && currentProduct != null && currentProduct!.sId != null) {
+                      if (!isInCart &&
+                          currentProduct != null &&
+                          currentProduct!.sId != null) {
                         ScaffoldMessenger.of(context).clearSnackBars();
                         context
                             .read<ProductDetailsBloc>()
                             .add(AddToCart(currentProduct!));
-                        
+
                         context.read<cart_bloc.CartBloc>().add(
-                           cart_bloc.AddToCart(currentProduct!.sId!, quantity: 1),
-                        );
-                        
+                              cart_bloc.AddToCart(currentProduct!.sId!,
+                                  quantity: 1),
+                            );
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Added to Cart'),
