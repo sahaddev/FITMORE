@@ -5,40 +5,29 @@ class CusBottom extends StatelessWidget {
   final String price;
   final VoidCallback buttonFun;
   const CusBottom({
-    super.key, required this.price, required this.buttonFun,
+    super.key,
+    required this.price,
+    required this.buttonFun,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              '\$850.00',
-              style: GoogleFonts.roboto(
-                fontSize: 12.0,
-                color: Colors.grey,
-                decoration: TextDecoration.lineThrough,
-              ),
-            ),
-            Text(
-              '\$$price.00',
-              style: GoogleFonts.roboto(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-          ],
+        Text(
+          '\$$price.00',
+          style: GoogleFonts.roboto(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
         const SizedBox(width: 15),
         Expanded(
           child: SizedBox(
             height: 50,
             child: ElevatedButton(
-              onPressed:  buttonFun,
+              onPressed: buttonFun,
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),

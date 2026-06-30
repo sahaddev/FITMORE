@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
@@ -9,6 +9,8 @@ import '../pages/patment_scr_two.dart';
 import '../pages/payment_scr.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/product_details/presentation/blocs/product_details/product_details_bloc.dart';
 
 class PaymConAndPrice extends StatelessWidget {
   const PaymConAndPrice({
@@ -121,11 +123,21 @@ class PaymCalculateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: ValueNotifier<List<ProductModel>>([]),
-      builder: (BuildContext context, List<ProductModel> productList,
-          Widget? child) {
-        final data = productList[widget.productIndex];
+    return BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+      builder: (BuildContext context, ProductDetailsState state) {
+        ProductModel? fetchedData;
+        state.maybeWhen(
+          loaded: (productList, _, __) {
+            if (productList.isNotEmpty) {
+              fetchedData = productList.first;
+            }
+          },
+          orElse: () {},
+        );
+
+        if (fetchedData == null) return const SizedBox();
+        final data = fetchedData!;
+
         return Column(
           children: [
             Container(
@@ -248,15 +260,23 @@ class PaymCalculateCard extends StatelessWidget {
 class PaymProDelCard1 extends StatelessWidget {
   const PaymProDelCard1({
     super.key,
-    required this.image64,
+    required this.image,
     required this.data,
   });
 
-  final Uint8List image64;
+  final String image;
   final ProductModel data;
 
   @override
   Widget build(BuildContext context) {
+    String cleanImg = image;
+    if (!image.startsWith('http')) {
+      if (image.startsWith('data:image')) {
+        cleanImg = image.split(',').last;
+      }
+      cleanImg = cleanImg.replaceAll(RegExp(r'\s+'), '');
+    }
+
     return Row(
       children: [
         SizedBox(
@@ -264,10 +284,19 @@ class PaymProDelCard1 extends StatelessWidget {
           width: 11.h,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image(
-              image: MemoryImage(image64),
-              fit: BoxFit.cover,
-            ),
+            child: image.startsWith('http')
+                ? Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) =>
+                        const Icon(Icons.broken_image),
+                  )
+                : Image.memory(
+                    base64Decode(cleanImg),
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) =>
+                        const Icon(Icons.broken_image),
+                  ),
           ),
         ),
         SizedBox(width: 4.w),

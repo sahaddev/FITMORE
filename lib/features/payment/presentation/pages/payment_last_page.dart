@@ -5,7 +5,18 @@ import 'package:e_commerce/core/routes/navigation_service.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 
 class PaymentLastScareen extends StatefulWidget {
-  const PaymentLastScareen({super.key});
+  final String orderId;
+  final String totalAmount;
+  final String paymentMethod;
+  final String dateTime;
+
+  const PaymentLastScareen({
+    required this.orderId,
+    required this.totalAmount,
+    required this.paymentMethod,
+    required this.dateTime,
+    super.key,
+  });
 
   @override
   State<PaymentLastScareen> createState() => _PaymentLastScareenState();
@@ -21,10 +32,10 @@ class _PaymentLastScareenState extends State<PaymentLastScareen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: OrderConfirmationCard(
-              orderId: "57625869",
-              paymentMethod: "Apple Pay",
-              dateTime: "01/02/24 23:46",
-              totalAmount: "\$ 129",
+              orderId: widget.orderId,
+              paymentMethod: widget.paymentMethod,
+              dateTime: widget.dateTime,
+              totalAmount: widget.totalAmount,
               onGoToAccount: () {
                 NavigationService.pushNamedAndRemoveUntil(AppRouters.bottomNav);
               },

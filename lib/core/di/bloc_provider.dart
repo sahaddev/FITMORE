@@ -1,4 +1,5 @@
 import 'package:e_commerce/features/favorite/domain/usecase/favorite_usecase.dart';
+import 'package:e_commerce/features/address/domain/usecase/address_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,7 +55,7 @@ class AppBlocProvider extends StatelessWidget {
         BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => PaymentLastPageBloc()),
-        BlocProvider(create: (context) => PaymentAddressBloc()),
+        BlocProvider(create: (context) => PaymentAddressBloc(addressUsecase: AddressUsecase())),
         BlocProvider(create: (context) => CartPaymentBloc()),
         BlocProvider(create: (context) => PaymentScrTwoBloc()),
         BlocProvider(create: (context) => PaymentScrBloc()),

@@ -1,3 +1,4 @@
+import 'package:e_commerce/features/payment/presentation/pages/payment_address.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/core/routes/app_routers.dart';
 import 'package:e_commerce/core/models/user/db_model.dart';
@@ -81,6 +82,12 @@ class AppRouter {
                   price: args['price'],
                   image: args['image'],
                   discription: args['discription'],
+                ));
+      case AppRouters.paymentAddress:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => PaymentAddress(
+                  productIndex: args['productIndex'],
                 ));
       case AppRouters.productListing:
         return MaterialPageRoute(builder: (_) => const ProductListingUi());

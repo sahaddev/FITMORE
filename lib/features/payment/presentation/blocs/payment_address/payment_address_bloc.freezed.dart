@@ -451,7 +451,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(dynamic address)? loaded,
+    TResult Function(List<AddressEntitiy> addresses, int? selectedAddressId)?
+        loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -465,7 +466,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
       case _Failure() when failure != null:
         return failure(_that.message);
       case _Loaded() when loaded != null:
-        return loaded(_that.address);
+        return loaded(_that.addresses, _that.selectedAddressId);
       case _:
         return orElse();
     }
@@ -490,7 +491,9 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(dynamic address) loaded,
+    required TResult Function(
+            List<AddressEntitiy> addresses, int? selectedAddressId)
+        loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -503,7 +506,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
       case _Failure():
         return failure(_that.message);
       case _Loaded():
-        return loaded(_that.address);
+        return loaded(_that.addresses, _that.selectedAddressId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -527,7 +530,8 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(dynamic address)? loaded,
+    TResult? Function(List<AddressEntitiy> addresses, int? selectedAddressId)?
+        loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -540,7 +544,7 @@ extension PaymentAddressStatePatterns on PaymentAddressState {
       case _Failure() when failure != null:
         return failure(_that.message);
       case _Loaded() when loaded != null:
-        return loaded(_that.address);
+        return loaded(_that.addresses, _that.selectedAddressId);
       case _:
         return null;
     }
@@ -714,9 +718,17 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements PaymentAddressState {
-  const _Loaded(this.address);
+  const _Loaded(final List<AddressEntitiy> addresses, {this.selectedAddressId})
+      : _addresses = addresses;
 
-  final dynamic address;
+  final List<AddressEntitiy> _addresses;
+  List<AddressEntitiy> get addresses {
+    if (_addresses is EqualUnmodifiableListView) return _addresses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_addresses);
+  }
+
+  final int? selectedAddressId;
 
   /// Create a copy of PaymentAddressState
   /// with the given fields replaced by the non-null parameter values.
@@ -730,16 +742,19 @@ class _Loaded implements PaymentAddressState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Loaded &&
-            const DeepCollectionEquality().equals(other.address, address));
+            const DeepCollectionEquality()
+                .equals(other._addresses, _addresses) &&
+            (identical(other.selectedAddressId, selectedAddressId) ||
+                other.selectedAddressId == selectedAddressId));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(address));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_addresses), selectedAddressId);
 
   @override
   String toString() {
-    return 'PaymentAddressState.loaded(address: $address)';
+    return 'PaymentAddressState.loaded(addresses: $addresses, selectedAddressId: $selectedAddressId)';
   }
 }
 
@@ -749,7 +764,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({dynamic address});
+  $Res call({List<AddressEntitiy> addresses, int? selectedAddressId});
 }
 
 /// @nodoc
@@ -763,13 +778,18 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? address = freezed,
+    Object? addresses = null,
+    Object? selectedAddressId = freezed,
   }) {
     return _then(_Loaded(
-      freezed == address
-          ? _self.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      null == addresses
+          ? _self._addresses
+          : addresses // ignore: cast_nullable_to_non_nullable
+              as List<AddressEntitiy>,
+      selectedAddressId: freezed == selectedAddressId
+          ? _self.selectedAddressId
+          : selectedAddressId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }

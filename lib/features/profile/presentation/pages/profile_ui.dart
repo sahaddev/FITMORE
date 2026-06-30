@@ -59,17 +59,6 @@ class _ProfileUiState extends State<ProfileUi> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildCircleButton(
-                          icon: Icons.arrow_back_ios_new,
-                          onTap: () {
-                            // Navigation pop if applicable, or maybe this is a main tab so no back?
-                            // Assuming it might be nested or just for visual consistency with design.
-                            // But usually a main tab doesn't pop.
-                            // Leaving empty or Navigator.maybePop if needed.
-                            // Design shows back button.
-                            NavigationService.maybePop();
-                          },
-                        ),
                         Text(
                           'Settings',
                           style: GoogleFonts.manrope(

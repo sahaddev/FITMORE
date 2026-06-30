@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 
 import '../widgets/payment_addres_card.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/payment_address/payment_address_bloc.dart';
 
-class PaymentAddress extends StatelessWidget {
+class PaymentAddress extends StatefulWidget {
   final int productIndex;
 
   const PaymentAddress({required this.productIndex, super.key});
+
+  @override
+  State<PaymentAddress> createState() => _PaymentAddressState();
+}
+
+class _PaymentAddressState extends State<PaymentAddress> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PaymentAddressBloc>().add(const LoadPaymentAddress());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +45,7 @@ class PaymentAddress extends StatelessWidget {
           iconSize: 35,
         ),
       ),
-      body: PaymentAddrescard(productIndex: productIndex),
+      body: PaymentAddrescard(productIndex: widget.productIndex),
     );
   }
 }

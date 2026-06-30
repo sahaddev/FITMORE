@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/patment_scr_two.dart';
+import '../pages/payment_last_page.dart';
 
 import '../../../../core/models/product/db_product_model.dart';
 
@@ -56,12 +57,18 @@ class PaymContiAndPriceLastScr extends StatelessWidget {
                   ),
                   onPressed: () {
                     if (groupValue == 'Now3') {
-//                       paymentGet.addToOrderHistory(
-//                           productCount: data.productCount,
-//                           context: context,
-//                           imagee: widget.image,
-//                           titlee: widget.title,
-//                           pricee: widget.price);
+                      final now = DateTime.now();
+                      final dateStr = "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year.toString().substring(2)} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => PaymentLastScareen(
+                              orderId: "OD-${now.millisecondsSinceEpoch.toString().substring(5)}",
+                              totalAmount: allow == true ? "\$1234" : "\$${widget.price}",
+                              paymentMethod: "Cash on Delivery",
+                              dateTime: dateStr,
+                            ),
+                          ),
+                          (route) => false);
                     }
                   },
                   child: const Text(

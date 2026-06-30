@@ -30,10 +30,7 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
     Emitter<MyOrderState> emit,
   ) async {
     List<OrderhistoryModel> currentOrders = [];
-    state.maybeWhen(
-      loaded: (items) => currentOrders = items,
-      orElse: () {},
-    );
+    state.maybeWhen(loaded: (items) => currentOrders = items, orElse: () {});
 
     emit(const MyOrderState.loading());
     try {
@@ -43,10 +40,7 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
     }
   }
 
-  Future<void> _onReOrder(
-    ReOrder event,
-    Emitter<MyOrderState> emit,
-  ) async {
+  Future<void> _onReOrder(ReOrder event, Emitter<MyOrderState> emit) async {
     List<OrderhistoryModel> currentOrders = [];
     state.maybeWhen(
       loaded: (items) => currentOrders = List.from(items),
@@ -61,7 +55,7 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
         title: event.order.title,
         price: event.order.price,
       );
-      
+
       currentOrders.insert(0, newOrder);
       emit(const MyOrderState.success(message: 'Re-ordered successfully'));
       emit(MyOrderState.loaded(currentOrders));

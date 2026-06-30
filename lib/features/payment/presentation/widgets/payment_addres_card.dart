@@ -6,7 +6,9 @@ import '../../../address/presentation/pages/add_address.dart';
 import '../../../address/presentation/pages/edit_addres.dart';
 import '../pages/payment_scr.dart';
 
-import '../../../../core/models/address/db_address_model.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/payment_address/payment_address_bloc.dart';
 
 class PaymentAddrescard extends StatelessWidget {
   const PaymentAddrescard({
@@ -18,18 +20,38 @@ class PaymentAddrescard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: ValueNotifier<List<AddressModel>>([]),
-      builder: (BuildContext context, List<AddressModel> addressList,
-          Widget? child) {
-        return Stack(
-          children: [
-            ListView.builder(
-              // Changed to builder, removed separator for cleaner look with card margins
-              padding: const EdgeInsets.only(bottom: 100), // Space for FAB
-              itemCount: addressList.length,
-              itemBuilder: (context, index) {
-                final data = addressList[index];
+    return BlocBuilder<PaymentAddressBloc, PaymentAddressState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          loaded: (addressList, selectedAddressId) {
+            if (addressList.isEmpty) {
+              return Stack(
+                children: [
+                  const Center(child: Text("No addresses found.")),
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AddAddress(),
+                        ));
+                      },
+                      backgroundColor: Colors.black,
+                      child: const Icon(Icons.add, color: Colors.white),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Stack(
+              children: [
+                ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  itemCount: addressList.length,
+                  itemBuilder: (context, index) {
+                    final data = addressList[index];
                 final bool isPrimary =
                     index == 0; // Keeping logic for primary badge if needed
 
@@ -69,7 +91,7 @@ class PaymentAddrescard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  data.name,
+                                  data.buildName,
                                   style: GoogleFonts.inter(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
@@ -171,6 +193,10 @@ class PaymentAddrescard extends StatelessWidget {
               ),
             ),
           ],
+        );
+          },
+          failure: (message) => Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+          orElse: () => const SizedBox(),
         );
       },
     );

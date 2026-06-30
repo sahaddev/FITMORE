@@ -61,7 +61,16 @@ class CartPaymBottom extends StatelessWidget {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const PaymentLastScareen(),
+                            builder: (context) {
+                              final now = DateTime.now();
+                              final dateStr = "${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year.toString().substring(2)} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
+                              return PaymentLastScareen(
+                                orderId: "OD-${now.millisecondsSinceEpoch.toString().substring(5)}",
+                                totalAmount: allow == true ? "\$1234" : "\$${widget.totelPrice}",
+                                paymentMethod: groupValue == 'Now3' ? "Cash on Delivery" : "Online Payment",
+                                dateTime: dateStr,
+                              );
+                            },
                           ),
                           (route) => false);
                     }

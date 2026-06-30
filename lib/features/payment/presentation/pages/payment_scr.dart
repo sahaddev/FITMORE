@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +7,8 @@ import '../widgets/paym_addr_card.dart';
 import '../widgets/payment_widgets_main.dart';
 import '../widgets/tob_design_order.dart';
 import 'package:e_commerce/core/routes/navigation_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/product_details/presentation/blocs/product_details/product_details_bloc.dart';
 
 class PaymentScreen extends StatefulWidget {
   final int productIndex;
@@ -58,17 +59,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
           SizedBox(height: 2.h),
           PaymentAddresCard(widget: widget),
           SizedBox(height: 2.h),
-          ValueListenableBuilder(
-            valueListenable: ValueNotifier<List<ProductModel>>([]),
-            builder: (BuildContext context, List<ProductModel> productList,
-                Widget? child) {
-              if (productList.isEmpty ||
-                  widget.productIndex >= productList.length) {
+          BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+            builder: (BuildContext context, ProductDetailsState state) {
+              ProductModel? fetchedData;
+              state.maybeWhen(
+                loaded: (productList, _, __) {
+                  if (productList.isNotEmpty) {
+                    fetchedData = productList.first;
+                  }
+                },
+                orElse: () {},
+              );
+
+              if (fetchedData == null) {
                 return const SizedBox();
               }
-              final data = productList[widget.productIndex];
+              final data = fetchedData!;
+
               final image = data.image1;
-              final image64 = base64.decode(image);
 
               // Ensure newPrice is initialized if null
               // This acts as a side effect check, though generally should be in logic
@@ -85,7 +93,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
                 child: Column(
                   children: [
-                    PaymProDelCard1(image64: image64, data: data),
+                    PaymProDelCard1(image: image, data: data),
                     SizedBox(height: 2.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,14 +131,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 constraints: const BoxConstraints(),
                                 padding: EdgeInsets.symmetric(horizontal: 2.w),
                                 onPressed: () async {
-                                  final productDB =
-                                      <ProductModel>[];
+                                  final productDB = <ProductModel>[];
 
                                   int count = 0;
                                   // Simple lookup
                                   final productInDb = productDB.firstWhere(
-                                          (element) => element.id == data.id,
-                                          orElse: () => data);
+                                      (element) => element.id == data.id,
+                                      orElse: () => data);
                                   count = productInDb.productCount;
 
                                   if (count > quantity) {
@@ -196,15 +203,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
           SizedBox(height: 4.h), // Space for bottom bar
         ],
       ),
-      bottomNavigationBar: ValueListenableBuilder(
-        valueListenable: ValueNotifier<List<ProductModel>>([]),
-        builder: (BuildContext context, List<ProductModel> productList,
-            Widget? child) {
-          if (productList.isEmpty ||
-              widget.productIndex >= productList.length) {
+      bottomNavigationBar: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+        builder: (BuildContext context, ProductDetailsState state) {
+          ProductModel? fetchedData;
+          state.maybeWhen(
+            loaded: (productList, _, __) {
+              if (productList.isNotEmpty) {
+                fetchedData = productList.first;
+              }
+            },
+            orElse: () {},
+          );
+          if (fetchedData == null) {
             return const SizedBox();
           }
-          final data = productList[widget.productIndex];
+          final data = fetchedData!;
           return PaymConAndPrice(
               newPrice: newPrice,
               data: data,

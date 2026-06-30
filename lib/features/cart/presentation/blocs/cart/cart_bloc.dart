@@ -32,7 +32,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<String?> _getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    
+
     // Auth logic saves the user id as an integer
     final numId = prefs.getInt('id');
     if (numId != null) return numId.toString();
@@ -43,7 +43,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final userMap = json.decode(profileData);
       return userMap['_id']?.toString() ?? userMap['id']?.toString();
     }
-    
+
     return null;
   }
 
@@ -63,7 +63,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       if (response.status && response.cart != null) {
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to load cart'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to load cart'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
@@ -88,10 +89,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       );
 
       if (response.status && response.cart != null) {
-        emit(CartState.success(message: 'Item removed from cart'));
+        emit(const CartState.success(message: 'Item removed from cart'));
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to remove from cart'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to remove from cart'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
@@ -120,7 +122,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       if (response.status && response.cart != null) {
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to update quantity'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to update quantity'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
@@ -149,7 +152,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       if (response.status && response.cart != null) {
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to update quantity'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to update quantity'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
@@ -178,7 +182,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(const CartState.success(message: 'Item added to cart'));
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to add item to cart'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to add item to cart'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));
@@ -203,7 +208,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(const CartState.success(message: 'Cart cleared'));
         emit(CartState.loaded(response.cart!));
       } else {
-        emit(CartState.failure(message: response.message ?? 'Failed to clear cart'));
+        emit(CartState.failure(
+            message: response.message ?? 'Failed to clear cart'));
       }
     } catch (e) {
       emit(CartState.failure(message: e.toString()));

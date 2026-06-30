@@ -288,6 +288,7 @@ class _ProductDetilesState extends State<ProductDetiles> {
                   NavigationService.pushNamed(AppRouters.paymentAddress,
                       arguments: {'productIndex': widget.index});
                 }),
+            const SizedBox(height: 20),
           ],
         ),
       ),
