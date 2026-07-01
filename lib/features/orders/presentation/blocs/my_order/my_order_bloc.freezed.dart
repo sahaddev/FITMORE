@@ -147,7 +147,7 @@ extension MyOrderEventPatterns on MyOrderEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
     TResult Function()? getAllOrders,
-    TResult Function(OrderhistoryModel order)? reOrder,
+    TResult Function(OrderEntity order)? reOrder,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -180,7 +180,7 @@ extension MyOrderEventPatterns on MyOrderEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() load,
     required TResult Function() getAllOrders,
-    required TResult Function(OrderhistoryModel order) reOrder,
+    required TResult Function(OrderEntity order) reOrder,
   }) {
     final _that = this;
     switch (_that) {
@@ -211,7 +211,7 @@ extension MyOrderEventPatterns on MyOrderEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
     TResult? Function()? getAllOrders,
-    TResult? Function(OrderhistoryModel order)? reOrder,
+    TResult? Function(OrderEntity order)? reOrder,
   }) {
     final _that = this;
     switch (_that) {
@@ -272,7 +272,7 @@ class GetAllOrders implements MyOrderEvent {
 class ReOrder implements MyOrderEvent {
   const ReOrder(this.order);
 
-  final OrderhistoryModel order;
+  final OrderEntity order;
 
   /// Create a copy of MyOrderEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -304,7 +304,7 @@ abstract mixin class $ReOrderCopyWith<$Res>
   factory $ReOrderCopyWith(ReOrder value, $Res Function(ReOrder) _then) =
       _$ReOrderCopyWithImpl;
   @useResult
-  $Res call({OrderhistoryModel order});
+  $Res call({OrderEntity order});
 }
 
 /// @nodoc
@@ -324,7 +324,7 @@ class _$ReOrderCopyWithImpl<$Res> implements $ReOrderCopyWith<$Res> {
       null == order
           ? _self.order
           : order // ignore: cast_nullable_to_non_nullable
-              as OrderhistoryModel,
+              as OrderEntity,
     ));
   }
 }
@@ -484,7 +484,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult Function()? loading,
     TResult Function(String message)? success,
     TResult Function(String message)? failure,
-    TResult Function(List<OrderhistoryModel> orders)? loaded,
+    TResult Function(List<OrderEntity> orders)? loaded,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -523,7 +523,7 @@ extension MyOrderStatePatterns on MyOrderState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(String message) failure,
-    required TResult Function(List<OrderhistoryModel> orders) loaded,
+    required TResult Function(List<OrderEntity> orders) loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -560,7 +560,7 @@ extension MyOrderStatePatterns on MyOrderState {
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(String message)? failure,
-    TResult? Function(List<OrderhistoryModel> orders)? loaded,
+    TResult? Function(List<OrderEntity> orders)? loaded,
   }) {
     final _that = this;
     switch (_that) {
@@ -747,10 +747,10 @@ class __$FailureCopyWithImpl<$Res> implements _$FailureCopyWith<$Res> {
 /// @nodoc
 
 class _Loaded implements MyOrderState {
-  const _Loaded(final List<OrderhistoryModel> orders) : _orders = orders;
+  const _Loaded(final List<OrderEntity> orders) : _orders = orders;
 
-  final List<OrderhistoryModel> _orders;
-  List<OrderhistoryModel> get orders {
+  final List<OrderEntity> _orders;
+  List<OrderEntity> get orders {
     if (_orders is EqualUnmodifiableListView) return _orders;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_orders);
@@ -787,7 +787,7 @@ abstract mixin class _$LoadedCopyWith<$Res>
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) =
       __$LoadedCopyWithImpl;
   @useResult
-  $Res call({List<OrderhistoryModel> orders});
+  $Res call({List<OrderEntity> orders});
 }
 
 /// @nodoc
@@ -807,7 +807,7 @@ class __$LoadedCopyWithImpl<$Res> implements _$LoadedCopyWith<$Res> {
       null == orders
           ? _self._orders
           : orders // ignore: cast_nullable_to_non_nullable
-              as List<OrderhistoryModel>,
+              as List<OrderEntity>,
     ));
   }
 }

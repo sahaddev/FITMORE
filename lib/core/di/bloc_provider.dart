@@ -36,6 +36,7 @@ import '../../features/cart/domain/usecase/cart_usecase.dart';
 
 // Orders
 import '../../features/orders/presentation/blocs/my_order/my_order_bloc.dart';
+import '../../features/orders/data/repositories_impl/orders_repo_impl.dart' as e_commerce_orders_repo;
 
 // Product Details
 import '../../features/product_details/presentation/blocs/product_details/product_details_bloc.dart';
@@ -77,7 +78,8 @@ class AppBlocProvider extends StatelessWidget {
             clearCartUseCase: ClearCartUseCase(cartRepo),
           );
         }),
-        BlocProvider(create: (context) => MyOrderBloc()),
+        BlocProvider(create: (context) => MyOrderBloc(
+            ordersRepository: e_commerce_orders_repo.OrdersRepoImpl())),
         BlocProvider(create: (context) => ProductDetailsBloc()),
         BlocProvider(create: (context) => SignInBloc()),
         BlocProvider(create: (context) => SignUpBloc()),

@@ -4,5 +4,5 @@ part of 'my_order_bloc.dart';
 abstract class MyOrderEvent with _$MyOrderEvent {
   const factory MyOrderEvent.load() = LoadMyOrder;
   const factory MyOrderEvent.getAllOrders() = GetAllOrders;
-  const factory MyOrderEvent.reOrder(OrderhistoryModel order) = ReOrder;
+  const factory MyOrderEvent.reOrder(OrderEntity order) = ReOrder;
 }

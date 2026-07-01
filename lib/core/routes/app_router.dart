@@ -18,6 +18,7 @@ import '../../features/profile/presentation/pages/edit_profile.dart';
 import '../../features/address/presentation/pages/address_screen.dart';
 import '../../features/address/presentation/pages/add_address.dart';
 import '../../features/orders/presentation/pages/myorder_screen.dart';
+import '../../features/orders/presentation/pages/order_deatiles.dart';
 import '../../features/notification/presentation/pages/notification_ui.dart';
 import '../../features/payment/presentation/pages/payment_scr.dart';
 import '../../features/terms/presentation/pages/terms.dart';
@@ -91,6 +92,10 @@ class AppRouter {
                 ));
       case AppRouters.productListing:
         return MaterialPageRoute(builder: (_) => const ProductListingUi());
+      case AppRouters.orderDetails:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => OrderDeatiles(index: args['index'] as int));
 
       default:
         return MaterialPageRoute(
